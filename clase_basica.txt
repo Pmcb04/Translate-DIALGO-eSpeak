@@ -1,0 +1,17 @@
+echo Inicio de la escena 1
+echo "Esto es un ejemplo de dialogo en inglés"
+echo Fin de la escena 1
+echo Inicio de la escena 2
+echo "Esto es un ejercicio para la persona que sigue nuestra clase"
+sleep 1
+sleep 1
+sleep 1
+sleep 1
+echo Fin de la escena 2
+echo Inicio de la escena 3
+echo Fin de la escena 3
+echo Inicio de la escena 4
+echo "Si pones el valor de la bandera inglesoitaliano a 1, las frases se dirán en inglés. "
+echo "Si le pones otro valor distinto, se dirán en italiano"
+echo "Escucha atentamente"
+echo Fin de la escena 4

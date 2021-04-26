@@ -1,0 +1,34 @@
+# Ejemplo de clase de inglés 
+
+PERSONAJES
+
+# Zona de definición de los personajes
+# Nombre con inicial en Mayúsculas = <idioma, mm/f>
+# Internamente se irá asignando un número de 1 a 5, por orden de definición
+ 
+DEFINICIONES
+# Se definen variables de distinto tipo que se pueden usar luego cuando se necesiten
+# Mismos casos que las actividades 5 y 6, y también de tipo cadena de caracteres
+
+edad = 21
+Direccion = 7
+_nombre = "Alan Turing"
+
+ESCENA 1: # Hay que escribir el número de escena en el terminal 
+
+FINESCENA
+
+
+ESCENA 2:
+
+FINESCENA
+
+ESCENA 3: 
+
+	
+FINESCENA
+
+ESCENA 4: 
+
+
+FINESCENA
