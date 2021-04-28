@@ -224,9 +224,8 @@ linea: ID_GENERAL '=' expr_arit    {
 expr_cadena : 
       CADENA                                   {strcpy($$, $1);}
       | ID_CADENA                              {cout << "id_cadena" << endl; strcpy($$, $1);}
+      | expr_arit                              {cout << "expr_arit" << endl;}
       | expr_cadena CONCATENACION expr_cadena  {cout << "concatenacion cadena (" << $1 << ") cadena(" << $3 <<  ")" << endl; strcpy($$, $1); strcat($$, $3);}
-      | expr_arit CONCATENACION expr_cadena    {cout << "concatenacion arit (" << to_string($1.valor) << ") cadena(" << $3 <<  ")" << endl; strcpy($$, ""); strcat($$, $3);}
-      | expr_cadena CONCATENACION expr_arit    {cout << "concatenacion cadena (" << $1 << ") arit(" << to_string($3.valor) <<  ")" << endl; strcpy($$, $1); strcat($$, "");}
       ;     
 
 expr_log : TRUE                               {$$ = true; }
