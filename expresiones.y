@@ -87,6 +87,13 @@ ofstream salida;
 %token MASCULINO FEMENINO
 %token CONCATENACION
 
+%nonassoc PERSONAJES DEFINICIONES ESCENA FINESCENA
+%nonassoc ID_GENERAL ID_NOMBRE ID_CADENA
+%nonassoc PAUSA MENSAJE CADENA
+%nonassoc EN EN_US ES ES_LA PT IT FR
+%nonassoc DESPACIO DEPRISA GRITANDO VOZ_BAJA
+%nonassoc MASCULINO FEMENINO
+
 %left CONCATENACION
 %left OR
 %left AND
@@ -103,8 +110,7 @@ salto: '\n'          {n_lineas++;}
       | salto '\n'  {n_lineas++;}
       ;
 
-programa: 
-      | salto bloquePersonajes bloqueDefiniciones secEscena
+programa: salto bloquePersonajes bloqueDefiniciones secEscena
       | bloquePersonajes bloqueDefiniciones secEscena
       ;
 
@@ -115,9 +121,8 @@ bloquePersonajes:
 
 
 
-bloqueDefiniciones:
+bloqueDefiniciones: 
       | DEFINICIONES {cout << "+++ bloque definiciones linea " << n_lineas << endl;} salto bloqueDefiniciones
-      | error salto  {yyerrok; errorSemantico = false; errorVariable = false;}	
       | ID_GENERAL '=' expr_arit    {
                                     if(!errorVariable && !errorSemantico){
                                           if(!ids.isExists($1))
@@ -233,8 +238,7 @@ bloqueDefiniciones:
       } salto bloqueDefiniciones
       ;
 
-secEscena:
-      | ESCENA expr_arit ':' {
+secEscena:ESCENA expr_arit ':' {
                                     if(!$2.esReal){
                                           if($2.valor > n_escena){
                                                 cout << "+++ Inicio de la escena " << $2.valor << endl;
@@ -257,8 +261,7 @@ secEscena:
       | bloqueDefiniciones
       ;
 
-entonacion:
-      DESPACIO                      {strcpy($$, "despacio");}
+entonacion:DESPACIO                      {strcpy($$, "despacio");}
       | DEPRISA                     {strcpy($$, "deprisa");}
       | GRITANDO                    {strcpy($$, "gritando");}
       | VOZ_BAJA                    {strcpy($$, "voz baja");}
@@ -268,8 +271,7 @@ entonacion:
       | entonacion ',' VOZ_BAJA     {strcpy($$, $1); strcat($$, ","); strcat($$, "voz baja");}
       ;
 
-idioma:
-      EN                {strcpy($$, "en");}
+idioma:EN                {strcpy($$, "en");}
       | EN_US           {strcpy($$, "en-us");}
       | ES              {strcpy($$, "es");}
       | ES_LA           {strcpy($$, "es-la");}
@@ -277,13 +279,11 @@ idioma:
       | IT              {strcpy($$, "it");}
       | FR              {strcpy($$, "fr");}
       ;
-voz:
-      MASCULINO         {strcpy($$, "m");}
+voz: MASCULINO         {strcpy($$, "m");}
       |FEMENINO         {strcpy($$, "f");}
       ;
 
-expr_cadena : 
-      CADENA                                   {strcpy($$, $1);}
+expr_cadena : CADENA                                   {strcpy($$, $1);}
       | ID_CADENA                              {strcpy($$, $1);}
       | expr_arit                              {sprintf($$, "%f", $1.valor);}
       | expr_cadena CONCATENACION expr_cadena  {cout << "-------- concatenacion cadena (" << $1 << ") cadena(" << $3 <<  ")" << endl; strcpy($$, $1); strcat($$, $3);}
