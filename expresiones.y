@@ -102,7 +102,6 @@ salto: '\n'          {n_lineas++;}
 programa: 
       | salto bloquePersonajes bloqueDefiniciones secEscena
       | bloquePersonajes bloqueDefiniciones secEscena
-      | error salto  {yyerrok; errorSemantico = false; errorVariable = false;}	   
       ;
 
 bloquePersonajes: 
@@ -112,6 +111,7 @@ bloquePersonajes:
 
 secPersonajes:
       | ID_NOMBRE '=' '<' idioma ',' voz '>' salto { cout << "-------- asignacion nombre " << $1 << "," << $4 << "," << $6 <<  " linea " << n_lineas << endl;} secPersonajes
+      | error salto  {yyerrok; errorSemantico = false; errorVariable = false;}
       ;
 
 bloqueDefiniciones:
@@ -119,7 +119,8 @@ bloqueDefiniciones:
       | secDefiniciones
       ;
 
-secDefiniciones: 
+secDefiniciones:
+      | error salto  {yyerrok; errorSemantico = false; errorVariable = false;}	
       | ID_GENERAL '=' expr_arit    {
                                     if(!errorVariable && !errorSemantico){
                                           if(!ids.isExists($1))
@@ -128,7 +129,7 @@ secDefiniciones:
                                                       cout << "-------- asignacion id_general real " << $1 <<  ", " << $3.valor << endl;     
                                                 } else{
                                                       ids.add(Info($1, n_lineas, (int)$3.valor)); 
-                                                      cout << "-------- asignacion id_general entera " << $1 <<  ", " << $3.valor << endl;     
+                                                      cout << "-------- asignacion id_general entero " << $1 <<  ", " << $3.valor << endl;     
                                                 } 
                                                       
                                           else if($3.esReal && ids.getTipo($1) == TIPO::T_REAL){
@@ -138,7 +139,7 @@ secDefiniciones:
                                           
                                           else if(!$3.esReal && ids.getTipo($1) == TIPO::T_ENT){
                                                 ids.setValor($1, (int)$3.valor);                                          
-                                                cout << "-------- actualizacion valor asignacion id_general entera" << $1 <<  ", " << $3.valor << endl;     
+                                                cout << "-------- actualizacion valor asignacion id_general entero" << $1 <<  ", " << $3.valor << endl;     
                                           }
                                           else{
 
@@ -171,11 +172,11 @@ secDefiniciones:
                                     if(!errorVariable && !errorSemantico){
                                           if(!ids.isExists($1)){
                                                 ids.add(Info($1, n_lineas, $3));
-                                                cout << "-------- asignacion id_general logica" << $1 <<  ", " << $3 << endl;     
+                                                cout << "-------- asignacion id_general logico" << $1 <<  ", " << $3 << endl;     
                                           }
                                           else if(ids.getTipo($1) == TIPO::T_BOOL){
                                                 ids.setValor($1, $3);
-                                                cout << "-------- actualizacion valor asignacion id_general logica" << $1 <<  ", " << $3 << endl;     
+                                                cout << "-------- actualizacion valor asignacion id_general logico" << $1 <<  ", " << $3 << endl;     
                                           }
                                           else{
 
@@ -236,6 +237,7 @@ secDefiniciones:
  
 
 secEscena:
+      | error salto  {yyerrok; errorSemantico = false; errorVariable = false;}	
       | ESCENA expr_arit ':' {
                                     if(!$2.esReal){
                                           if($2.valor > n_escena){
@@ -252,10 +254,11 @@ secEscena:
                               } salto secEscena
       | FINESCENA {cout << "+++ Fin de la escena " << n_escena << endl; } salto secEscena
       | ID_NOMBRE ':' expr_cadena                              { cout << "-------- personaje " << " [" << $1 << "] "  << " en linea " << n_lineas << " dice : " << $3 << endl; } salto secEscena
-      | ID_NOMBRE  '[' ']' ':' expr_cadena                     { cout << "-------- personaje " << " [" << $1 << "] "  << " en linea " << n_lineas << " dice : " << $5 << endl; } salto secEscena
+      | ID_NOMBRE  '[' ']' ':' expr_cadena                     { cout << "-------- personaje " << " [" << $1 << "] "  << " en linea " << n_lineas << " dice :      " << $5 << endl; } salto secEscena
       | ID_NOMBRE  '[' entonacion ']' ':' expr_cadena          { cout << "-------- personaje " << " [" << $1 << "] " << " en linea " << n_lineas << " dice : " << $6 << " con entonación   " << $3 << endl; } salto secEscena
       | MENSAJE expr_cadena  {cout << "-------- mensaje " << strncpy($2, $2+1, strlen($2-2)) << endl;} salto secEscena // TODO completar salida 
       | PAUSA expr_arit {cout << "-------- pausa " << $2.valor << endl;} salto secEscena
+      | secDefiniciones
       ;
 
 entonacion:
@@ -388,7 +391,7 @@ int main(int argc, char *argv[]){
                         n_escena = 0;   
                         
                         yyin = fopen(argv[1], "rt");
-                        salida.open(outfileName + ".txt");
+                        salida.open(outfileName + ".sh");
                   
                         yyparse(); //llamada al analizador semantico
                   

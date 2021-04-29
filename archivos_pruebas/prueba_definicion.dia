@@ -1,0 +1,7 @@
+DEFINICIONES
+# Se definen variables de distinto tipo que se pueden usar luego cuando se necesiten
+# Mismos casos que las actividades 5 y 6, y también de tipo cadena de caracteres
+
+edad = 21
+
+_nombre = "Alan Turing"
