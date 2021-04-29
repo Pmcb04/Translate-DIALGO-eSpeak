@@ -1,34 +1,58 @@
-# Ejemplo de clase de inglés 
-
 PERSONAJES
 
 # Zona de definición de los personajes
 # Nombre con inicial en Mayúsculas = <idioma, mm/f>
 # Internamente se irá asignando un número de 1 a 5, por orden de definición
  
+Profesor = <es, m>
+
+Mary = <en, f>
+
+John = <en-us, m>
+
+Paola = <it, f>
+
 DEFINICIONES
 # Se definen variables de distinto tipo que se pueden usar luego cuando se necesiten
 # Mismos casos que las actividades 5 y 6, y también de tipo cadena de caracteres
 
 edad = 21
-Direccion = 7
+
 _nombre = "Alan Turing"
+
 
 ESCENA 1: # Hay que escribir el número de escena en el terminal 
 
-FINESCENA
 
+John : "Hi, Mary. I am John"
+John []: "Hi, Mary. I am John"
 
-ESCENA 2:
+John [despacio]: "Hi, Mary. I am John"
+John [deprisa]: "Hi, Mary. I am John"
+John [voz baja]: "Hi, Mary. I am John"
+John [gritando]: "Hi, Mary. I am John"
 
-FINESCENA
+John [despacio, deprisa]: "Hi, Mary. I am John"
+John [despacio, voz baja]: "Hi, Mary. I am John"
+John [despacio, gritando]: "Hi, Mary. I am John"
 
-ESCENA 3: 
+John [deprisa, despacio]: "Hi, Mary. I am John"
+John [deprisa, voz baja]: "Hi, Mary. I am John"
+John [deprisa, gritando]: "Hi, Mary. I am John"
 
-	
-FINESCENA
+John [voz baja, deprisa]: "Hi, Mary. I am John"
+John [voz baja, despacio]: "Hi, Mary. I am John"
+John [voz baja, gritando]: "Hi, Mary. I am John"
 
-ESCENA 4: 
+John [gritando, deprisa]: "Hi, Mary. I am John"
+John [gritando, voz baja]: "Hi, Mary. I am John"
+John [gritando, despacio]: "Hi, Mary. I am John"
+
+John [despacio, deprisa, voz baja]: "Hi, Mary. I am John"
+John [despacio, deprisa, gritando]: "Hi, Mary. I am John"
+John [despacio, voz baja, gritando]: "Hi, Mary. I am John"
+
+John [despacio, deprisa, voz baja, gritando]: "Hi, Mary. I am John"
 
 
 FINESCENA

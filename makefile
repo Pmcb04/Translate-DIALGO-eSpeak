@@ -6,11 +6,8 @@
 
 OBJ = expresiones.o lexico.o identifiers.o
 
-proyecto : $(OBJ)   #segunda fase de la traducción. Generación del código ejecutable 	
-	g++ -o proyecto $(OBJ)
-	clear
-	./proyecto clase_basica.dia
-	
+translate : $(OBJ)   #segunda fase de la traducción. Generación del código ejecutable 	
+	g++ -o translate $(OBJ)	
 
 expresiones.o : expresiones.c        	#primera fase de la traducción del analizador sintáctico
 	g++ -c -o expresiones.o  expresiones.c 

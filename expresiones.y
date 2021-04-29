@@ -10,6 +10,7 @@
 #include <fstream>
 #include <iostream> 
 #include <sstream>
+#include <cstring>
 #include "identifiers.h"
 using namespace std;
 
@@ -51,19 +52,29 @@ ofstream salida;
 
 %type <c_entero> NUMERO
 %type <c_real> REAL
+
 %type <c_identificador> ID_GENERAL
 %type <c_identificador> ID_CADENA
 %type <c_identificador> ID_NOMBRE
+
 %type <c_bool> TRUE
 %type <c_bool> FALSE
+%type <c_cadena> CADENA
+
 %type <c_bool> expr_log
 %type <c_expresion_arit> expr_arit
 %type <c_cadena> expr_cadena
-%type <c_cadena> CADENA
+
+%type <c_cadena> entonacion
 %type <c_cadena> idioma
 %type <c_cadena> voz
 
-%start entrada
+%type <c_cadena> DESPACIO
+%type <c_cadena> DEPRISA
+%type <c_cadena> VOZ_BAJA
+%type <c_cadena> GRITANDO
+
+%start programa
 %token NUMERO REAL DIV AND OR NOT TRUE FALSE MAYORIGUAL MENORIGUAL IGUAL2 DISTINTO 
 %token PERSONAJES DEFINICIONES ESCENA FINESCENA 
 %token ID_GENERAL ID_NOMBRE ID_CADENA 
@@ -88,23 +99,50 @@ ofstream salida;
 salto: '\n'          {n_lineas++;}
       | salto '\n'  {n_lineas++;}
 
-entrada: 	
-      |entrada linea  
+programa: 
+      | salto bloquePersonajes bloqueDefiniciones secEscena
+      | bloquePersonajes bloqueDefiniciones secEscena
+      | error salto  {yyerrok; errorSemantico = false; errorVariable = false;}	   
       ;
 
-      
-linea: ID_GENERAL '=' expr_arit    {
+bloquePersonajes: 
+      | PERSONAJES {cout << "+++ bloque personajes linea " << n_lineas << endl;} salto bloquePersonajes
+      | secPersonajes
+      ;
+
+secPersonajes:
+      | ID_NOMBRE '=' '<' idioma ',' voz '>' salto { cout << "-------- asignacion nombre " << $1 << "," << $4 << "," << $6 <<  " linea " << n_lineas << endl;} secPersonajes
+      ;
+
+bloqueDefiniciones:
+      | DEFINICIONES {cout << "+++ bloque definiciones linea " << n_lineas << endl;} salto bloqueDefiniciones
+      | secDefiniciones
+      ;
+
+secDefiniciones: 
+      | ID_GENERAL '=' expr_arit    {
                                     if(!errorVariable && !errorSemantico){
                                           if(!ids.isExists($1))
-                                                ($3.esReal)? ids.add(Info($1, n_lineas, $3.valor)) : ids.add(Info($1, n_lineas, (int)$3.valor));
-                                          else if($3.esReal && ids.getTipo($1) == TIPO::T_REAL)
+                                                if($3.esReal){
+                                                      ids.add(Info($1, n_lineas, $3.valor));
+                                                      cout << "-------- asignacion id_general real " << $1 <<  ", " << $3.valor << endl;     
+                                                } else{
+                                                      ids.add(Info($1, n_lineas, (int)$3.valor)); 
+                                                      cout << "-------- asignacion id_general entera " << $1 <<  ", " << $3.valor << endl;     
+                                                } 
+                                                      
+                                          else if($3.esReal && ids.getTipo($1) == TIPO::T_REAL){
                                                 ids.setValor($1, $3.valor);
+                                                cout << "-------- actualizacion valor asignacion id_general real" << $1 <<  ", " << $3.valor << endl;     
+                                          }
                                           
-                                          else if(!$3.esReal && ids.getTipo($1) == TIPO::T_ENT)
+                                          else if(!$3.esReal && ids.getTipo($1) == TIPO::T_ENT){
                                                 ids.setValor($1, (int)$3.valor);                                          
+                                                cout << "-------- actualizacion valor asignacion id_general entera" << $1 <<  ", " << $3.valor << endl;     
+                                          }
                                           else{
 
-                                                cout << "Error semantico en la linea " << n_lineas << ", la variable " << $1 << " es de tipo ";
+                                                cout << "********** Error semantico en la linea " << n_lineas << ", la variable " << $1 << " es de tipo ";
                                                 
                                                 tipo = ids.getTipo($1); // averiguamos el tipo de $1, es decir de la variable
 
@@ -126,18 +164,22 @@ linea: ID_GENERAL '=' expr_arit    {
                                     errorSemantico = false;
                                     errorVariable = false;
 
-                                  } salto
+                                  } salto secDefiniciones
 
       | ID_GENERAL '=' expr_log      {
                                    
                                     if(!errorVariable && !errorSemantico){
-                                          if(!ids.isExists($1))
+                                          if(!ids.isExists($1)){
                                                 ids.add(Info($1, n_lineas, $3));
-                                          else if(ids.getTipo($1) == TIPO::T_BOOL)
+                                                cout << "-------- asignacion id_general logica" << $1 <<  ", " << $3 << endl;     
+                                          }
+                                          else if(ids.getTipo($1) == TIPO::T_BOOL){
                                                 ids.setValor($1, $3);
+                                                cout << "-------- actualizacion valor asignacion id_general logica" << $1 <<  ", " << $3 << endl;     
+                                          }
                                           else{
 
-                                                cout << "Error semantico en la linea " << n_lineas << ", la variable " << $1 << " es de tipo ";
+                                                cout << "********** Error semantico en la linea " << n_lineas << ", la variable " << $1 << " es de tipo ";
                                                 
                                                 tipo = ids.getTipo($1); // averiguamos el tipo de $1, es decir de la variable
 
@@ -156,41 +198,22 @@ linea: ID_GENERAL '=' expr_arit    {
                                     errorSemantico = false;
                                     errorVariable = false;
 
-                                 } salto
+                                 } salto secDefiniciones
 
-      | PERSONAJES {cout << "bloque personajes linea " << n_lineas << endl;} salto
-      | DEFINICIONES {cout << "bloque definiciones linea " << n_lineas << endl;} salto
-      | ESCENA expr_arit ':' {
-                                    if(!$2.esReal){
-                                          if($2.valor > n_escena){
-                                                salida << "echo Inicio de la escena " << $2.valor << endl;
-                                                n_escena = $2.valor;
-                                          }
-                                          else
-                                                cout << "Error semantico en la linea " << n_lineas << ", la escena " << $2.valor << " no puede ser procesada" <<  endl;
-                                    }
-                                    else
-                                          cout << "Error semantico en la linea " << n_lineas << ", el número de escena debe ser de tipo ENTERO" << endl;
-      
-      
-                              } salto
-      | FINESCENA {salida << "echo Fin de la escena " << n_escena << endl; } salto
-      | PAUSA expr_arit {salida << "sleep " << $2.valor << endl;} salto
-      | REPETIR expr_arit {cout << "detectado repetir " << $2.valor << " (real=" << $2.esReal << ") linea " << n_lineas << endl;}
-      | MENSAJE expr_cadena  {salida << "echo " << strncpy($2, $2+1, strlen($2-2)) << endl;} salto // TODO completar salida
-      | SI '(' expr_log ')' '{' {cout << "detectado si (condicion=" << $3 << ") linea "  << n_lineas << endl;} salto
-      | SI_NO '{' {cout << "detectado si_no linea " << n_lineas << endl;} salto
-
-      | ID_CADENA '=' expr_cadena {cout << "asignacion id_cadena " << $1 <<  ", " << $3 << endl;
+      | ID_CADENA '=' expr_cadena {
       
                                      if(!errorVariable && !errorSemantico){
-                                          if(!ids.isExists($1))
+                                          if(!ids.isExists($1)){
                                                 ids.add(Info($1, n_lineas, $3));
-                                          else if(ids.getTipo($1) == TIPO::T_CADENA)
+                                                cout << "-------- asignacion id_cadena " << $1 <<  ", " << $3 << endl;     
+                                          }
+                                          else if(ids.getTipo($1) == TIPO::T_CADENA){
                                                 ids.setValor($1, $3);
+                                                cout << "-------- actualizacion valor asignacion id_cadena " << $1 <<  ", " << $3 << endl;     
+                                          }
                                           else{
 
-                                                cout << "Error semantico en la linea " << n_lineas << ", la variable " << $1 << " es de tipo ";
+                                                cout << "********** Error semantico en la linea " << n_lineas << ", la variable " << $1 << " es de tipo ";
                                                 
                                                 tipo = ids.getTipo($1); // averiguamos el tipo de $1, es decir de la variable
 
@@ -203,29 +226,76 @@ linea: ID_GENERAL '=' expr_arit    {
                                                 }
 
                                                 cout << "y no se le puede asignar un valor cadena" << endl;
-                                          }                                          
+                                          }                                     
                                     }
 
                                     errorSemantico = false;
                                     errorVariable = false;
       
-      } salto
+      } salto secDefiniciones
+ 
 
-      | ID_NOMBRE '=' '<' idioma ',' voz '>' salto { cout << "asignacion nombre " << $1 << "," << $4 << "," << $6 <<  " linea " << n_lineas << endl;}
+secEscena:
+      | ESCENA expr_arit ':' {
+                                    if(!$2.esReal){
+                                          if($2.valor > n_escena){
+                                                cout << "+++ Inicio de la escena " << $2.valor << endl;
+                                                n_escena = $2.valor;
+                                          }
+                                          else
+                                                cout << "Error semantico en la linea " << n_lineas << ", la escena " << $2.valor << " no puede ser procesada" <<  endl;
+                                    }
+                                    else
+                                          cout << "Error semantico en la linea " << n_lineas << ", el número de escena debe ser de tipo ENTERO" << endl;
+      
+      
+                              } salto secEscena
+      | FINESCENA {cout << "+++ Fin de la escena " << n_escena << endl; } salto secEscena
+      | ID_NOMBRE ':' expr_cadena                              { cout << "-------- personaje " << " [" << $1 << "] "  << " en linea " << n_lineas << " dice : " << $3 << endl; } salto secEscena
+      | ID_NOMBRE  '[' ']' ':' expr_cadena                     { cout << "-------- personaje " << " [" << $1 << "] "  << " en linea " << n_lineas << " dice : " << $5 << endl; } salto secEscena
+      | ID_NOMBRE  '[' entonacion ']' ':' expr_cadena          { cout << "-------- personaje " << " [" << $1 << "] " << " en linea " << n_lineas << " dice : " << $6 << " con entonación   " << $3 << endl; } salto secEscena
+      | MENSAJE expr_cadena  {cout << "-------- mensaje " << strncpy($2, $2+1, strlen($2-2)) << endl;} salto secEscena // TODO completar salida 
+      | PAUSA expr_arit {cout << "-------- pausa " << $2.valor << endl;} salto secEscena
+      ;
 
-      | ID_NOMBRE ':' expr_cadena                              { cout << "personaje " << " [" << $1 << "] " << " dice : " << $3 << endl; } salto
-      | ID_NOMBRE  '[' ']' ':' expr_cadena                     { cout << "personaje " << " [" << $1 << "] " << " dice : " << $5 << endl; } salto
-      | ID_NOMBRE  '[' entonacion ']' ':' expr_cadena          { cout << "personaje " << " [" << $1 << "] " << " dice : " << $6 << " con entonación   " << endl; } salto
+entonacion:
+      DESPACIO                      {strcpy($$, "despacio");}
+      | DEPRISA                     {strcpy($$, "deprisa");}
+      | GRITANDO                    {strcpy($$, "gritando");}
+      | VOZ_BAJA                    {strcpy($$, "voz baja");}
+      | entonacion ',' DESPACIO     {strcpy($$, $1); strcat($$, ","); strcat($$, "despacio");}
+      | entonacion ',' DEPRISA      {strcpy($$, $1); strcat($$, ","); strcat($$, "deprisa");}
+      | entonacion ',' GRITANDO     {strcpy($$, $1); strcat($$, ","); strcat($$, "gritando");}
+      | entonacion ',' VOZ_BAJA     {strcpy($$, $1); strcat($$, ","); strcat($$, "voz baja");}
+      ;
+
+idioma:
+      EN                {strcpy($$, "en");}
+      | EN_US           {strcpy($$, "en-us");}
+      | ES              {strcpy($$, "es");}
+      | ES_LA           {strcpy($$, "es-la");}
+      | PT              {strcpy($$, "pt");}      
+      | IT              {strcpy($$, "it");}
+      | FR              {strcpy($$, "fr");}
+      ;
+voz:
+      MASCULINO         {strcpy($$, "m");}
+      |FEMENINO         {strcpy($$, "f");}
+      ;
 
 
-      | error salto  {yyerrok; errorSemantico = false; errorVariable = false;}	   
+linea:
+
+      | REPETIR expr_arit {cout << "detectado repetir " << $2.valor << " (real=" << $2.esReal << ") linea " << n_lineas << endl;}
+      | SI '(' expr_log ')' '{' {cout << "detectado si (condicion=" << $3 << ") linea "  << n_lineas << endl;} salto
+      | SI_NO '{' {cout << "detectado si_no linea " << n_lineas << endl;} salto
 	;
 
 expr_cadena : 
       CADENA                                   {strcpy($$, $1);}
-      | ID_CADENA                              {cout << "id_cadena" << endl; strcpy($$, $1);}
-      | expr_arit                              {cout << "expr_arit" << endl;}
-      | expr_cadena CONCATENACION expr_cadena  {cout << "concatenacion cadena (" << $1 << ") cadena(" << $3 <<  ")" << endl; strcpy($$, $1); strcat($$, $3);}
+      | ID_CADENA                              {strcpy($$, $1);}
+      | expr_arit                              {sprintf($$, "%f", $1.valor);}
+      | expr_cadena CONCATENACION expr_cadena  {cout << "-------- concatenacion cadena (" << $1 << ") cadena(" << $3 <<  ")" << endl; strcpy($$, $1); strcat($$, $3);}
       ;     
 
 expr_log : TRUE                               {$$ = true; }
@@ -298,31 +368,6 @@ expr_arit: NUMERO			                {$$.esReal = false; $$.valor = $1; }
                                                 
       |'-' expr_arit %prec menos              {$$.esReal = $2.esReal ; $$.valor = ($2.esReal) ? -$2.valor : int(-$2.valor); }
       | '(' expr_arit ')'		          {$$.esReal = $2.esReal ; $$.valor = ($2.esReal) ?  $2.valor : int( $2.valor); }
-      ;
-
-entonacion:
-      DESPACIO                      {cout << "despacio" << endl;}
-      | DEPRISA                     {cout << "deprisa" << endl;}
-      | GRITANDO                    {cout << "gritando" << endl;}
-      | VOZ_BAJA                    {cout << "voz_baja" << endl;}
-      | entonacion ',' DESPACIO     {cout << "despacio coma" << endl;}
-      | entonacion ',' DEPRISA      {cout << "deprisa coma" << endl;}
-      | entonacion ',' GRITANDO     {cout << "gritando coma" << endl;}
-      | entonacion ',' VOZ_BAJA     {cout << "voz_baja coma" << endl;}
-      ;
-
-idioma:
-      EN                {strcpy($$, "en");}
-      | EN_US           {strcpy($$, "en-us");}
-      | ES              {strcpy($$, "es");}
-      | ES_LA           {strcpy($$, "es-la");}
-      | PT              {strcpy($$, "pt");}      
-      | IT              {strcpy($$, "it");}
-      | FR              {strcpy($$, "fr");}
-      ;
-voz:
-      MASCULINO         {strcpy($$, "m");}
-      |FEMENINO         {strcpy($$, "f");}
       ;
 %%
 
