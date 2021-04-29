@@ -75,25 +75,22 @@ extern int yydebug;
     ID_CADENA = 276,               /* ID_CADENA  */
     PAUSA = 277,                   /* PAUSA  */
     MENSAJE = 278,                 /* MENSAJE  */
-    REPETIR = 279,                 /* REPETIR  */
-    SI = 280,                      /* SI  */
-    SI_NO = 281,                   /* SI_NO  */
-    CADENA = 282,                  /* CADENA  */
-    EN = 283,                      /* EN  */
-    EN_US = 284,                   /* EN_US  */
-    ES = 285,                      /* ES  */
-    ES_LA = 286,                   /* ES_LA  */
-    PT = 287,                      /* PT  */
-    IT = 288,                      /* IT  */
-    FR = 289,                      /* FR  */
-    DESPACIO = 290,                /* DESPACIO  */
-    DEPRISA = 291,                 /* DEPRISA  */
-    GRITANDO = 292,                /* GRITANDO  */
-    VOZ_BAJA = 293,                /* VOZ_BAJA  */
-    MASCULINO = 294,               /* MASCULINO  */
-    FEMENINO = 295,                /* FEMENINO  */
-    CONCATENACION = 296,           /* CONCATENACION  */
-    menos = 297                    /* menos  */
+    CADENA = 279,                  /* CADENA  */
+    EN = 280,                      /* EN  */
+    EN_US = 281,                   /* EN_US  */
+    ES = 282,                      /* ES  */
+    ES_LA = 283,                   /* ES_LA  */
+    PT = 284,                      /* PT  */
+    IT = 285,                      /* IT  */
+    FR = 286,                      /* FR  */
+    DESPACIO = 287,                /* DESPACIO  */
+    DEPRISA = 288,                 /* DEPRISA  */
+    GRITANDO = 289,                /* GRITANDO  */
+    VOZ_BAJA = 290,                /* VOZ_BAJA  */
+    MASCULINO = 291,               /* MASCULINO  */
+    FEMENINO = 292,                /* FEMENINO  */
+    CONCATENACION = 293,           /* CONCATENACION  */
+    menos = 294                    /* menos  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -102,7 +99,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 39 "expresiones.y"
+#line 42 "expresiones.y"
 
  int c_entero;
  float c_real;
@@ -116,7 +113,7 @@ union YYSTYPE
  } c_expresion_arit;
 
 
-#line 120 "expresiones.h"
+#line 117 "expresiones.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

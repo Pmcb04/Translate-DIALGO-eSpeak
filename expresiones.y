@@ -6,6 +6,9 @@
  *	Autor : Pedro Miguel Carmona Broncano && Rubén Marín Lucas
  */
 
+ //       | error salto  {yyerrok; errorSemantico = false; errorVariable = false;}	
+
+
 #include <string>
 #include <fstream>
 #include <iostream> 
@@ -78,7 +81,7 @@ ofstream salida;
 %token NUMERO REAL DIV AND OR NOT TRUE FALSE MAYORIGUAL MENORIGUAL IGUAL2 DISTINTO 
 %token PERSONAJES DEFINICIONES ESCENA FINESCENA 
 %token ID_GENERAL ID_NOMBRE ID_CADENA 
-%token PAUSA MENSAJE REPETIR SI SI_NO CADENA 
+%token PAUSA MENSAJE CADENA 
 %token EN EN_US ES ES_LA PT IT FR
 %token DESPACIO DEPRISA GRITANDO VOZ_BAJA
 %token MASCULINO FEMENINO
@@ -98,6 +101,7 @@ ofstream salida;
 
 salto: '\n'          {n_lineas++;}
       | salto '\n'  {n_lineas++;}
+      ;
 
 programa: 
       | salto bloquePersonajes bloqueDefiniciones secEscena
@@ -106,20 +110,13 @@ programa:
 
 bloquePersonajes: 
       | PERSONAJES {cout << "+++ bloque personajes linea " << n_lineas << endl;} salto bloquePersonajes
-      | secPersonajes
+      | ID_NOMBRE '=' '<' idioma ',' voz '>' salto { cout << "-------- asignacion nombre " << $1 << "," << $4 << "," << $6 <<  " linea " << n_lineas << endl;} bloquePersonajes
       ;
 
-secPersonajes:
-      | ID_NOMBRE '=' '<' idioma ',' voz '>' salto { cout << "-------- asignacion nombre " << $1 << "," << $4 << "," << $6 <<  " linea " << n_lineas << endl;} secPersonajes
-      | error salto  {yyerrok; errorSemantico = false; errorVariable = false;}
-      ;
+
 
 bloqueDefiniciones:
       | DEFINICIONES {cout << "+++ bloque definiciones linea " << n_lineas << endl;} salto bloqueDefiniciones
-      | secDefiniciones
-      ;
-
-secDefiniciones:
       | error salto  {yyerrok; errorSemantico = false; errorVariable = false;}	
       | ID_GENERAL '=' expr_arit    {
                                     if(!errorVariable && !errorSemantico){
@@ -165,7 +162,7 @@ secDefiniciones:
                                     errorSemantico = false;
                                     errorVariable = false;
 
-                                  } salto secDefiniciones
+                                  } salto bloqueDefiniciones
 
       | ID_GENERAL '=' expr_log      {
                                    
@@ -199,7 +196,7 @@ secDefiniciones:
                                     errorSemantico = false;
                                     errorVariable = false;
 
-                                 } salto secDefiniciones
+                                 } salto bloqueDefiniciones
 
       | ID_CADENA '=' expr_cadena {
       
@@ -233,11 +230,10 @@ secDefiniciones:
                                     errorSemantico = false;
                                     errorVariable = false;
       
-      } salto secDefiniciones
- 
+      } salto bloqueDefiniciones
+      ;
 
 secEscena:
-      | error salto  {yyerrok; errorSemantico = false; errorVariable = false;}	
       | ESCENA expr_arit ':' {
                                     if(!$2.esReal){
                                           if($2.valor > n_escena){
@@ -255,10 +251,10 @@ secEscena:
       | FINESCENA {cout << "+++ Fin de la escena " << n_escena << endl; } salto secEscena
       | ID_NOMBRE ':' expr_cadena                              { cout << "-------- personaje " << " [" << $1 << "] "  << " en linea " << n_lineas << " dice : " << $3 << endl; } salto secEscena
       | ID_NOMBRE  '[' ']' ':' expr_cadena                     { cout << "-------- personaje " << " [" << $1 << "] "  << " en linea " << n_lineas << " dice :      " << $5 << endl; } salto secEscena
-      | ID_NOMBRE  '[' entonacion ']' ':' expr_cadena          { cout << "-------- personaje " << " [" << $1 << "] " << " en linea " << n_lineas << " dice : " << $6 << " con entonación   " << $3 << endl; } salto secEscena
+      | ID_NOMBRE  '[' entonacion ']' ':' expr_cadena          { cout << "-------- personaje " << " [" << $1 << "] " << " en linea " << n_lineas << " dice : " << $6 << " con entonación " << $3 << endl; } salto secEscena
       | MENSAJE expr_cadena  {cout << "-------- mensaje " << strncpy($2, $2+1, strlen($2-2)) << endl;} salto secEscena // TODO completar salida 
       | PAUSA expr_arit {cout << "-------- pausa " << $2.valor << endl;} salto secEscena
-      | secDefiniciones
+      | bloqueDefiniciones
       ;
 
 entonacion:
@@ -285,14 +281,6 @@ voz:
       MASCULINO         {strcpy($$, "m");}
       |FEMENINO         {strcpy($$, "f");}
       ;
-
-
-linea:
-
-      | REPETIR expr_arit {cout << "detectado repetir " << $2.valor << " (real=" << $2.esReal << ") linea " << n_lineas << endl;}
-      | SI '(' expr_log ')' '{' {cout << "detectado si (condicion=" << $3 << ") linea "  << n_lineas << endl;} salto
-      | SI_NO '{' {cout << "detectado si_no linea " << n_lineas << endl;} salto
-	;
 
 expr_cadena : 
       CADENA                                   {strcpy($$, $1);}

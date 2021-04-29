@@ -42,9 +42,6 @@ real {entero}[.]{entero}?|{entero}?[.]{entero}
 
 [p][a][u][s][a]                         {return PAUSA;}
 [m][e][n][s][a][j][e]                   {return MENSAJE;}
-[r][e][p][e][t][i][r]                   {return REPETIR;}
-[s][i]                                  {return SI;}
-[s][i][_][n][o]                         {return SI_NO;}
 
 [d][e][s][p][a][c][i][o]                {return DESPACIO;}
 [d][e][p][r][i][s][a]                   {return DEPRISA;}

@@ -1,0 +1,15 @@
+
+
+mensaje "prueba 1"
+
+mensaje "prueba 2"
+
+
+mensaje "prueba" ++ "3"
+
+mensaje 4 ++ "prueba"
+
+mensaje "prueba" ++ 5.1
+
+
+mensaje "prueba" ++ "otra prueba" ++ 5.2

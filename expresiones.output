@@ -1,58 +1,27 @@
-No terminales inútiles en la gramática
-
-    linea
-    $@14
-    $@15
-
-
-Terminales no usados en la gramática
-
-    REPETIR
-    SI
-    SI_NO
-    '{'
-
-
-Reglas inútiles en la gramática
-
-   88 linea: %empty
-   89      | REPETIR expr_arit
-
-   90 $@14: %empty
-
-   91 linea: SI '(' expr_log ')' '{' $@14 salto
-
-   92 $@15: %empty
-
-   93 linea: SI_NO '{' $@15 salto
-
-
 La regla es inútil debido a los conflictos
 
-   26 secEscena: %empty
-   27          | error salto
+   21 secEscena: %empty
 
 
-Estado 0 conflictos: 2 desplazamiento/reducción, 11 reducción/reducción
-Estado 5 conflictos: 2 desplazamiento/reducción, 10 reducción/reducción
-Estado 7 conflictos: 3 desplazamiento/reducción, 9 reducción/reducción
-Estado 13 conflictos: 3 desplazamiento/reducción, 9 reducción/reducción
+Estado 0 conflictos: 1 desplazamiento/reducción, 1 reducción/reducción
+Estado 4 conflictos: 1 desplazamiento/reducción
+Estado 6 conflictos: 4 desplazamiento/reducción
+Estado 10 conflictos: 4 desplazamiento/reducción
+Estado 16 conflictos: 1 reducción/reducción
+Estado 17 conflictos: 1 desplazamiento/reducción
 Estado 19 conflictos: 1 reducción/reducción
-Estado 21 conflictos: 2 desplazamiento/reducción, 10 reducción/reducción
-Estado 23 conflictos: 1 reducción/reducción
-Estado 46 conflictos: 3 desplazamiento/reducción, 9 reducción/reducción
-Estado 62 conflictos: 1 reducción/reducción
-Estado 97 conflictos: 1 reducción/reducción
-Estado 116 conflictos: 3 desplazamiento/reducción
-Estado 128 conflictos: 3 desplazamiento/reducción
-Estado 130 conflictos: 3 desplazamiento/reducción
+Estado 41 conflictos: 4 desplazamiento/reducción
+Estado 91 conflictos: 1 reducción/reducción
+Estado 110 conflictos: 4 desplazamiento/reducción
+Estado 122 conflictos: 4 desplazamiento/reducción
+Estado 124 conflictos: 4 desplazamiento/reducción
+Estado 131 conflictos: 1 reducción/reducción
+Estado 132 conflictos: 1 reducción/reducción
 Estado 137 conflictos: 1 reducción/reducción
 Estado 138 conflictos: 1 reducción/reducción
-Estado 143 conflictos: 1 reducción/reducción
-Estado 144 conflictos: 1 reducción/reducción
-Estado 158 conflictos: 2 desplazamiento/reducción
-Estado 159 conflictos: 1 reducción/reducción
-Estado 163 conflictos: 1 reducción/reducción
+Estado 152 conflictos: 1 desplazamiento/reducción
+Estado 153 conflictos: 1 reducción/reducción
+Estado 157 conflictos: 1 reducción/reducción
 
 
 Gramática
@@ -71,2366 +40,2213 @@ Gramática
     7 $@1: %empty
 
     8 bloquePersonajes: PERSONAJES $@1 salto bloquePersonajes
-    9                 | secPersonajes
 
-   10 secPersonajes: %empty
+    9 $@2: %empty
 
-   11 $@2: %empty
+   10 bloquePersonajes: ID_NOMBRE '=' '<' idioma ',' voz '>' salto $@2 bloquePersonajes
 
-   12 secPersonajes: ID_NOMBRE '=' '<' idioma ',' voz '>' salto $@2 secPersonajes
-   13              | error salto
+   11 bloqueDefiniciones: %empty
 
-   14 bloqueDefiniciones: %empty
+   12 $@3: %empty
 
-   15 $@3: %empty
+   13 bloqueDefiniciones: DEFINICIONES $@3 salto bloqueDefiniciones
+   14                   | error salto
 
-   16 bloqueDefiniciones: DEFINICIONES $@3 salto bloqueDefiniciones
-   17                   | secDefiniciones
+   15 $@4: %empty
 
-   18 secDefiniciones: %empty
-   19                | error salto
+   16 bloqueDefiniciones: ID_GENERAL '=' expr_arit $@4 salto bloqueDefiniciones
 
-   20 $@4: %empty
+   17 $@5: %empty
 
-   21 secDefiniciones: ID_GENERAL '=' expr_arit $@4 salto secDefiniciones
+   18 bloqueDefiniciones: ID_GENERAL '=' expr_log $@5 salto bloqueDefiniciones
 
-   22 $@5: %empty
+   19 $@6: %empty
 
-   23 secDefiniciones: ID_GENERAL '=' expr_log $@5 salto secDefiniciones
+   20 bloqueDefiniciones: ID_CADENA '=' expr_cadena $@6 salto bloqueDefiniciones
 
-   24 $@6: %empty
+   21 secEscena: %empty
 
-   25 secDefiniciones: ID_CADENA '=' expr_cadena $@6 salto secDefiniciones
+   22 $@7: %empty
 
-   26 secEscena: %empty
-   27          | error salto
+   23 secEscena: ESCENA expr_arit ':' $@7 salto secEscena
 
-   28 $@7: %empty
+   24 $@8: %empty
 
-   29 secEscena: ESCENA expr_arit ':' $@7 salto secEscena
+   25 secEscena: FINESCENA $@8 salto secEscena
 
-   30 $@8: %empty
+   26 $@9: %empty
 
-   31 secEscena: FINESCENA $@8 salto secEscena
+   27 secEscena: ID_NOMBRE ':' expr_cadena $@9 salto secEscena
 
-   32 $@9: %empty
+   28 $@10: %empty
 
-   33 secEscena: ID_NOMBRE ':' expr_cadena $@9 salto secEscena
+   29 secEscena: ID_NOMBRE '[' ']' ':' expr_cadena $@10 salto secEscena
 
-   34 $@10: %empty
+   30 $@11: %empty
 
-   35 secEscena: ID_NOMBRE '[' ']' ':' expr_cadena $@10 salto secEscena
+   31 secEscena: ID_NOMBRE '[' entonacion ']' ':' expr_cadena $@11 salto secEscena
 
-   36 $@11: %empty
+   32 $@12: %empty
 
-   37 secEscena: ID_NOMBRE '[' entonacion ']' ':' expr_cadena $@11 salto secEscena
+   33 secEscena: MENSAJE expr_cadena $@12 salto secEscena
 
-   38 $@12: %empty
+   34 $@13: %empty
 
-   39 secEscena: MENSAJE expr_cadena $@12 salto secEscena
+   35 secEscena: PAUSA expr_arit $@13 salto secEscena
+   36          | bloqueDefiniciones
 
-   40 $@13: %empty
+   37 entonacion: DESPACIO
+   38           | DEPRISA
+   39           | GRITANDO
+   40           | VOZ_BAJA
+   41           | entonacion ',' DESPACIO
+   42           | entonacion ',' DEPRISA
+   43           | entonacion ',' GRITANDO
+   44           | entonacion ',' VOZ_BAJA
 
-   41 secEscena: PAUSA expr_arit $@13 salto secEscena
-   42          | secDefiniciones
+   45 idioma: EN
+   46       | EN_US
+   47       | ES
+   48       | ES_LA
+   49       | PT
+   50       | IT
+   51       | FR
 
-   43 entonacion: DESPACIO
-   44           | DEPRISA
-   45           | GRITANDO
-   46           | VOZ_BAJA
-   47           | entonacion ',' DESPACIO
-   48           | entonacion ',' DEPRISA
-   49           | entonacion ',' GRITANDO
-   50           | entonacion ',' VOZ_BAJA
+   52 voz: MASCULINO
+   53    | FEMENINO
 
-   51 idioma: EN
-   52       | EN_US
-   53       | ES
-   54       | ES_LA
-   55       | PT
-   56       | IT
-   57       | FR
+   54 expr_cadena: CADENA
+   55            | ID_CADENA
+   56            | expr_arit
+   57            | expr_cadena CONCATENACION expr_cadena
 
-   58 voz: MASCULINO
-   59    | FEMENINO
+   58 expr_log: TRUE
+   59         | FALSE
+   60         | expr_log AND expr_log
+   61         | expr_log OR expr_log
+   62         | NOT expr_log
+   63         | '(' expr_log ')'
+   64         | expr_arit '>' expr_arit
+   65         | expr_arit MAYORIGUAL expr_arit
+   66         | expr_arit '<' expr_arit
+   67         | expr_arit MENORIGUAL expr_arit
+   68         | expr_arit IGUAL2 expr_arit
+   69         | expr_arit DISTINTO expr_arit
+   70         | expr_log IGUAL2 expr_log
+   71         | expr_log DISTINTO expr_log
 
-   60 expr_cadena: CADENA
-   61            | ID_CADENA
-   62            | expr_arit
-   63            | expr_cadena CONCATENACION expr_cadena
-
-   64 expr_log: TRUE
-   65         | FALSE
-   66         | expr_log AND expr_log
-   67         | expr_log OR expr_log
-   68         | NOT expr_log
-   69         | '(' expr_log ')'
-   70         | expr_arit '>' expr_arit
-   71         | expr_arit MAYORIGUAL expr_arit
-   72         | expr_arit '<' expr_arit
-   73         | expr_arit MENORIGUAL expr_arit
-   74         | expr_arit IGUAL2 expr_arit
-   75         | expr_arit DISTINTO expr_arit
-   76         | expr_log IGUAL2 expr_log
-   77         | expr_log DISTINTO expr_log
-
-   78 expr_arit: NUMERO
-   79          | REAL
-   80          | ID_GENERAL
-   81          | expr_arit '+' expr_arit
-   82          | expr_arit '-' expr_arit
-   83          | expr_arit '*' expr_arit
-   84          | expr_arit '/' expr_arit
-   85          | expr_arit DIV expr_arit
-   86          | '-' expr_arit
-   87          | '(' expr_arit ')'
+   72 expr_arit: NUMERO
+   73          | REAL
+   74          | ID_GENERAL
+   75          | expr_arit '+' expr_arit
+   76          | expr_arit '-' expr_arit
+   77          | expr_arit '*' expr_arit
+   78          | expr_arit '/' expr_arit
+   79          | expr_arit DIV expr_arit
+   80          | '-' expr_arit
+   81          | '(' expr_arit ')'
 
 
 Terminales con las reglas donde aparecen
 
     $end (0) 0
     '\n' (10) 1 2
-    '(' (40) 69 87
-    ')' (41) 69 87
-    '*' (42) 83
-    '+' (43) 81
-    ',' (44) 12 47 48 49 50
-    '-' (45) 82 86
-    '/' (47) 84
-    ':' (58) 29 33 35 37
-    '<' (60) 12 72
-    '=' (61) 12 21 23 25
-    '>' (62) 12 70
-    '[' (91) 35 37
-    ']' (93) 35 37
-    '{' (123)
-    error (256) 13 19 27
-    NUMERO <c_entero> (258) 78
-    REAL <c_real> (259) 79
-    DIV (260) 85
-    AND (261) 66
-    OR (262) 67
-    NOT (263) 68
-    TRUE <c_bool> (264) 64
-    FALSE <c_bool> (265) 65
-    MAYORIGUAL (266) 71
-    MENORIGUAL (267) 73
-    IGUAL2 (268) 74 76
-    DISTINTO (269) 75 77
+    '(' (40) 63 81
+    ')' (41) 63 81
+    '*' (42) 77
+    '+' (43) 75
+    ',' (44) 10 41 42 43 44
+    '-' (45) 76 80
+    '/' (47) 78
+    ':' (58) 23 27 29 31
+    '<' (60) 10 66
+    '=' (61) 10 16 18 20
+    '>' (62) 10 64
+    '[' (91) 29 31
+    ']' (93) 29 31
+    error (256) 14
+    NUMERO <c_entero> (258) 72
+    REAL <c_real> (259) 73
+    DIV (260) 79
+    AND (261) 60
+    OR (262) 61
+    NOT (263) 62
+    TRUE <c_bool> (264) 58
+    FALSE <c_bool> (265) 59
+    MAYORIGUAL (266) 65
+    MENORIGUAL (267) 67
+    IGUAL2 (268) 68 70
+    DISTINTO (269) 69 71
     PERSONAJES (270) 8
-    DEFINICIONES (271) 16
-    ESCENA (272) 29
-    FINESCENA (273) 31
-    ID_GENERAL <c_identificador> (274) 21 23 80
-    ID_NOMBRE <c_identificador> (275) 12 33 35 37
-    ID_CADENA <c_identificador> (276) 25 61
-    PAUSA (277) 41
-    MENSAJE (278) 39
-    REPETIR (279)
-    SI (280)
-    SI_NO (281)
-    CADENA <c_cadena> (282) 60
-    EN (283) 51
-    EN_US (284) 52
-    ES (285) 53
-    ES_LA (286) 54
-    PT (287) 55
-    IT (288) 56
-    FR (289) 57
-    DESPACIO <c_cadena> (290) 43 47
-    DEPRISA <c_cadena> (291) 44 48
-    GRITANDO <c_cadena> (292) 45 49
-    VOZ_BAJA <c_cadena> (293) 46 50
-    MASCULINO (294) 58
-    FEMENINO (295) 59
-    CONCATENACION (296) 63
-    menos (297)
+    DEFINICIONES (271) 13
+    ESCENA (272) 23
+    FINESCENA (273) 25
+    ID_GENERAL <c_identificador> (274) 16 18 74
+    ID_NOMBRE <c_identificador> (275) 10 27 29 31
+    ID_CADENA <c_identificador> (276) 20 55
+    PAUSA (277) 35
+    MENSAJE (278) 33
+    CADENA <c_cadena> (279) 54
+    EN (280) 45
+    EN_US (281) 46
+    ES (282) 47
+    ES_LA (283) 48
+    PT (284) 49
+    IT (285) 50
+    FR (286) 51
+    DESPACIO <c_cadena> (287) 37 41
+    DEPRISA <c_cadena> (288) 38 42
+    GRITANDO <c_cadena> (289) 39 43
+    VOZ_BAJA <c_cadena> (290) 40 44
+    MASCULINO (291) 52
+    FEMENINO (292) 53
+    CONCATENACION (293) 57
+    menos (294)
 
 
 No terminales con las reglas donde aparecen
 
-    $accept (58)
+    $accept (54)
         on left: 0
-    salto (59)
+    salto (55)
         on left: 1 2
-        on right: 2 4 8 12 13 16 19 21 23 25 27 29 31 33 35 37 39 41
-    programa (60)
+        on right: 2 4 8 10 13 14 16 18 20 23 25 27 29 31 33 35
+    programa (56)
         on left: 3 4 5
         on right: 0
-    bloquePersonajes (61)
-        on left: 6 8 9
-        on right: 4 5 8
-    $@1 (62)
+    bloquePersonajes (57)
+        on left: 6 8 10
+        on right: 4 5 8 10
+    $@1 (58)
         on left: 7
         on right: 8
-    secPersonajes (63)
-        on left: 10 12 13
-        on right: 9 12
-    $@2 (64)
-        on left: 11
-        on right: 12
-    bloqueDefiniciones (65)
-        on left: 14 16 17
-        on right: 4 5 16
-    $@3 (66)
+    $@2 (59)
+        on left: 9
+        on right: 10
+    bloqueDefiniciones (60)
+        on left: 11 13 14 16 18 20
+        on right: 4 5 13 16 18 20 36
+    $@3 (61)
+        on left: 12
+        on right: 13
+    $@4 (62)
         on left: 15
         on right: 16
-    secDefiniciones (67)
-        on left: 18 19 21 23 25
-        on right: 17 21 23 25 42
-    $@4 (68)
-        on left: 20
-        on right: 21
-    $@5 (69)
+    $@5 (63)
+        on left: 17
+        on right: 18
+    $@6 (64)
+        on left: 19
+        on right: 20
+    secEscena (65)
+        on left: 21 23 25 27 29 31 33 35 36
+        on right: 4 5 23 25 27 29 31 33 35
+    $@7 (66)
         on left: 22
         on right: 23
-    $@6 (70)
+    $@8 (67)
         on left: 24
         on right: 25
-    secEscena (71)
-        on left: 26 27 29 31 33 35 37 39 41 42
-        on right: 4 5 29 31 33 35 37 39 41
-    $@7 (72)
+    $@9 (68)
+        on left: 26
+        on right: 27
+    $@10 (69)
         on left: 28
         on right: 29
-    $@8 (73)
+    $@11 (70)
         on left: 30
         on right: 31
-    $@9 (74)
+    $@12 (71)
         on left: 32
         on right: 33
-    $@10 (75)
+    $@13 (72)
         on left: 34
         on right: 35
-    $@11 (76)
-        on left: 36
-        on right: 37
-    $@12 (77)
-        on left: 38
-        on right: 39
-    $@13 (78)
-        on left: 40
-        on right: 41
-    entonacion <c_cadena> (79)
-        on left: 43 44 45 46 47 48 49 50
-        on right: 37 47 48 49 50
-    idioma <c_cadena> (80)
-        on left: 51 52 53 54 55 56 57
-        on right: 12
-    voz <c_cadena> (81)
-        on left: 58 59
-        on right: 12
-    expr_cadena <c_cadena> (82)
-        on left: 60 61 62 63
-        on right: 25 33 35 37 39 63
-    expr_log <c_bool> (83)
-        on left: 64 65 66 67 68 69 70 71 72 73 74 75 76 77
-        on right: 23 66 67 68 69 76 77
-    expr_arit <c_expresion_arit> (84)
-        on left: 78 79 80 81 82 83 84 85 86 87
-        on right: 21 29 41 62 70 71 72 73 74 75 81 82 83 84 85 86 87
+    entonacion <c_cadena> (73)
+        on left: 37 38 39 40 41 42 43 44
+        on right: 31 41 42 43 44
+    idioma <c_cadena> (74)
+        on left: 45 46 47 48 49 50 51
+        on right: 10
+    voz <c_cadena> (75)
+        on left: 52 53
+        on right: 10
+    expr_cadena <c_cadena> (76)
+        on left: 54 55 56 57
+        on right: 20 27 29 31 33 57
+    expr_log <c_bool> (77)
+        on left: 58 59 60 61 62 63 64 65 66 67 68 69 70 71
+        on right: 18 60 61 62 63 70 71
+    expr_arit <c_expresion_arit> (78)
+        on left: 72 73 74 75 76 77 78 79 80 81
+        on right: 16 23 35 56 64 65 66 67 68 69 75 76 77 78 79 80 81
 
 
 Estado 0
 
     0 $accept: • programa $end
 
-    error       desplazar e ir al estado 1
-    PERSONAJES  desplazar e ir al estado 2
-    ID_NOMBRE   desplazar e ir al estado 3
-    '\n'        desplazar e ir al estado 4
+    PERSONAJES  desplazar e ir al estado 1
+    ID_NOMBRE   desplazar e ir al estado 2
+    '\n'        desplazar e ir al estado 3
 
-    $end          reduce usando la regla 3 (programa)
-    $end          [reduce usando la regla 6 (bloquePersonajes)]
-    $end          [reduce usando la regla 10 (secPersonajes)]
-    error         [reduce usando la regla 6 (bloquePersonajes)]
-    error         [reduce usando la regla 10 (secPersonajes)]
-    DEFINICIONES  reduce usando la regla 6 (bloquePersonajes)
-    DEFINICIONES  [reduce usando la regla 10 (secPersonajes)]
-    ESCENA        reduce usando la regla 6 (bloquePersonajes)
-    ESCENA        [reduce usando la regla 10 (secPersonajes)]
-    FINESCENA     reduce usando la regla 6 (bloquePersonajes)
-    FINESCENA     [reduce usando la regla 10 (secPersonajes)]
-    ID_GENERAL    reduce usando la regla 6 (bloquePersonajes)
-    ID_GENERAL    [reduce usando la regla 10 (secPersonajes)]
-    ID_NOMBRE     [reduce usando la regla 6 (bloquePersonajes)]
-    ID_NOMBRE     [reduce usando la regla 10 (secPersonajes)]
-    ID_CADENA     reduce usando la regla 6 (bloquePersonajes)
-    ID_CADENA     [reduce usando la regla 10 (secPersonajes)]
-    PAUSA         reduce usando la regla 6 (bloquePersonajes)
-    PAUSA         [reduce usando la regla 10 (secPersonajes)]
-    MENSAJE       reduce usando la regla 6 (bloquePersonajes)
-    MENSAJE       [reduce usando la regla 10 (secPersonajes)]
+    $end       reduce usando la regla 3 (programa)
+    $end       [reduce usando la regla 6 (bloquePersonajes)]
+    ID_NOMBRE  [reduce usando la regla 6 (bloquePersonajes)]
+    $default   reduce usando la regla 6 (bloquePersonajes)
 
-    salto             ir al estado 5
-    programa          ir al estado 6
-    bloquePersonajes  ir al estado 7
-    secPersonajes     ir al estado 8
+    salto             ir al estado 4
+    programa          ir al estado 5
+    bloquePersonajes  ir al estado 6
 
 
 Estado 1
-
-   13 secPersonajes: error • salto
-
-    '\n'  desplazar e ir al estado 4
-
-    salto  ir al estado 9
-
-
-Estado 2
 
     8 bloquePersonajes: PERSONAJES • $@1 salto bloquePersonajes
 
     $default  reduce usando la regla 7 ($@1)
 
-    $@1  ir al estado 10
+    $@1  ir al estado 7
+
+
+Estado 2
+
+   10 bloquePersonajes: ID_NOMBRE • '=' '<' idioma ',' voz '>' salto $@2 bloquePersonajes
+
+    '='  desplazar e ir al estado 8
 
 
 Estado 3
-
-   12 secPersonajes: ID_NOMBRE • '=' '<' idioma ',' voz '>' salto $@2 secPersonajes
-
-    '='  desplazar e ir al estado 11
-
-
-Estado 4
 
     1 salto: '\n' •
 
     $default  reduce usando la regla 1 (salto)
 
 
-Estado 5
+Estado 4
 
     2 salto: salto • '\n'
     4 programa: salto • bloquePersonajes bloqueDefiniciones secEscena
 
-    error       desplazar e ir al estado 1
-    PERSONAJES  desplazar e ir al estado 2
-    ID_NOMBRE   desplazar e ir al estado 3
-    '\n'        desplazar e ir al estado 12
+    PERSONAJES  desplazar e ir al estado 1
+    ID_NOMBRE   desplazar e ir al estado 2
+    '\n'        desplazar e ir al estado 9
 
-    $end          reduce usando la regla 6 (bloquePersonajes)
-    $end          [reduce usando la regla 10 (secPersonajes)]
-    error         [reduce usando la regla 6 (bloquePersonajes)]
-    error         [reduce usando la regla 10 (secPersonajes)]
-    DEFINICIONES  reduce usando la regla 6 (bloquePersonajes)
-    DEFINICIONES  [reduce usando la regla 10 (secPersonajes)]
-    ESCENA        reduce usando la regla 6 (bloquePersonajes)
-    ESCENA        [reduce usando la regla 10 (secPersonajes)]
-    FINESCENA     reduce usando la regla 6 (bloquePersonajes)
-    FINESCENA     [reduce usando la regla 10 (secPersonajes)]
-    ID_GENERAL    reduce usando la regla 6 (bloquePersonajes)
-    ID_GENERAL    [reduce usando la regla 10 (secPersonajes)]
-    ID_NOMBRE     [reduce usando la regla 6 (bloquePersonajes)]
-    ID_NOMBRE     [reduce usando la regla 10 (secPersonajes)]
-    ID_CADENA     reduce usando la regla 6 (bloquePersonajes)
-    ID_CADENA     [reduce usando la regla 10 (secPersonajes)]
-    PAUSA         reduce usando la regla 6 (bloquePersonajes)
-    PAUSA         [reduce usando la regla 10 (secPersonajes)]
-    MENSAJE       reduce usando la regla 6 (bloquePersonajes)
-    MENSAJE       [reduce usando la regla 10 (secPersonajes)]
+    ID_NOMBRE  [reduce usando la regla 6 (bloquePersonajes)]
+    $default   reduce usando la regla 6 (bloquePersonajes)
 
-    bloquePersonajes  ir al estado 13
-    secPersonajes     ir al estado 8
+    bloquePersonajes  ir al estado 10
+
+
+Estado 5
+
+    0 $accept: programa • $end
+
+    $end  desplazar e ir al estado 11
 
 
 Estado 6
 
-    0 $accept: programa • $end
+    5 programa: bloquePersonajes • bloqueDefiniciones secEscena
 
-    $end  desplazar e ir al estado 14
+    error         desplazar e ir al estado 12
+    DEFINICIONES  desplazar e ir al estado 13
+    ID_GENERAL    desplazar e ir al estado 14
+    ID_CADENA     desplazar e ir al estado 15
+
+    $end          reduce usando la regla 11 (bloqueDefiniciones)
+    error         [reduce usando la regla 11 (bloqueDefiniciones)]
+    DEFINICIONES  [reduce usando la regla 11 (bloqueDefiniciones)]
+    ESCENA        reduce usando la regla 11 (bloqueDefiniciones)
+    FINESCENA     reduce usando la regla 11 (bloqueDefiniciones)
+    ID_GENERAL    [reduce usando la regla 11 (bloqueDefiniciones)]
+    ID_NOMBRE     reduce usando la regla 11 (bloqueDefiniciones)
+    ID_CADENA     [reduce usando la regla 11 (bloqueDefiniciones)]
+    PAUSA         reduce usando la regla 11 (bloqueDefiniciones)
+    MENSAJE       reduce usando la regla 11 (bloqueDefiniciones)
+
+    bloqueDefiniciones  ir al estado 16
 
 
 Estado 7
 
-    5 programa: bloquePersonajes • bloqueDefiniciones secEscena
+    8 bloquePersonajes: PERSONAJES $@1 • salto bloquePersonajes
 
-    error         desplazar e ir al estado 15
-    DEFINICIONES  desplazar e ir al estado 16
-    ID_GENERAL    desplazar e ir al estado 17
-    ID_CADENA     desplazar e ir al estado 18
+    '\n'  desplazar e ir al estado 3
 
-    $end        reduce usando la regla 14 (bloqueDefiniciones)
-    $end        [reduce usando la regla 18 (secDefiniciones)]
-    error       [reduce usando la regla 14 (bloqueDefiniciones)]
-    error       [reduce usando la regla 18 (secDefiniciones)]
-    ESCENA      reduce usando la regla 14 (bloqueDefiniciones)
-    ESCENA      [reduce usando la regla 18 (secDefiniciones)]
-    FINESCENA   reduce usando la regla 14 (bloqueDefiniciones)
-    FINESCENA   [reduce usando la regla 18 (secDefiniciones)]
-    ID_GENERAL  [reduce usando la regla 14 (bloqueDefiniciones)]
-    ID_GENERAL  [reduce usando la regla 18 (secDefiniciones)]
-    ID_NOMBRE   reduce usando la regla 14 (bloqueDefiniciones)
-    ID_NOMBRE   [reduce usando la regla 18 (secDefiniciones)]
-    ID_CADENA   [reduce usando la regla 14 (bloqueDefiniciones)]
-    ID_CADENA   [reduce usando la regla 18 (secDefiniciones)]
-    PAUSA       reduce usando la regla 14 (bloqueDefiniciones)
-    PAUSA       [reduce usando la regla 18 (secDefiniciones)]
-    MENSAJE     reduce usando la regla 14 (bloqueDefiniciones)
-    MENSAJE     [reduce usando la regla 18 (secDefiniciones)]
-
-    bloqueDefiniciones  ir al estado 19
-    secDefiniciones     ir al estado 20
+    salto  ir al estado 17
 
 
 Estado 8
 
-    9 bloquePersonajes: secPersonajes •
+   10 bloquePersonajes: ID_NOMBRE '=' • '<' idioma ',' voz '>' salto $@2 bloquePersonajes
 
-    $default  reduce usando la regla 9 (bloquePersonajes)
+    '<'  desplazar e ir al estado 18
 
 
 Estado 9
-
-    2 salto: salto • '\n'
-   13 secPersonajes: error salto •
-
-    '\n'  desplazar e ir al estado 12
-
-    $default  reduce usando la regla 13 (secPersonajes)
-
-
-Estado 10
-
-    8 bloquePersonajes: PERSONAJES $@1 • salto bloquePersonajes
-
-    '\n'  desplazar e ir al estado 4
-
-    salto  ir al estado 21
-
-
-Estado 11
-
-   12 secPersonajes: ID_NOMBRE '=' • '<' idioma ',' voz '>' salto $@2 secPersonajes
-
-    '<'  desplazar e ir al estado 22
-
-
-Estado 12
 
     2 salto: salto '\n' •
 
     $default  reduce usando la regla 2 (salto)
 
 
-Estado 13
+Estado 10
 
     4 programa: salto bloquePersonajes • bloqueDefiniciones secEscena
 
-    error         desplazar e ir al estado 15
-    DEFINICIONES  desplazar e ir al estado 16
-    ID_GENERAL    desplazar e ir al estado 17
-    ID_CADENA     desplazar e ir al estado 18
+    error         desplazar e ir al estado 12
+    DEFINICIONES  desplazar e ir al estado 13
+    ID_GENERAL    desplazar e ir al estado 14
+    ID_CADENA     desplazar e ir al estado 15
 
-    $end        reduce usando la regla 14 (bloqueDefiniciones)
-    $end        [reduce usando la regla 18 (secDefiniciones)]
-    error       [reduce usando la regla 14 (bloqueDefiniciones)]
-    error       [reduce usando la regla 18 (secDefiniciones)]
-    ESCENA      reduce usando la regla 14 (bloqueDefiniciones)
-    ESCENA      [reduce usando la regla 18 (secDefiniciones)]
-    FINESCENA   reduce usando la regla 14 (bloqueDefiniciones)
-    FINESCENA   [reduce usando la regla 18 (secDefiniciones)]
-    ID_GENERAL  [reduce usando la regla 14 (bloqueDefiniciones)]
-    ID_GENERAL  [reduce usando la regla 18 (secDefiniciones)]
-    ID_NOMBRE   reduce usando la regla 14 (bloqueDefiniciones)
-    ID_NOMBRE   [reduce usando la regla 18 (secDefiniciones)]
-    ID_CADENA   [reduce usando la regla 14 (bloqueDefiniciones)]
-    ID_CADENA   [reduce usando la regla 18 (secDefiniciones)]
-    PAUSA       reduce usando la regla 14 (bloqueDefiniciones)
-    PAUSA       [reduce usando la regla 18 (secDefiniciones)]
-    MENSAJE     reduce usando la regla 14 (bloqueDefiniciones)
-    MENSAJE     [reduce usando la regla 18 (secDefiniciones)]
+    $end          reduce usando la regla 11 (bloqueDefiniciones)
+    error         [reduce usando la regla 11 (bloqueDefiniciones)]
+    DEFINICIONES  [reduce usando la regla 11 (bloqueDefiniciones)]
+    ESCENA        reduce usando la regla 11 (bloqueDefiniciones)
+    FINESCENA     reduce usando la regla 11 (bloqueDefiniciones)
+    ID_GENERAL    [reduce usando la regla 11 (bloqueDefiniciones)]
+    ID_NOMBRE     reduce usando la regla 11 (bloqueDefiniciones)
+    ID_CADENA     [reduce usando la regla 11 (bloqueDefiniciones)]
+    PAUSA         reduce usando la regla 11 (bloqueDefiniciones)
+    MENSAJE       reduce usando la regla 11 (bloqueDefiniciones)
 
-    bloqueDefiniciones  ir al estado 23
-    secDefiniciones     ir al estado 20
+    bloqueDefiniciones  ir al estado 19
 
 
-Estado 14
+Estado 11
 
     0 $accept: programa $end •
 
     $default  aceptar
 
 
+Estado 12
+
+   14 bloqueDefiniciones: error • salto
+
+    '\n'  desplazar e ir al estado 3
+
+    salto  ir al estado 20
+
+
+Estado 13
+
+   13 bloqueDefiniciones: DEFINICIONES • $@3 salto bloqueDefiniciones
+
+    $default  reduce usando la regla 12 ($@3)
+
+    $@3  ir al estado 21
+
+
+Estado 14
+
+   16 bloqueDefiniciones: ID_GENERAL • '=' expr_arit $@4 salto bloqueDefiniciones
+   18                   | ID_GENERAL • '=' expr_log $@5 salto bloqueDefiniciones
+
+    '='  desplazar e ir al estado 22
+
+
 Estado 15
 
-   19 secDefiniciones: error • salto
+   20 bloqueDefiniciones: ID_CADENA • '=' expr_cadena $@6 salto bloqueDefiniciones
 
-    '\n'  desplazar e ir al estado 4
-
-    salto  ir al estado 24
+    '='  desplazar e ir al estado 23
 
 
 Estado 16
 
-   16 bloqueDefiniciones: DEFINICIONES • $@3 salto bloqueDefiniciones
+    5 programa: bloquePersonajes bloqueDefiniciones • secEscena
 
-    $default  reduce usando la regla 15 ($@3)
+    error         desplazar e ir al estado 12
+    DEFINICIONES  desplazar e ir al estado 13
+    ESCENA        desplazar e ir al estado 24
+    FINESCENA     desplazar e ir al estado 25
+    ID_GENERAL    desplazar e ir al estado 14
+    ID_NOMBRE     desplazar e ir al estado 26
+    ID_CADENA     desplazar e ir al estado 15
+    PAUSA         desplazar e ir al estado 27
+    MENSAJE       desplazar e ir al estado 28
 
-    $@3  ir al estado 25
+    $end  reduce usando la regla 11 (bloqueDefiniciones)
+    $end  [reduce usando la regla 21 (secEscena)]
+
+    bloqueDefiniciones  ir al estado 29
+    secEscena           ir al estado 30
 
 
 Estado 17
 
-   21 secDefiniciones: ID_GENERAL • '=' expr_arit $@4 salto secDefiniciones
-   23                | ID_GENERAL • '=' expr_log $@5 salto secDefiniciones
+    2 salto: salto • '\n'
+    8 bloquePersonajes: PERSONAJES $@1 salto • bloquePersonajes
 
-    '='  desplazar e ir al estado 26
+    PERSONAJES  desplazar e ir al estado 1
+    ID_NOMBRE   desplazar e ir al estado 2
+    '\n'        desplazar e ir al estado 9
+
+    ID_NOMBRE  [reduce usando la regla 6 (bloquePersonajes)]
+    $default   reduce usando la regla 6 (bloquePersonajes)
+
+    bloquePersonajes  ir al estado 31
 
 
 Estado 18
 
-   25 secDefiniciones: ID_CADENA • '=' expr_cadena $@6 salto secDefiniciones
+   10 bloquePersonajes: ID_NOMBRE '=' '<' • idioma ',' voz '>' salto $@2 bloquePersonajes
 
-    '='  desplazar e ir al estado 27
+    EN     desplazar e ir al estado 32
+    EN_US  desplazar e ir al estado 33
+    ES     desplazar e ir al estado 34
+    ES_LA  desplazar e ir al estado 35
+    PT     desplazar e ir al estado 36
+    IT     desplazar e ir al estado 37
+    FR     desplazar e ir al estado 38
+
+    idioma  ir al estado 39
 
 
 Estado 19
 
-    5 programa: bloquePersonajes bloqueDefiniciones • secEscena
+    4 programa: salto bloquePersonajes bloqueDefiniciones • secEscena
 
-    error       desplazar e ir al estado 28
-    ESCENA      desplazar e ir al estado 29
-    FINESCENA   desplazar e ir al estado 30
-    ID_GENERAL  desplazar e ir al estado 17
-    ID_NOMBRE   desplazar e ir al estado 31
-    ID_CADENA   desplazar e ir al estado 18
-    PAUSA       desplazar e ir al estado 32
-    MENSAJE     desplazar e ir al estado 33
+    error         desplazar e ir al estado 12
+    DEFINICIONES  desplazar e ir al estado 13
+    ESCENA        desplazar e ir al estado 24
+    FINESCENA     desplazar e ir al estado 25
+    ID_GENERAL    desplazar e ir al estado 14
+    ID_NOMBRE     desplazar e ir al estado 26
+    ID_CADENA     desplazar e ir al estado 15
+    PAUSA         desplazar e ir al estado 27
+    MENSAJE       desplazar e ir al estado 28
 
-    $end  reduce usando la regla 18 (secDefiniciones)
-    $end  [reduce usando la regla 26 (secEscena)]
+    $end  reduce usando la regla 11 (bloqueDefiniciones)
+    $end  [reduce usando la regla 21 (secEscena)]
 
-    secDefiniciones  ir al estado 34
-    secEscena        ir al estado 35
+    bloqueDefiniciones  ir al estado 29
+    secEscena           ir al estado 40
 
 
 Estado 20
 
-   17 bloqueDefiniciones: secDefiniciones •
+    2 salto: salto • '\n'
+   14 bloqueDefiniciones: error salto •
 
-    $default  reduce usando la regla 17 (bloqueDefiniciones)
+    '\n'  desplazar e ir al estado 9
+
+    $default  reduce usando la regla 14 (bloqueDefiniciones)
 
 
 Estado 21
 
-    2 salto: salto • '\n'
-    8 bloquePersonajes: PERSONAJES $@1 salto • bloquePersonajes
+   13 bloqueDefiniciones: DEFINICIONES $@3 • salto bloqueDefiniciones
 
-    error       desplazar e ir al estado 1
-    PERSONAJES  desplazar e ir al estado 2
-    ID_NOMBRE   desplazar e ir al estado 3
-    '\n'        desplazar e ir al estado 12
+    '\n'  desplazar e ir al estado 3
 
-    $end          reduce usando la regla 6 (bloquePersonajes)
-    $end          [reduce usando la regla 10 (secPersonajes)]
-    error         [reduce usando la regla 6 (bloquePersonajes)]
-    error         [reduce usando la regla 10 (secPersonajes)]
-    DEFINICIONES  reduce usando la regla 6 (bloquePersonajes)
-    DEFINICIONES  [reduce usando la regla 10 (secPersonajes)]
-    ESCENA        reduce usando la regla 6 (bloquePersonajes)
-    ESCENA        [reduce usando la regla 10 (secPersonajes)]
-    FINESCENA     reduce usando la regla 6 (bloquePersonajes)
-    FINESCENA     [reduce usando la regla 10 (secPersonajes)]
-    ID_GENERAL    reduce usando la regla 6 (bloquePersonajes)
-    ID_GENERAL    [reduce usando la regla 10 (secPersonajes)]
-    ID_NOMBRE     [reduce usando la regla 6 (bloquePersonajes)]
-    ID_NOMBRE     [reduce usando la regla 10 (secPersonajes)]
-    ID_CADENA     reduce usando la regla 6 (bloquePersonajes)
-    ID_CADENA     [reduce usando la regla 10 (secPersonajes)]
-    PAUSA         reduce usando la regla 6 (bloquePersonajes)
-    PAUSA         [reduce usando la regla 10 (secPersonajes)]
-    MENSAJE       reduce usando la regla 6 (bloquePersonajes)
-    MENSAJE       [reduce usando la regla 10 (secPersonajes)]
-
-    bloquePersonajes  ir al estado 36
-    secPersonajes     ir al estado 8
+    salto  ir al estado 41
 
 
 Estado 22
 
-   12 secPersonajes: ID_NOMBRE '=' '<' • idioma ',' voz '>' salto $@2 secPersonajes
+   16 bloqueDefiniciones: ID_GENERAL '=' • expr_arit $@4 salto bloqueDefiniciones
+   18                   | ID_GENERAL '=' • expr_log $@5 salto bloqueDefiniciones
 
-    EN     desplazar e ir al estado 37
-    EN_US  desplazar e ir al estado 38
-    ES     desplazar e ir al estado 39
-    ES_LA  desplazar e ir al estado 40
-    PT     desplazar e ir al estado 41
-    IT     desplazar e ir al estado 42
-    FR     desplazar e ir al estado 43
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    NOT         desplazar e ir al estado 44
+    TRUE        desplazar e ir al estado 45
+    FALSE       desplazar e ir al estado 46
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 49
 
-    idioma  ir al estado 44
+    expr_log   ir al estado 50
+    expr_arit  ir al estado 51
 
 
 Estado 23
 
-    4 programa: salto bloquePersonajes bloqueDefiniciones • secEscena
+   20 bloqueDefiniciones: ID_CADENA '=' • expr_cadena $@6 salto bloqueDefiniciones
 
-    error       desplazar e ir al estado 28
-    ESCENA      desplazar e ir al estado 29
-    FINESCENA   desplazar e ir al estado 30
-    ID_GENERAL  desplazar e ir al estado 17
-    ID_NOMBRE   desplazar e ir al estado 31
-    ID_CADENA   desplazar e ir al estado 18
-    PAUSA       desplazar e ir al estado 32
-    MENSAJE     desplazar e ir al estado 33
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    ID_CADENA   desplazar e ir al estado 52
+    CADENA      desplazar e ir al estado 53
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 54
 
-    $end  reduce usando la regla 18 (secDefiniciones)
-    $end  [reduce usando la regla 26 (secEscena)]
-
-    secDefiniciones  ir al estado 34
-    secEscena        ir al estado 45
+    expr_cadena  ir al estado 55
+    expr_arit    ir al estado 56
 
 
 Estado 24
 
-    2 salto: salto • '\n'
-   19 secDefiniciones: error salto •
+   23 secEscena: ESCENA • expr_arit ':' $@7 salto secEscena
 
-    '\n'  desplazar e ir al estado 12
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 54
 
-    $default  reduce usando la regla 19 (secDefiniciones)
+    expr_arit  ir al estado 57
 
 
 Estado 25
 
-   16 bloqueDefiniciones: DEFINICIONES $@3 • salto bloqueDefiniciones
+   25 secEscena: FINESCENA • $@8 salto secEscena
 
-    '\n'  desplazar e ir al estado 4
+    $default  reduce usando la regla 24 ($@8)
 
-    salto  ir al estado 46
+    $@8  ir al estado 58
 
 
 Estado 26
 
-   21 secDefiniciones: ID_GENERAL '=' • expr_arit $@4 salto secDefiniciones
-   23                | ID_GENERAL '=' • expr_log $@5 salto secDefiniciones
+   27 secEscena: ID_NOMBRE • ':' expr_cadena $@9 salto secEscena
+   29          | ID_NOMBRE • '[' ']' ':' expr_cadena $@10 salto secEscena
+   31          | ID_NOMBRE • '[' entonacion ']' ':' expr_cadena $@11 salto secEscena
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    NOT         desplazar e ir al estado 49
-    TRUE        desplazar e ir al estado 50
-    FALSE       desplazar e ir al estado 51
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 54
-
-    expr_log   ir al estado 55
-    expr_arit  ir al estado 56
+    ':'  desplazar e ir al estado 59
+    '['  desplazar e ir al estado 60
 
 
 Estado 27
 
-   25 secDefiniciones: ID_CADENA '=' • expr_cadena $@6 salto secDefiniciones
+   35 secEscena: PAUSA • expr_arit $@13 salto secEscena
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    ID_CADENA   desplazar e ir al estado 57
-    CADENA      desplazar e ir al estado 58
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 54
 
-    expr_cadena  ir al estado 60
-    expr_arit    ir al estado 61
+    expr_arit  ir al estado 61
 
 
 Estado 28
 
-   19 secDefiniciones: error • salto
-   27 secEscena: error • salto
+   33 secEscena: MENSAJE • expr_cadena $@12 salto secEscena
 
-    '\n'  desplazar e ir al estado 4
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    ID_CADENA   desplazar e ir al estado 52
+    CADENA      desplazar e ir al estado 53
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 54
 
-    salto  ir al estado 62
+    expr_cadena  ir al estado 62
+    expr_arit    ir al estado 56
 
 
 Estado 29
 
-   29 secEscena: ESCENA • expr_arit ':' $@7 salto secEscena
+   36 secEscena: bloqueDefiniciones •
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
-
-    expr_arit  ir al estado 63
+    $default  reduce usando la regla 36 (secEscena)
 
 
 Estado 30
-
-   31 secEscena: FINESCENA • $@8 salto secEscena
-
-    $default  reduce usando la regla 30 ($@8)
-
-    $@8  ir al estado 64
-
-
-Estado 31
-
-   33 secEscena: ID_NOMBRE • ':' expr_cadena $@9 salto secEscena
-   35          | ID_NOMBRE • '[' ']' ':' expr_cadena $@10 salto secEscena
-   37          | ID_NOMBRE • '[' entonacion ']' ':' expr_cadena $@11 salto secEscena
-
-    ':'  desplazar e ir al estado 65
-    '['  desplazar e ir al estado 66
-
-
-Estado 32
-
-   41 secEscena: PAUSA • expr_arit $@13 salto secEscena
-
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
-
-    expr_arit  ir al estado 67
-
-
-Estado 33
-
-   39 secEscena: MENSAJE • expr_cadena $@12 salto secEscena
-
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    ID_CADENA   desplazar e ir al estado 57
-    CADENA      desplazar e ir al estado 58
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
-
-    expr_cadena  ir al estado 68
-    expr_arit    ir al estado 61
-
-
-Estado 34
-
-   42 secEscena: secDefiniciones •
-
-    $default  reduce usando la regla 42 (secEscena)
-
-
-Estado 35
 
     5 programa: bloquePersonajes bloqueDefiniciones secEscena •
 
     $default  reduce usando la regla 5 (programa)
 
 
-Estado 36
+Estado 31
 
     8 bloquePersonajes: PERSONAJES $@1 salto bloquePersonajes •
 
     $default  reduce usando la regla 8 (bloquePersonajes)
 
 
+Estado 32
+
+   45 idioma: EN •
+
+    $default  reduce usando la regla 45 (idioma)
+
+
+Estado 33
+
+   46 idioma: EN_US •
+
+    $default  reduce usando la regla 46 (idioma)
+
+
+Estado 34
+
+   47 idioma: ES •
+
+    $default  reduce usando la regla 47 (idioma)
+
+
+Estado 35
+
+   48 idioma: ES_LA •
+
+    $default  reduce usando la regla 48 (idioma)
+
+
+Estado 36
+
+   49 idioma: PT •
+
+    $default  reduce usando la regla 49 (idioma)
+
+
 Estado 37
 
-   51 idioma: EN •
+   50 idioma: IT •
 
-    $default  reduce usando la regla 51 (idioma)
+    $default  reduce usando la regla 50 (idioma)
 
 
 Estado 38
 
-   52 idioma: EN_US •
+   51 idioma: FR •
 
-    $default  reduce usando la regla 52 (idioma)
+    $default  reduce usando la regla 51 (idioma)
 
 
 Estado 39
 
-   53 idioma: ES •
+   10 bloquePersonajes: ID_NOMBRE '=' '<' idioma • ',' voz '>' salto $@2 bloquePersonajes
 
-    $default  reduce usando la regla 53 (idioma)
+    ','  desplazar e ir al estado 63
 
 
 Estado 40
-
-   54 idioma: ES_LA •
-
-    $default  reduce usando la regla 54 (idioma)
-
-
-Estado 41
-
-   55 idioma: PT •
-
-    $default  reduce usando la regla 55 (idioma)
-
-
-Estado 42
-
-   56 idioma: IT •
-
-    $default  reduce usando la regla 56 (idioma)
-
-
-Estado 43
-
-   57 idioma: FR •
-
-    $default  reduce usando la regla 57 (idioma)
-
-
-Estado 44
-
-   12 secPersonajes: ID_NOMBRE '=' '<' idioma • ',' voz '>' salto $@2 secPersonajes
-
-    ','  desplazar e ir al estado 69
-
-
-Estado 45
 
     4 programa: salto bloquePersonajes bloqueDefiniciones secEscena •
 
     $default  reduce usando la regla 4 (programa)
 
 
-Estado 46
+Estado 41
 
     2 salto: salto • '\n'
-   16 bloqueDefiniciones: DEFINICIONES $@3 salto • bloqueDefiniciones
+   13 bloqueDefiniciones: DEFINICIONES $@3 salto • bloqueDefiniciones
 
-    error         desplazar e ir al estado 15
-    DEFINICIONES  desplazar e ir al estado 16
-    ID_GENERAL    desplazar e ir al estado 17
-    ID_CADENA     desplazar e ir al estado 18
-    '\n'          desplazar e ir al estado 12
+    error         desplazar e ir al estado 12
+    DEFINICIONES  desplazar e ir al estado 13
+    ID_GENERAL    desplazar e ir al estado 14
+    ID_CADENA     desplazar e ir al estado 15
+    '\n'          desplazar e ir al estado 9
 
-    $end        reduce usando la regla 14 (bloqueDefiniciones)
-    $end        [reduce usando la regla 18 (secDefiniciones)]
-    error       [reduce usando la regla 14 (bloqueDefiniciones)]
-    error       [reduce usando la regla 18 (secDefiniciones)]
-    ESCENA      reduce usando la regla 14 (bloqueDefiniciones)
-    ESCENA      [reduce usando la regla 18 (secDefiniciones)]
-    FINESCENA   reduce usando la regla 14 (bloqueDefiniciones)
-    FINESCENA   [reduce usando la regla 18 (secDefiniciones)]
-    ID_GENERAL  [reduce usando la regla 14 (bloqueDefiniciones)]
-    ID_GENERAL  [reduce usando la regla 18 (secDefiniciones)]
-    ID_NOMBRE   reduce usando la regla 14 (bloqueDefiniciones)
-    ID_NOMBRE   [reduce usando la regla 18 (secDefiniciones)]
-    ID_CADENA   [reduce usando la regla 14 (bloqueDefiniciones)]
-    ID_CADENA   [reduce usando la regla 18 (secDefiniciones)]
-    PAUSA       reduce usando la regla 14 (bloqueDefiniciones)
-    PAUSA       [reduce usando la regla 18 (secDefiniciones)]
-    MENSAJE     reduce usando la regla 14 (bloqueDefiniciones)
-    MENSAJE     [reduce usando la regla 18 (secDefiniciones)]
+    $end          reduce usando la regla 11 (bloqueDefiniciones)
+    error         [reduce usando la regla 11 (bloqueDefiniciones)]
+    DEFINICIONES  [reduce usando la regla 11 (bloqueDefiniciones)]
+    ESCENA        reduce usando la regla 11 (bloqueDefiniciones)
+    FINESCENA     reduce usando la regla 11 (bloqueDefiniciones)
+    ID_GENERAL    [reduce usando la regla 11 (bloqueDefiniciones)]
+    ID_NOMBRE     reduce usando la regla 11 (bloqueDefiniciones)
+    ID_CADENA     [reduce usando la regla 11 (bloqueDefiniciones)]
+    PAUSA         reduce usando la regla 11 (bloqueDefiniciones)
+    MENSAJE       reduce usando la regla 11 (bloqueDefiniciones)
 
-    bloqueDefiniciones  ir al estado 70
-    secDefiniciones     ir al estado 20
+    bloqueDefiniciones  ir al estado 64
+
+
+Estado 42
+
+   72 expr_arit: NUMERO •
+
+    $default  reduce usando la regla 72 (expr_arit)
+
+
+Estado 43
+
+   73 expr_arit: REAL •
+
+    $default  reduce usando la regla 73 (expr_arit)
+
+
+Estado 44
+
+   62 expr_log: NOT • expr_log
+
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    NOT         desplazar e ir al estado 44
+    TRUE        desplazar e ir al estado 45
+    FALSE       desplazar e ir al estado 46
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 49
+
+    expr_log   ir al estado 65
+    expr_arit  ir al estado 66
+
+
+Estado 45
+
+   58 expr_log: TRUE •
+
+    $default  reduce usando la regla 58 (expr_log)
+
+
+Estado 46
+
+   59 expr_log: FALSE •
+
+    $default  reduce usando la regla 59 (expr_log)
 
 
 Estado 47
 
-   78 expr_arit: NUMERO •
+   74 expr_arit: ID_GENERAL •
 
-    $default  reduce usando la regla 78 (expr_arit)
+    $default  reduce usando la regla 74 (expr_arit)
 
 
 Estado 48
 
-   79 expr_arit: REAL •
+   80 expr_arit: '-' • expr_arit
 
-    $default  reduce usando la regla 79 (expr_arit)
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 54
+
+    expr_arit  ir al estado 67
 
 
 Estado 49
 
-   68 expr_log: NOT • expr_log
+   63 expr_log: '(' • expr_log ')'
+   81 expr_arit: '(' • expr_arit ')'
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    NOT         desplazar e ir al estado 49
-    TRUE        desplazar e ir al estado 50
-    FALSE       desplazar e ir al estado 51
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 54
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    NOT         desplazar e ir al estado 44
+    TRUE        desplazar e ir al estado 45
+    FALSE       desplazar e ir al estado 46
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 49
 
-    expr_log   ir al estado 71
-    expr_arit  ir al estado 72
+    expr_log   ir al estado 68
+    expr_arit  ir al estado 69
 
 
 Estado 50
 
-   64 expr_log: TRUE •
+   18 bloqueDefiniciones: ID_GENERAL '=' expr_log • $@5 salto bloqueDefiniciones
+   60 expr_log: expr_log • AND expr_log
+   61         | expr_log • OR expr_log
+   70         | expr_log • IGUAL2 expr_log
+   71         | expr_log • DISTINTO expr_log
 
-    $default  reduce usando la regla 64 (expr_log)
+    AND       desplazar e ir al estado 70
+    OR        desplazar e ir al estado 71
+    IGUAL2    desplazar e ir al estado 72
+    DISTINTO  desplazar e ir al estado 73
+
+    $default  reduce usando la regla 17 ($@5)
+
+    $@5  ir al estado 74
 
 
 Estado 51
 
-   65 expr_log: FALSE •
+   16 bloqueDefiniciones: ID_GENERAL '=' expr_arit • $@4 salto bloqueDefiniciones
+   64 expr_log: expr_arit • '>' expr_arit
+   65         | expr_arit • MAYORIGUAL expr_arit
+   66         | expr_arit • '<' expr_arit
+   67         | expr_arit • MENORIGUAL expr_arit
+   68         | expr_arit • IGUAL2 expr_arit
+   69         | expr_arit • DISTINTO expr_arit
+   75 expr_arit: expr_arit • '+' expr_arit
+   76          | expr_arit • '-' expr_arit
+   77          | expr_arit • '*' expr_arit
+   78          | expr_arit • '/' expr_arit
+   79          | expr_arit • DIV expr_arit
 
-    $default  reduce usando la regla 65 (expr_log)
+    DIV         desplazar e ir al estado 75
+    MAYORIGUAL  desplazar e ir al estado 76
+    MENORIGUAL  desplazar e ir al estado 77
+    IGUAL2      desplazar e ir al estado 78
+    DISTINTO    desplazar e ir al estado 79
+    '<'         desplazar e ir al estado 80
+    '>'         desplazar e ir al estado 81
+    '+'         desplazar e ir al estado 82
+    '-'         desplazar e ir al estado 83
+    '*'         desplazar e ir al estado 84
+    '/'         desplazar e ir al estado 85
+
+    $default  reduce usando la regla 15 ($@4)
+
+    $@4  ir al estado 86
 
 
 Estado 52
 
-   80 expr_arit: ID_GENERAL •
+   55 expr_cadena: ID_CADENA •
 
-    $default  reduce usando la regla 80 (expr_arit)
+    $default  reduce usando la regla 55 (expr_cadena)
 
 
 Estado 53
 
-   86 expr_arit: '-' • expr_arit
+   54 expr_cadena: CADENA •
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
-
-    expr_arit  ir al estado 73
+    $default  reduce usando la regla 54 (expr_cadena)
 
 
 Estado 54
 
-   69 expr_log: '(' • expr_log ')'
-   87 expr_arit: '(' • expr_arit ')'
+   81 expr_arit: '(' • expr_arit ')'
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    NOT         desplazar e ir al estado 49
-    TRUE        desplazar e ir al estado 50
-    FALSE       desplazar e ir al estado 51
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
     '('         desplazar e ir al estado 54
 
-    expr_log   ir al estado 74
-    expr_arit  ir al estado 75
+    expr_arit  ir al estado 87
 
 
 Estado 55
 
-   23 secDefiniciones: ID_GENERAL '=' expr_log • $@5 salto secDefiniciones
-   66 expr_log: expr_log • AND expr_log
-   67         | expr_log • OR expr_log
-   76         | expr_log • IGUAL2 expr_log
-   77         | expr_log • DISTINTO expr_log
+   20 bloqueDefiniciones: ID_CADENA '=' expr_cadena • $@6 salto bloqueDefiniciones
+   57 expr_cadena: expr_cadena • CONCATENACION expr_cadena
 
-    AND       desplazar e ir al estado 76
-    OR        desplazar e ir al estado 77
-    IGUAL2    desplazar e ir al estado 78
-    DISTINTO  desplazar e ir al estado 79
+    CONCATENACION  desplazar e ir al estado 88
 
-    $default  reduce usando la regla 22 ($@5)
+    $default  reduce usando la regla 19 ($@6)
 
-    $@5  ir al estado 80
+    $@6  ir al estado 89
 
 
 Estado 56
 
-   21 secDefiniciones: ID_GENERAL '=' expr_arit • $@4 salto secDefiniciones
-   70 expr_log: expr_arit • '>' expr_arit
-   71         | expr_arit • MAYORIGUAL expr_arit
-   72         | expr_arit • '<' expr_arit
-   73         | expr_arit • MENORIGUAL expr_arit
-   74         | expr_arit • IGUAL2 expr_arit
-   75         | expr_arit • DISTINTO expr_arit
-   81 expr_arit: expr_arit • '+' expr_arit
-   82          | expr_arit • '-' expr_arit
-   83          | expr_arit • '*' expr_arit
-   84          | expr_arit • '/' expr_arit
-   85          | expr_arit • DIV expr_arit
+   56 expr_cadena: expr_arit •
+   75 expr_arit: expr_arit • '+' expr_arit
+   76          | expr_arit • '-' expr_arit
+   77          | expr_arit • '*' expr_arit
+   78          | expr_arit • '/' expr_arit
+   79          | expr_arit • DIV expr_arit
 
-    DIV         desplazar e ir al estado 81
-    MAYORIGUAL  desplazar e ir al estado 82
-    MENORIGUAL  desplazar e ir al estado 83
-    IGUAL2      desplazar e ir al estado 84
-    DISTINTO    desplazar e ir al estado 85
-    '<'         desplazar e ir al estado 86
-    '>'         desplazar e ir al estado 87
-    '+'         desplazar e ir al estado 88
-    '-'         desplazar e ir al estado 89
-    '*'         desplazar e ir al estado 90
-    '/'         desplazar e ir al estado 91
+    DIV  desplazar e ir al estado 75
+    '+'  desplazar e ir al estado 82
+    '-'  desplazar e ir al estado 83
+    '*'  desplazar e ir al estado 84
+    '/'  desplazar e ir al estado 85
 
-    $default  reduce usando la regla 20 ($@4)
-
-    $@4  ir al estado 92
+    $default  reduce usando la regla 56 (expr_cadena)
 
 
 Estado 57
 
-   61 expr_cadena: ID_CADENA •
+   23 secEscena: ESCENA expr_arit • ':' $@7 salto secEscena
+   75 expr_arit: expr_arit • '+' expr_arit
+   76          | expr_arit • '-' expr_arit
+   77          | expr_arit • '*' expr_arit
+   78          | expr_arit • '/' expr_arit
+   79          | expr_arit • DIV expr_arit
 
-    $default  reduce usando la regla 61 (expr_cadena)
+    DIV  desplazar e ir al estado 75
+    '+'  desplazar e ir al estado 82
+    '-'  desplazar e ir al estado 83
+    '*'  desplazar e ir al estado 84
+    '/'  desplazar e ir al estado 85
+    ':'  desplazar e ir al estado 90
 
 
 Estado 58
 
-   60 expr_cadena: CADENA •
+   25 secEscena: FINESCENA $@8 • salto secEscena
 
-    $default  reduce usando la regla 60 (expr_cadena)
+    '\n'  desplazar e ir al estado 3
+
+    salto  ir al estado 91
 
 
 Estado 59
 
-   87 expr_arit: '(' • expr_arit ')'
+   27 secEscena: ID_NOMBRE ':' • expr_cadena $@9 salto secEscena
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    ID_CADENA   desplazar e ir al estado 52
+    CADENA      desplazar e ir al estado 53
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 54
 
-    expr_arit  ir al estado 93
+    expr_cadena  ir al estado 92
+    expr_arit    ir al estado 56
 
 
 Estado 60
 
-   25 secDefiniciones: ID_CADENA '=' expr_cadena • $@6 salto secDefiniciones
-   63 expr_cadena: expr_cadena • CONCATENACION expr_cadena
+   29 secEscena: ID_NOMBRE '[' • ']' ':' expr_cadena $@10 salto secEscena
+   31          | ID_NOMBRE '[' • entonacion ']' ':' expr_cadena $@11 salto secEscena
 
-    CONCATENACION  desplazar e ir al estado 94
+    DESPACIO  desplazar e ir al estado 93
+    DEPRISA   desplazar e ir al estado 94
+    GRITANDO  desplazar e ir al estado 95
+    VOZ_BAJA  desplazar e ir al estado 96
+    ']'       desplazar e ir al estado 97
 
-    $default  reduce usando la regla 24 ($@6)
-
-    $@6  ir al estado 95
+    entonacion  ir al estado 98
 
 
 Estado 61
 
-   62 expr_cadena: expr_arit •
-   81 expr_arit: expr_arit • '+' expr_arit
-   82          | expr_arit • '-' expr_arit
-   83          | expr_arit • '*' expr_arit
-   84          | expr_arit • '/' expr_arit
-   85          | expr_arit • DIV expr_arit
+   35 secEscena: PAUSA expr_arit • $@13 salto secEscena
+   75 expr_arit: expr_arit • '+' expr_arit
+   76          | expr_arit • '-' expr_arit
+   77          | expr_arit • '*' expr_arit
+   78          | expr_arit • '/' expr_arit
+   79          | expr_arit • DIV expr_arit
 
-    DIV  desplazar e ir al estado 81
-    '+'  desplazar e ir al estado 88
-    '-'  desplazar e ir al estado 89
-    '*'  desplazar e ir al estado 90
-    '/'  desplazar e ir al estado 91
+    DIV  desplazar e ir al estado 75
+    '+'  desplazar e ir al estado 82
+    '-'  desplazar e ir al estado 83
+    '*'  desplazar e ir al estado 84
+    '/'  desplazar e ir al estado 85
 
-    $default  reduce usando la regla 62 (expr_cadena)
+    $default  reduce usando la regla 34 ($@13)
+
+    $@13  ir al estado 99
 
 
 Estado 62
 
-    2 salto: salto • '\n'
-   19 secDefiniciones: error salto •
-   27 secEscena: error salto •
+   33 secEscena: MENSAJE expr_cadena • $@12 salto secEscena
+   57 expr_cadena: expr_cadena • CONCATENACION expr_cadena
 
-    '\n'  desplazar e ir al estado 12
+    CONCATENACION  desplazar e ir al estado 88
 
-    $end      reduce usando la regla 19 (secDefiniciones)
-    $end      [reduce usando la regla 27 (secEscena)]
-    $default  reduce usando la regla 19 (secDefiniciones)
+    $default  reduce usando la regla 32 ($@12)
+
+    $@12  ir al estado 100
 
 
 Estado 63
 
-   29 secEscena: ESCENA expr_arit • ':' $@7 salto secEscena
-   81 expr_arit: expr_arit • '+' expr_arit
-   82          | expr_arit • '-' expr_arit
-   83          | expr_arit • '*' expr_arit
-   84          | expr_arit • '/' expr_arit
-   85          | expr_arit • DIV expr_arit
+   10 bloquePersonajes: ID_NOMBRE '=' '<' idioma ',' • voz '>' salto $@2 bloquePersonajes
 
-    DIV  desplazar e ir al estado 81
-    '+'  desplazar e ir al estado 88
-    '-'  desplazar e ir al estado 89
-    '*'  desplazar e ir al estado 90
-    '/'  desplazar e ir al estado 91
-    ':'  desplazar e ir al estado 96
+    MASCULINO  desplazar e ir al estado 101
+    FEMENINO   desplazar e ir al estado 102
+
+    voz  ir al estado 103
 
 
 Estado 64
 
-   31 secEscena: FINESCENA $@8 • salto secEscena
+   13 bloqueDefiniciones: DEFINICIONES $@3 salto bloqueDefiniciones •
 
-    '\n'  desplazar e ir al estado 4
-
-    salto  ir al estado 97
+    $default  reduce usando la regla 13 (bloqueDefiniciones)
 
 
 Estado 65
 
-   33 secEscena: ID_NOMBRE ':' • expr_cadena $@9 salto secEscena
+   60 expr_log: expr_log • AND expr_log
+   61         | expr_log • OR expr_log
+   62         | NOT expr_log •
+   70         | expr_log • IGUAL2 expr_log
+   71         | expr_log • DISTINTO expr_log
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    ID_CADENA   desplazar e ir al estado 57
-    CADENA      desplazar e ir al estado 58
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
-
-    expr_cadena  ir al estado 98
-    expr_arit    ir al estado 61
+    $default  reduce usando la regla 62 (expr_log)
 
 
 Estado 66
 
-   35 secEscena: ID_NOMBRE '[' • ']' ':' expr_cadena $@10 salto secEscena
-   37          | ID_NOMBRE '[' • entonacion ']' ':' expr_cadena $@11 salto secEscena
+   64 expr_log: expr_arit • '>' expr_arit
+   65         | expr_arit • MAYORIGUAL expr_arit
+   66         | expr_arit • '<' expr_arit
+   67         | expr_arit • MENORIGUAL expr_arit
+   68         | expr_arit • IGUAL2 expr_arit
+   69         | expr_arit • DISTINTO expr_arit
+   75 expr_arit: expr_arit • '+' expr_arit
+   76          | expr_arit • '-' expr_arit
+   77          | expr_arit • '*' expr_arit
+   78          | expr_arit • '/' expr_arit
+   79          | expr_arit • DIV expr_arit
 
-    DESPACIO  desplazar e ir al estado 99
-    DEPRISA   desplazar e ir al estado 100
-    GRITANDO  desplazar e ir al estado 101
-    VOZ_BAJA  desplazar e ir al estado 102
-    ']'       desplazar e ir al estado 103
-
-    entonacion  ir al estado 104
+    DIV         desplazar e ir al estado 75
+    MAYORIGUAL  desplazar e ir al estado 76
+    MENORIGUAL  desplazar e ir al estado 77
+    IGUAL2      desplazar e ir al estado 78
+    DISTINTO    desplazar e ir al estado 79
+    '<'         desplazar e ir al estado 80
+    '>'         desplazar e ir al estado 81
+    '+'         desplazar e ir al estado 82
+    '-'         desplazar e ir al estado 83
+    '*'         desplazar e ir al estado 84
+    '/'         desplazar e ir al estado 85
 
 
 Estado 67
 
-   41 secEscena: PAUSA expr_arit • $@13 salto secEscena
-   81 expr_arit: expr_arit • '+' expr_arit
-   82          | expr_arit • '-' expr_arit
-   83          | expr_arit • '*' expr_arit
-   84          | expr_arit • '/' expr_arit
-   85          | expr_arit • DIV expr_arit
+   75 expr_arit: expr_arit • '+' expr_arit
+   76          | expr_arit • '-' expr_arit
+   77          | expr_arit • '*' expr_arit
+   78          | expr_arit • '/' expr_arit
+   79          | expr_arit • DIV expr_arit
+   80          | '-' expr_arit •
 
-    DIV  desplazar e ir al estado 81
-    '+'  desplazar e ir al estado 88
-    '-'  desplazar e ir al estado 89
-    '*'  desplazar e ir al estado 90
-    '/'  desplazar e ir al estado 91
-
-    $default  reduce usando la regla 40 ($@13)
-
-    $@13  ir al estado 105
+    $default  reduce usando la regla 80 (expr_arit)
 
 
 Estado 68
 
-   39 secEscena: MENSAJE expr_cadena • $@12 salto secEscena
-   63 expr_cadena: expr_cadena • CONCATENACION expr_cadena
+   60 expr_log: expr_log • AND expr_log
+   61         | expr_log • OR expr_log
+   63         | '(' expr_log • ')'
+   70         | expr_log • IGUAL2 expr_log
+   71         | expr_log • DISTINTO expr_log
 
-    CONCATENACION  desplazar e ir al estado 94
-
-    $default  reduce usando la regla 38 ($@12)
-
-    $@12  ir al estado 106
+    AND       desplazar e ir al estado 70
+    OR        desplazar e ir al estado 71
+    IGUAL2    desplazar e ir al estado 72
+    DISTINTO  desplazar e ir al estado 73
+    ')'       desplazar e ir al estado 104
 
 
 Estado 69
 
-   12 secPersonajes: ID_NOMBRE '=' '<' idioma ',' • voz '>' salto $@2 secPersonajes
+   64 expr_log: expr_arit • '>' expr_arit
+   65         | expr_arit • MAYORIGUAL expr_arit
+   66         | expr_arit • '<' expr_arit
+   67         | expr_arit • MENORIGUAL expr_arit
+   68         | expr_arit • IGUAL2 expr_arit
+   69         | expr_arit • DISTINTO expr_arit
+   75 expr_arit: expr_arit • '+' expr_arit
+   76          | expr_arit • '-' expr_arit
+   77          | expr_arit • '*' expr_arit
+   78          | expr_arit • '/' expr_arit
+   79          | expr_arit • DIV expr_arit
+   81          | '(' expr_arit • ')'
 
-    MASCULINO  desplazar e ir al estado 107
-    FEMENINO   desplazar e ir al estado 108
-
-    voz  ir al estado 109
+    DIV         desplazar e ir al estado 75
+    MAYORIGUAL  desplazar e ir al estado 76
+    MENORIGUAL  desplazar e ir al estado 77
+    IGUAL2      desplazar e ir al estado 78
+    DISTINTO    desplazar e ir al estado 79
+    '<'         desplazar e ir al estado 80
+    '>'         desplazar e ir al estado 81
+    '+'         desplazar e ir al estado 82
+    '-'         desplazar e ir al estado 83
+    '*'         desplazar e ir al estado 84
+    '/'         desplazar e ir al estado 85
+    ')'         desplazar e ir al estado 105
 
 
 Estado 70
 
-   16 bloqueDefiniciones: DEFINICIONES $@3 salto bloqueDefiniciones •
+   60 expr_log: expr_log AND • expr_log
 
-    $default  reduce usando la regla 16 (bloqueDefiniciones)
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    NOT         desplazar e ir al estado 44
+    TRUE        desplazar e ir al estado 45
+    FALSE       desplazar e ir al estado 46
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 49
+
+    expr_log   ir al estado 106
+    expr_arit  ir al estado 66
 
 
 Estado 71
 
-   66 expr_log: expr_log • AND expr_log
-   67         | expr_log • OR expr_log
-   68         | NOT expr_log •
-   76         | expr_log • IGUAL2 expr_log
-   77         | expr_log • DISTINTO expr_log
+   61 expr_log: expr_log OR • expr_log
 
-    $default  reduce usando la regla 68 (expr_log)
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    NOT         desplazar e ir al estado 44
+    TRUE        desplazar e ir al estado 45
+    FALSE       desplazar e ir al estado 46
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 49
+
+    expr_log   ir al estado 107
+    expr_arit  ir al estado 66
 
 
 Estado 72
 
-   70 expr_log: expr_arit • '>' expr_arit
-   71         | expr_arit • MAYORIGUAL expr_arit
-   72         | expr_arit • '<' expr_arit
-   73         | expr_arit • MENORIGUAL expr_arit
-   74         | expr_arit • IGUAL2 expr_arit
-   75         | expr_arit • DISTINTO expr_arit
-   81 expr_arit: expr_arit • '+' expr_arit
-   82          | expr_arit • '-' expr_arit
-   83          | expr_arit • '*' expr_arit
-   84          | expr_arit • '/' expr_arit
-   85          | expr_arit • DIV expr_arit
+   70 expr_log: expr_log IGUAL2 • expr_log
 
-    DIV         desplazar e ir al estado 81
-    MAYORIGUAL  desplazar e ir al estado 82
-    MENORIGUAL  desplazar e ir al estado 83
-    IGUAL2      desplazar e ir al estado 84
-    DISTINTO    desplazar e ir al estado 85
-    '<'         desplazar e ir al estado 86
-    '>'         desplazar e ir al estado 87
-    '+'         desplazar e ir al estado 88
-    '-'         desplazar e ir al estado 89
-    '*'         desplazar e ir al estado 90
-    '/'         desplazar e ir al estado 91
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    NOT         desplazar e ir al estado 44
+    TRUE        desplazar e ir al estado 45
+    FALSE       desplazar e ir al estado 46
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 49
+
+    expr_log   ir al estado 108
+    expr_arit  ir al estado 66
 
 
 Estado 73
 
-   81 expr_arit: expr_arit • '+' expr_arit
-   82          | expr_arit • '-' expr_arit
-   83          | expr_arit • '*' expr_arit
-   84          | expr_arit • '/' expr_arit
-   85          | expr_arit • DIV expr_arit
-   86          | '-' expr_arit •
+   71 expr_log: expr_log DISTINTO • expr_log
 
-    $default  reduce usando la regla 86 (expr_arit)
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    NOT         desplazar e ir al estado 44
+    TRUE        desplazar e ir al estado 45
+    FALSE       desplazar e ir al estado 46
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 49
+
+    expr_log   ir al estado 109
+    expr_arit  ir al estado 66
 
 
 Estado 74
 
-   66 expr_log: expr_log • AND expr_log
-   67         | expr_log • OR expr_log
-   69         | '(' expr_log • ')'
-   76         | expr_log • IGUAL2 expr_log
-   77         | expr_log • DISTINTO expr_log
+   18 bloqueDefiniciones: ID_GENERAL '=' expr_log $@5 • salto bloqueDefiniciones
 
-    AND       desplazar e ir al estado 76
-    OR        desplazar e ir al estado 77
-    IGUAL2    desplazar e ir al estado 78
-    DISTINTO  desplazar e ir al estado 79
-    ')'       desplazar e ir al estado 110
+    '\n'  desplazar e ir al estado 3
+
+    salto  ir al estado 110
 
 
 Estado 75
 
-   70 expr_log: expr_arit • '>' expr_arit
-   71         | expr_arit • MAYORIGUAL expr_arit
-   72         | expr_arit • '<' expr_arit
-   73         | expr_arit • MENORIGUAL expr_arit
-   74         | expr_arit • IGUAL2 expr_arit
-   75         | expr_arit • DISTINTO expr_arit
-   81 expr_arit: expr_arit • '+' expr_arit
-   82          | expr_arit • '-' expr_arit
-   83          | expr_arit • '*' expr_arit
-   84          | expr_arit • '/' expr_arit
-   85          | expr_arit • DIV expr_arit
-   87          | '(' expr_arit • ')'
+   79 expr_arit: expr_arit DIV • expr_arit
 
-    DIV         desplazar e ir al estado 81
-    MAYORIGUAL  desplazar e ir al estado 82
-    MENORIGUAL  desplazar e ir al estado 83
-    IGUAL2      desplazar e ir al estado 84
-    DISTINTO    desplazar e ir al estado 85
-    '<'         desplazar e ir al estado 86
-    '>'         desplazar e ir al estado 87
-    '+'         desplazar e ir al estado 88
-    '-'         desplazar e ir al estado 89
-    '*'         desplazar e ir al estado 90
-    '/'         desplazar e ir al estado 91
-    ')'         desplazar e ir al estado 111
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 54
+
+    expr_arit  ir al estado 111
 
 
 Estado 76
 
-   66 expr_log: expr_log AND • expr_log
+   65 expr_log: expr_arit MAYORIGUAL • expr_arit
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    NOT         desplazar e ir al estado 49
-    TRUE        desplazar e ir al estado 50
-    FALSE       desplazar e ir al estado 51
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
     '('         desplazar e ir al estado 54
 
-    expr_log   ir al estado 112
-    expr_arit  ir al estado 72
+    expr_arit  ir al estado 112
 
 
 Estado 77
 
-   67 expr_log: expr_log OR • expr_log
+   67 expr_log: expr_arit MENORIGUAL • expr_arit
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    NOT         desplazar e ir al estado 49
-    TRUE        desplazar e ir al estado 50
-    FALSE       desplazar e ir al estado 51
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
     '('         desplazar e ir al estado 54
 
-    expr_log   ir al estado 113
-    expr_arit  ir al estado 72
+    expr_arit  ir al estado 113
 
 
 Estado 78
 
-   76 expr_log: expr_log IGUAL2 • expr_log
+   68 expr_log: expr_arit IGUAL2 • expr_arit
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    NOT         desplazar e ir al estado 49
-    TRUE        desplazar e ir al estado 50
-    FALSE       desplazar e ir al estado 51
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
     '('         desplazar e ir al estado 54
 
-    expr_log   ir al estado 114
-    expr_arit  ir al estado 72
+    expr_arit  ir al estado 114
 
 
 Estado 79
 
-   77 expr_log: expr_log DISTINTO • expr_log
+   69 expr_log: expr_arit DISTINTO • expr_arit
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    NOT         desplazar e ir al estado 49
-    TRUE        desplazar e ir al estado 50
-    FALSE       desplazar e ir al estado 51
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
     '('         desplazar e ir al estado 54
 
-    expr_log   ir al estado 115
-    expr_arit  ir al estado 72
+    expr_arit  ir al estado 115
 
 
 Estado 80
 
-   23 secDefiniciones: ID_GENERAL '=' expr_log $@5 • salto secDefiniciones
+   66 expr_log: expr_arit '<' • expr_arit
 
-    '\n'  desplazar e ir al estado 4
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 54
 
-    salto  ir al estado 116
+    expr_arit  ir al estado 116
 
 
 Estado 81
 
-   85 expr_arit: expr_arit DIV • expr_arit
+   64 expr_log: expr_arit '>' • expr_arit
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 54
 
     expr_arit  ir al estado 117
 
 
 Estado 82
 
-   71 expr_log: expr_arit MAYORIGUAL • expr_arit
+   75 expr_arit: expr_arit '+' • expr_arit
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 54
 
     expr_arit  ir al estado 118
 
 
 Estado 83
 
-   73 expr_log: expr_arit MENORIGUAL • expr_arit
+   76 expr_arit: expr_arit '-' • expr_arit
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 54
 
     expr_arit  ir al estado 119
 
 
 Estado 84
 
-   74 expr_log: expr_arit IGUAL2 • expr_arit
+   77 expr_arit: expr_arit '*' • expr_arit
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 54
 
     expr_arit  ir al estado 120
 
 
 Estado 85
 
-   75 expr_log: expr_arit DISTINTO • expr_arit
+   78 expr_arit: expr_arit '/' • expr_arit
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 54
 
     expr_arit  ir al estado 121
 
 
 Estado 86
 
-   72 expr_log: expr_arit '<' • expr_arit
+   16 bloqueDefiniciones: ID_GENERAL '=' expr_arit $@4 • salto bloqueDefiniciones
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
+    '\n'  desplazar e ir al estado 3
 
-    expr_arit  ir al estado 122
+    salto  ir al estado 122
 
 
 Estado 87
 
-   70 expr_log: expr_arit '>' • expr_arit
+   75 expr_arit: expr_arit • '+' expr_arit
+   76          | expr_arit • '-' expr_arit
+   77          | expr_arit • '*' expr_arit
+   78          | expr_arit • '/' expr_arit
+   79          | expr_arit • DIV expr_arit
+   81          | '(' expr_arit • ')'
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
-
-    expr_arit  ir al estado 123
+    DIV  desplazar e ir al estado 75
+    '+'  desplazar e ir al estado 82
+    '-'  desplazar e ir al estado 83
+    '*'  desplazar e ir al estado 84
+    '/'  desplazar e ir al estado 85
+    ')'  desplazar e ir al estado 105
 
 
 Estado 88
 
-   81 expr_arit: expr_arit '+' • expr_arit
+   57 expr_cadena: expr_cadena CONCATENACION • expr_cadena
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    ID_CADENA   desplazar e ir al estado 52
+    CADENA      desplazar e ir al estado 53
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 54
 
-    expr_arit  ir al estado 124
+    expr_cadena  ir al estado 123
+    expr_arit    ir al estado 56
 
 
 Estado 89
 
-   82 expr_arit: expr_arit '-' • expr_arit
+   20 bloqueDefiniciones: ID_CADENA '=' expr_cadena $@6 • salto bloqueDefiniciones
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
+    '\n'  desplazar e ir al estado 3
 
-    expr_arit  ir al estado 125
+    salto  ir al estado 124
 
 
 Estado 90
 
-   83 expr_arit: expr_arit '*' • expr_arit
+   23 secEscena: ESCENA expr_arit ':' • $@7 salto secEscena
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
+    $default  reduce usando la regla 22 ($@7)
 
-    expr_arit  ir al estado 126
+    $@7  ir al estado 125
 
 
 Estado 91
 
-   84 expr_arit: expr_arit '/' • expr_arit
+    2 salto: salto • '\n'
+   25 secEscena: FINESCENA $@8 salto • secEscena
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
+    error         desplazar e ir al estado 12
+    DEFINICIONES  desplazar e ir al estado 13
+    ESCENA        desplazar e ir al estado 24
+    FINESCENA     desplazar e ir al estado 25
+    ID_GENERAL    desplazar e ir al estado 14
+    ID_NOMBRE     desplazar e ir al estado 26
+    ID_CADENA     desplazar e ir al estado 15
+    PAUSA         desplazar e ir al estado 27
+    MENSAJE       desplazar e ir al estado 28
+    '\n'          desplazar e ir al estado 9
 
-    expr_arit  ir al estado 127
+    $end  reduce usando la regla 11 (bloqueDefiniciones)
+    $end  [reduce usando la regla 21 (secEscena)]
+
+    bloqueDefiniciones  ir al estado 29
+    secEscena           ir al estado 126
 
 
 Estado 92
 
-   21 secDefiniciones: ID_GENERAL '=' expr_arit $@4 • salto secDefiniciones
+   27 secEscena: ID_NOMBRE ':' expr_cadena • $@9 salto secEscena
+   57 expr_cadena: expr_cadena • CONCATENACION expr_cadena
 
-    '\n'  desplazar e ir al estado 4
+    CONCATENACION  desplazar e ir al estado 88
 
-    salto  ir al estado 128
+    $default  reduce usando la regla 26 ($@9)
+
+    $@9  ir al estado 127
 
 
 Estado 93
 
-   81 expr_arit: expr_arit • '+' expr_arit
-   82          | expr_arit • '-' expr_arit
-   83          | expr_arit • '*' expr_arit
-   84          | expr_arit • '/' expr_arit
-   85          | expr_arit • DIV expr_arit
-   87          | '(' expr_arit • ')'
+   37 entonacion: DESPACIO •
 
-    DIV  desplazar e ir al estado 81
-    '+'  desplazar e ir al estado 88
-    '-'  desplazar e ir al estado 89
-    '*'  desplazar e ir al estado 90
-    '/'  desplazar e ir al estado 91
-    ')'  desplazar e ir al estado 111
+    $default  reduce usando la regla 37 (entonacion)
 
 
 Estado 94
 
-   63 expr_cadena: expr_cadena CONCATENACION • expr_cadena
+   38 entonacion: DEPRISA •
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    ID_CADENA   desplazar e ir al estado 57
-    CADENA      desplazar e ir al estado 58
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
-
-    expr_cadena  ir al estado 129
-    expr_arit    ir al estado 61
+    $default  reduce usando la regla 38 (entonacion)
 
 
 Estado 95
 
-   25 secDefiniciones: ID_CADENA '=' expr_cadena $@6 • salto secDefiniciones
+   39 entonacion: GRITANDO •
 
-    '\n'  desplazar e ir al estado 4
-
-    salto  ir al estado 130
+    $default  reduce usando la regla 39 (entonacion)
 
 
 Estado 96
 
-   29 secEscena: ESCENA expr_arit ':' • $@7 salto secEscena
+   40 entonacion: VOZ_BAJA •
 
-    $default  reduce usando la regla 28 ($@7)
-
-    $@7  ir al estado 131
+    $default  reduce usando la regla 40 (entonacion)
 
 
 Estado 97
 
-    2 salto: salto • '\n'
-   31 secEscena: FINESCENA $@8 salto • secEscena
+   29 secEscena: ID_NOMBRE '[' ']' • ':' expr_cadena $@10 salto secEscena
 
-    error       desplazar e ir al estado 28
-    ESCENA      desplazar e ir al estado 29
-    FINESCENA   desplazar e ir al estado 30
-    ID_GENERAL  desplazar e ir al estado 17
-    ID_NOMBRE   desplazar e ir al estado 31
-    ID_CADENA   desplazar e ir al estado 18
-    PAUSA       desplazar e ir al estado 32
-    MENSAJE     desplazar e ir al estado 33
-    '\n'        desplazar e ir al estado 12
-
-    $end  reduce usando la regla 18 (secDefiniciones)
-    $end  [reduce usando la regla 26 (secEscena)]
-
-    secDefiniciones  ir al estado 34
-    secEscena        ir al estado 132
+    ':'  desplazar e ir al estado 128
 
 
 Estado 98
 
-   33 secEscena: ID_NOMBRE ':' expr_cadena • $@9 salto secEscena
-   63 expr_cadena: expr_cadena • CONCATENACION expr_cadena
+   31 secEscena: ID_NOMBRE '[' entonacion • ']' ':' expr_cadena $@11 salto secEscena
+   41 entonacion: entonacion • ',' DESPACIO
+   42           | entonacion • ',' DEPRISA
+   43           | entonacion • ',' GRITANDO
+   44           | entonacion • ',' VOZ_BAJA
 
-    CONCATENACION  desplazar e ir al estado 94
-
-    $default  reduce usando la regla 32 ($@9)
-
-    $@9  ir al estado 133
+    ','  desplazar e ir al estado 129
+    ']'  desplazar e ir al estado 130
 
 
 Estado 99
 
-   43 entonacion: DESPACIO •
+   35 secEscena: PAUSA expr_arit $@13 • salto secEscena
 
-    $default  reduce usando la regla 43 (entonacion)
+    '\n'  desplazar e ir al estado 3
+
+    salto  ir al estado 131
 
 
 Estado 100
 
-   44 entonacion: DEPRISA •
+   33 secEscena: MENSAJE expr_cadena $@12 • salto secEscena
 
-    $default  reduce usando la regla 44 (entonacion)
+    '\n'  desplazar e ir al estado 3
+
+    salto  ir al estado 132
 
 
 Estado 101
 
-   45 entonacion: GRITANDO •
+   52 voz: MASCULINO •
 
-    $default  reduce usando la regla 45 (entonacion)
+    $default  reduce usando la regla 52 (voz)
 
 
 Estado 102
 
-   46 entonacion: VOZ_BAJA •
+   53 voz: FEMENINO •
 
-    $default  reduce usando la regla 46 (entonacion)
+    $default  reduce usando la regla 53 (voz)
 
 
 Estado 103
 
-   35 secEscena: ID_NOMBRE '[' ']' • ':' expr_cadena $@10 salto secEscena
+   10 bloquePersonajes: ID_NOMBRE '=' '<' idioma ',' voz • '>' salto $@2 bloquePersonajes
 
-    ':'  desplazar e ir al estado 134
+    '>'  desplazar e ir al estado 133
 
 
 Estado 104
 
-   37 secEscena: ID_NOMBRE '[' entonacion • ']' ':' expr_cadena $@11 salto secEscena
-   47 entonacion: entonacion • ',' DESPACIO
-   48           | entonacion • ',' DEPRISA
-   49           | entonacion • ',' GRITANDO
-   50           | entonacion • ',' VOZ_BAJA
+   63 expr_log: '(' expr_log ')' •
 
-    ','  desplazar e ir al estado 135
-    ']'  desplazar e ir al estado 136
+    $default  reduce usando la regla 63 (expr_log)
 
 
 Estado 105
 
-   41 secEscena: PAUSA expr_arit $@13 • salto secEscena
+   81 expr_arit: '(' expr_arit ')' •
 
-    '\n'  desplazar e ir al estado 4
-
-    salto  ir al estado 137
+    $default  reduce usando la regla 81 (expr_arit)
 
 
 Estado 106
 
-   39 secEscena: MENSAJE expr_cadena $@12 • salto secEscena
+   60 expr_log: expr_log • AND expr_log
+   60         | expr_log AND expr_log •
+   61         | expr_log • OR expr_log
+   70         | expr_log • IGUAL2 expr_log
+   71         | expr_log • DISTINTO expr_log
 
-    '\n'  desplazar e ir al estado 4
+    IGUAL2    desplazar e ir al estado 72
+    DISTINTO  desplazar e ir al estado 73
 
-    salto  ir al estado 138
+    $default  reduce usando la regla 60 (expr_log)
 
 
 Estado 107
 
-   58 voz: MASCULINO •
+   60 expr_log: expr_log • AND expr_log
+   61         | expr_log • OR expr_log
+   61         | expr_log OR expr_log •
+   70         | expr_log • IGUAL2 expr_log
+   71         | expr_log • DISTINTO expr_log
 
-    $default  reduce usando la regla 58 (voz)
+    AND       desplazar e ir al estado 70
+    IGUAL2    desplazar e ir al estado 72
+    DISTINTO  desplazar e ir al estado 73
+
+    $default  reduce usando la regla 61 (expr_log)
 
 
 Estado 108
 
-   59 voz: FEMENINO •
+   60 expr_log: expr_log • AND expr_log
+   61         | expr_log • OR expr_log
+   70         | expr_log • IGUAL2 expr_log
+   70         | expr_log IGUAL2 expr_log •
+   71         | expr_log • DISTINTO expr_log
 
-    $default  reduce usando la regla 59 (voz)
+    $default  reduce usando la regla 70 (expr_log)
 
 
 Estado 109
 
-   12 secPersonajes: ID_NOMBRE '=' '<' idioma ',' voz • '>' salto $@2 secPersonajes
+   60 expr_log: expr_log • AND expr_log
+   61         | expr_log • OR expr_log
+   70         | expr_log • IGUAL2 expr_log
+   71         | expr_log • DISTINTO expr_log
+   71         | expr_log DISTINTO expr_log •
 
-    '>'  desplazar e ir al estado 139
+    $default  reduce usando la regla 71 (expr_log)
 
 
 Estado 110
 
-   69 expr_log: '(' expr_log ')' •
+    2 salto: salto • '\n'
+   18 bloqueDefiniciones: ID_GENERAL '=' expr_log $@5 salto • bloqueDefiniciones
 
-    $default  reduce usando la regla 69 (expr_log)
+    error         desplazar e ir al estado 12
+    DEFINICIONES  desplazar e ir al estado 13
+    ID_GENERAL    desplazar e ir al estado 14
+    ID_CADENA     desplazar e ir al estado 15
+    '\n'          desplazar e ir al estado 9
+
+    $end          reduce usando la regla 11 (bloqueDefiniciones)
+    error         [reduce usando la regla 11 (bloqueDefiniciones)]
+    DEFINICIONES  [reduce usando la regla 11 (bloqueDefiniciones)]
+    ESCENA        reduce usando la regla 11 (bloqueDefiniciones)
+    FINESCENA     reduce usando la regla 11 (bloqueDefiniciones)
+    ID_GENERAL    [reduce usando la regla 11 (bloqueDefiniciones)]
+    ID_NOMBRE     reduce usando la regla 11 (bloqueDefiniciones)
+    ID_CADENA     [reduce usando la regla 11 (bloqueDefiniciones)]
+    PAUSA         reduce usando la regla 11 (bloqueDefiniciones)
+    MENSAJE       reduce usando la regla 11 (bloqueDefiniciones)
+
+    bloqueDefiniciones  ir al estado 134
 
 
 Estado 111
 
-   87 expr_arit: '(' expr_arit ')' •
+   75 expr_arit: expr_arit • '+' expr_arit
+   76          | expr_arit • '-' expr_arit
+   77          | expr_arit • '*' expr_arit
+   78          | expr_arit • '/' expr_arit
+   79          | expr_arit • DIV expr_arit
+   79          | expr_arit DIV expr_arit •
 
-    $default  reduce usando la regla 87 (expr_arit)
+    $default  reduce usando la regla 79 (expr_arit)
 
 
 Estado 112
 
-   66 expr_log: expr_log • AND expr_log
-   66         | expr_log AND expr_log •
-   67         | expr_log • OR expr_log
-   76         | expr_log • IGUAL2 expr_log
-   77         | expr_log • DISTINTO expr_log
+   65 expr_log: expr_arit MAYORIGUAL expr_arit •
+   75 expr_arit: expr_arit • '+' expr_arit
+   76          | expr_arit • '-' expr_arit
+   77          | expr_arit • '*' expr_arit
+   78          | expr_arit • '/' expr_arit
+   79          | expr_arit • DIV expr_arit
 
-    IGUAL2    desplazar e ir al estado 78
-    DISTINTO  desplazar e ir al estado 79
+    DIV  desplazar e ir al estado 75
+    '+'  desplazar e ir al estado 82
+    '-'  desplazar e ir al estado 83
+    '*'  desplazar e ir al estado 84
+    '/'  desplazar e ir al estado 85
 
-    $default  reduce usando la regla 66 (expr_log)
+    $default  reduce usando la regla 65 (expr_log)
 
 
 Estado 113
 
-   66 expr_log: expr_log • AND expr_log
-   67         | expr_log • OR expr_log
-   67         | expr_log OR expr_log •
-   76         | expr_log • IGUAL2 expr_log
-   77         | expr_log • DISTINTO expr_log
+   67 expr_log: expr_arit MENORIGUAL expr_arit •
+   75 expr_arit: expr_arit • '+' expr_arit
+   76          | expr_arit • '-' expr_arit
+   77          | expr_arit • '*' expr_arit
+   78          | expr_arit • '/' expr_arit
+   79          | expr_arit • DIV expr_arit
 
-    AND       desplazar e ir al estado 76
-    IGUAL2    desplazar e ir al estado 78
-    DISTINTO  desplazar e ir al estado 79
+    DIV  desplazar e ir al estado 75
+    '+'  desplazar e ir al estado 82
+    '-'  desplazar e ir al estado 83
+    '*'  desplazar e ir al estado 84
+    '/'  desplazar e ir al estado 85
 
     $default  reduce usando la regla 67 (expr_log)
 
 
 Estado 114
 
-   66 expr_log: expr_log • AND expr_log
-   67         | expr_log • OR expr_log
-   76         | expr_log • IGUAL2 expr_log
-   76         | expr_log IGUAL2 expr_log •
-   77         | expr_log • DISTINTO expr_log
+   68 expr_log: expr_arit IGUAL2 expr_arit •
+   75 expr_arit: expr_arit • '+' expr_arit
+   76          | expr_arit • '-' expr_arit
+   77          | expr_arit • '*' expr_arit
+   78          | expr_arit • '/' expr_arit
+   79          | expr_arit • DIV expr_arit
 
-    $default  reduce usando la regla 76 (expr_log)
+    DIV  desplazar e ir al estado 75
+    '+'  desplazar e ir al estado 82
+    '-'  desplazar e ir al estado 83
+    '*'  desplazar e ir al estado 84
+    '/'  desplazar e ir al estado 85
+
+    $default  reduce usando la regla 68 (expr_log)
 
 
 Estado 115
 
-   66 expr_log: expr_log • AND expr_log
-   67         | expr_log • OR expr_log
-   76         | expr_log • IGUAL2 expr_log
-   77         | expr_log • DISTINTO expr_log
-   77         | expr_log DISTINTO expr_log •
+   69 expr_log: expr_arit DISTINTO expr_arit •
+   75 expr_arit: expr_arit • '+' expr_arit
+   76          | expr_arit • '-' expr_arit
+   77          | expr_arit • '*' expr_arit
+   78          | expr_arit • '/' expr_arit
+   79          | expr_arit • DIV expr_arit
 
-    $default  reduce usando la regla 77 (expr_log)
+    DIV  desplazar e ir al estado 75
+    '+'  desplazar e ir al estado 82
+    '-'  desplazar e ir al estado 83
+    '*'  desplazar e ir al estado 84
+    '/'  desplazar e ir al estado 85
+
+    $default  reduce usando la regla 69 (expr_log)
 
 
 Estado 116
 
-    2 salto: salto • '\n'
-   23 secDefiniciones: ID_GENERAL '=' expr_log $@5 salto • secDefiniciones
+   66 expr_log: expr_arit '<' expr_arit •
+   75 expr_arit: expr_arit • '+' expr_arit
+   76          | expr_arit • '-' expr_arit
+   77          | expr_arit • '*' expr_arit
+   78          | expr_arit • '/' expr_arit
+   79          | expr_arit • DIV expr_arit
 
-    error       desplazar e ir al estado 15
-    ID_GENERAL  desplazar e ir al estado 17
-    ID_CADENA   desplazar e ir al estado 18
-    '\n'        desplazar e ir al estado 12
+    DIV  desplazar e ir al estado 75
+    '+'  desplazar e ir al estado 82
+    '-'  desplazar e ir al estado 83
+    '*'  desplazar e ir al estado 84
+    '/'  desplazar e ir al estado 85
 
-    $end        reduce usando la regla 18 (secDefiniciones)
-    error       [reduce usando la regla 18 (secDefiniciones)]
-    ESCENA      reduce usando la regla 18 (secDefiniciones)
-    FINESCENA   reduce usando la regla 18 (secDefiniciones)
-    ID_GENERAL  [reduce usando la regla 18 (secDefiniciones)]
-    ID_NOMBRE   reduce usando la regla 18 (secDefiniciones)
-    ID_CADENA   [reduce usando la regla 18 (secDefiniciones)]
-    PAUSA       reduce usando la regla 18 (secDefiniciones)
-    MENSAJE     reduce usando la regla 18 (secDefiniciones)
-
-    secDefiniciones  ir al estado 140
+    $default  reduce usando la regla 66 (expr_log)
 
 
 Estado 117
 
-   81 expr_arit: expr_arit • '+' expr_arit
-   82          | expr_arit • '-' expr_arit
-   83          | expr_arit • '*' expr_arit
-   84          | expr_arit • '/' expr_arit
-   85          | expr_arit • DIV expr_arit
-   85          | expr_arit DIV expr_arit •
+   64 expr_log: expr_arit '>' expr_arit •
+   75 expr_arit: expr_arit • '+' expr_arit
+   76          | expr_arit • '-' expr_arit
+   77          | expr_arit • '*' expr_arit
+   78          | expr_arit • '/' expr_arit
+   79          | expr_arit • DIV expr_arit
 
-    $default  reduce usando la regla 85 (expr_arit)
+    DIV  desplazar e ir al estado 75
+    '+'  desplazar e ir al estado 82
+    '-'  desplazar e ir al estado 83
+    '*'  desplazar e ir al estado 84
+    '/'  desplazar e ir al estado 85
+
+    $default  reduce usando la regla 64 (expr_log)
 
 
 Estado 118
 
-   71 expr_log: expr_arit MAYORIGUAL expr_arit •
-   81 expr_arit: expr_arit • '+' expr_arit
-   82          | expr_arit • '-' expr_arit
-   83          | expr_arit • '*' expr_arit
-   84          | expr_arit • '/' expr_arit
-   85          | expr_arit • DIV expr_arit
+   75 expr_arit: expr_arit • '+' expr_arit
+   75          | expr_arit '+' expr_arit •
+   76          | expr_arit • '-' expr_arit
+   77          | expr_arit • '*' expr_arit
+   78          | expr_arit • '/' expr_arit
+   79          | expr_arit • DIV expr_arit
 
-    DIV  desplazar e ir al estado 81
-    '+'  desplazar e ir al estado 88
-    '-'  desplazar e ir al estado 89
-    '*'  desplazar e ir al estado 90
-    '/'  desplazar e ir al estado 91
+    DIV  desplazar e ir al estado 75
+    '*'  desplazar e ir al estado 84
+    '/'  desplazar e ir al estado 85
 
-    $default  reduce usando la regla 71 (expr_log)
+    $default  reduce usando la regla 75 (expr_arit)
 
 
 Estado 119
 
-   73 expr_log: expr_arit MENORIGUAL expr_arit •
-   81 expr_arit: expr_arit • '+' expr_arit
-   82          | expr_arit • '-' expr_arit
-   83          | expr_arit • '*' expr_arit
-   84          | expr_arit • '/' expr_arit
-   85          | expr_arit • DIV expr_arit
+   75 expr_arit: expr_arit • '+' expr_arit
+   76          | expr_arit • '-' expr_arit
+   76          | expr_arit '-' expr_arit •
+   77          | expr_arit • '*' expr_arit
+   78          | expr_arit • '/' expr_arit
+   79          | expr_arit • DIV expr_arit
 
-    DIV  desplazar e ir al estado 81
-    '+'  desplazar e ir al estado 88
-    '-'  desplazar e ir al estado 89
-    '*'  desplazar e ir al estado 90
-    '/'  desplazar e ir al estado 91
+    DIV  desplazar e ir al estado 75
+    '*'  desplazar e ir al estado 84
+    '/'  desplazar e ir al estado 85
 
-    $default  reduce usando la regla 73 (expr_log)
+    $default  reduce usando la regla 76 (expr_arit)
 
 
 Estado 120
 
-   74 expr_log: expr_arit IGUAL2 expr_arit •
-   81 expr_arit: expr_arit • '+' expr_arit
-   82          | expr_arit • '-' expr_arit
-   83          | expr_arit • '*' expr_arit
-   84          | expr_arit • '/' expr_arit
-   85          | expr_arit • DIV expr_arit
+   75 expr_arit: expr_arit • '+' expr_arit
+   76          | expr_arit • '-' expr_arit
+   77          | expr_arit • '*' expr_arit
+   77          | expr_arit '*' expr_arit •
+   78          | expr_arit • '/' expr_arit
+   79          | expr_arit • DIV expr_arit
 
-    DIV  desplazar e ir al estado 81
-    '+'  desplazar e ir al estado 88
-    '-'  desplazar e ir al estado 89
-    '*'  desplazar e ir al estado 90
-    '/'  desplazar e ir al estado 91
-
-    $default  reduce usando la regla 74 (expr_log)
+    $default  reduce usando la regla 77 (expr_arit)
 
 
 Estado 121
 
-   75 expr_log: expr_arit DISTINTO expr_arit •
-   81 expr_arit: expr_arit • '+' expr_arit
-   82          | expr_arit • '-' expr_arit
-   83          | expr_arit • '*' expr_arit
-   84          | expr_arit • '/' expr_arit
-   85          | expr_arit • DIV expr_arit
+   75 expr_arit: expr_arit • '+' expr_arit
+   76          | expr_arit • '-' expr_arit
+   77          | expr_arit • '*' expr_arit
+   78          | expr_arit • '/' expr_arit
+   78          | expr_arit '/' expr_arit •
+   79          | expr_arit • DIV expr_arit
 
-    DIV  desplazar e ir al estado 81
-    '+'  desplazar e ir al estado 88
-    '-'  desplazar e ir al estado 89
-    '*'  desplazar e ir al estado 90
-    '/'  desplazar e ir al estado 91
-
-    $default  reduce usando la regla 75 (expr_log)
+    $default  reduce usando la regla 78 (expr_arit)
 
 
 Estado 122
 
-   72 expr_log: expr_arit '<' expr_arit •
-   81 expr_arit: expr_arit • '+' expr_arit
-   82          | expr_arit • '-' expr_arit
-   83          | expr_arit • '*' expr_arit
-   84          | expr_arit • '/' expr_arit
-   85          | expr_arit • DIV expr_arit
+    2 salto: salto • '\n'
+   16 bloqueDefiniciones: ID_GENERAL '=' expr_arit $@4 salto • bloqueDefiniciones
 
-    DIV  desplazar e ir al estado 81
-    '+'  desplazar e ir al estado 88
-    '-'  desplazar e ir al estado 89
-    '*'  desplazar e ir al estado 90
-    '/'  desplazar e ir al estado 91
+    error         desplazar e ir al estado 12
+    DEFINICIONES  desplazar e ir al estado 13
+    ID_GENERAL    desplazar e ir al estado 14
+    ID_CADENA     desplazar e ir al estado 15
+    '\n'          desplazar e ir al estado 9
 
-    $default  reduce usando la regla 72 (expr_log)
+    $end          reduce usando la regla 11 (bloqueDefiniciones)
+    error         [reduce usando la regla 11 (bloqueDefiniciones)]
+    DEFINICIONES  [reduce usando la regla 11 (bloqueDefiniciones)]
+    ESCENA        reduce usando la regla 11 (bloqueDefiniciones)
+    FINESCENA     reduce usando la regla 11 (bloqueDefiniciones)
+    ID_GENERAL    [reduce usando la regla 11 (bloqueDefiniciones)]
+    ID_NOMBRE     reduce usando la regla 11 (bloqueDefiniciones)
+    ID_CADENA     [reduce usando la regla 11 (bloqueDefiniciones)]
+    PAUSA         reduce usando la regla 11 (bloqueDefiniciones)
+    MENSAJE       reduce usando la regla 11 (bloqueDefiniciones)
+
+    bloqueDefiniciones  ir al estado 135
 
 
 Estado 123
 
-   70 expr_log: expr_arit '>' expr_arit •
-   81 expr_arit: expr_arit • '+' expr_arit
-   82          | expr_arit • '-' expr_arit
-   83          | expr_arit • '*' expr_arit
-   84          | expr_arit • '/' expr_arit
-   85          | expr_arit • DIV expr_arit
+   57 expr_cadena: expr_cadena • CONCATENACION expr_cadena
+   57            | expr_cadena CONCATENACION expr_cadena •
 
-    DIV  desplazar e ir al estado 81
-    '+'  desplazar e ir al estado 88
-    '-'  desplazar e ir al estado 89
-    '*'  desplazar e ir al estado 90
-    '/'  desplazar e ir al estado 91
-
-    $default  reduce usando la regla 70 (expr_log)
+    $default  reduce usando la regla 57 (expr_cadena)
 
 
 Estado 124
 
-   81 expr_arit: expr_arit • '+' expr_arit
-   81          | expr_arit '+' expr_arit •
-   82          | expr_arit • '-' expr_arit
-   83          | expr_arit • '*' expr_arit
-   84          | expr_arit • '/' expr_arit
-   85          | expr_arit • DIV expr_arit
+    2 salto: salto • '\n'
+   20 bloqueDefiniciones: ID_CADENA '=' expr_cadena $@6 salto • bloqueDefiniciones
 
-    DIV  desplazar e ir al estado 81
-    '*'  desplazar e ir al estado 90
-    '/'  desplazar e ir al estado 91
+    error         desplazar e ir al estado 12
+    DEFINICIONES  desplazar e ir al estado 13
+    ID_GENERAL    desplazar e ir al estado 14
+    ID_CADENA     desplazar e ir al estado 15
+    '\n'          desplazar e ir al estado 9
 
-    $default  reduce usando la regla 81 (expr_arit)
+    $end          reduce usando la regla 11 (bloqueDefiniciones)
+    error         [reduce usando la regla 11 (bloqueDefiniciones)]
+    DEFINICIONES  [reduce usando la regla 11 (bloqueDefiniciones)]
+    ESCENA        reduce usando la regla 11 (bloqueDefiniciones)
+    FINESCENA     reduce usando la regla 11 (bloqueDefiniciones)
+    ID_GENERAL    [reduce usando la regla 11 (bloqueDefiniciones)]
+    ID_NOMBRE     reduce usando la regla 11 (bloqueDefiniciones)
+    ID_CADENA     [reduce usando la regla 11 (bloqueDefiniciones)]
+    PAUSA         reduce usando la regla 11 (bloqueDefiniciones)
+    MENSAJE       reduce usando la regla 11 (bloqueDefiniciones)
+
+    bloqueDefiniciones  ir al estado 136
 
 
 Estado 125
 
-   81 expr_arit: expr_arit • '+' expr_arit
-   82          | expr_arit • '-' expr_arit
-   82          | expr_arit '-' expr_arit •
-   83          | expr_arit • '*' expr_arit
-   84          | expr_arit • '/' expr_arit
-   85          | expr_arit • DIV expr_arit
+   23 secEscena: ESCENA expr_arit ':' $@7 • salto secEscena
 
-    DIV  desplazar e ir al estado 81
-    '*'  desplazar e ir al estado 90
-    '/'  desplazar e ir al estado 91
+    '\n'  desplazar e ir al estado 3
 
-    $default  reduce usando la regla 82 (expr_arit)
+    salto  ir al estado 137
 
 
 Estado 126
 
-   81 expr_arit: expr_arit • '+' expr_arit
-   82          | expr_arit • '-' expr_arit
-   83          | expr_arit • '*' expr_arit
-   83          | expr_arit '*' expr_arit •
-   84          | expr_arit • '/' expr_arit
-   85          | expr_arit • DIV expr_arit
+   25 secEscena: FINESCENA $@8 salto secEscena •
 
-    $default  reduce usando la regla 83 (expr_arit)
+    $default  reduce usando la regla 25 (secEscena)
 
 
 Estado 127
 
-   81 expr_arit: expr_arit • '+' expr_arit
-   82          | expr_arit • '-' expr_arit
-   83          | expr_arit • '*' expr_arit
-   84          | expr_arit • '/' expr_arit
-   84          | expr_arit '/' expr_arit •
-   85          | expr_arit • DIV expr_arit
+   27 secEscena: ID_NOMBRE ':' expr_cadena $@9 • salto secEscena
 
-    $default  reduce usando la regla 84 (expr_arit)
+    '\n'  desplazar e ir al estado 3
+
+    salto  ir al estado 138
 
 
 Estado 128
 
-    2 salto: salto • '\n'
-   21 secDefiniciones: ID_GENERAL '=' expr_arit $@4 salto • secDefiniciones
+   29 secEscena: ID_NOMBRE '[' ']' ':' • expr_cadena $@10 salto secEscena
 
-    error       desplazar e ir al estado 15
-    ID_GENERAL  desplazar e ir al estado 17
-    ID_CADENA   desplazar e ir al estado 18
-    '\n'        desplazar e ir al estado 12
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    ID_CADENA   desplazar e ir al estado 52
+    CADENA      desplazar e ir al estado 53
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 54
 
-    $end        reduce usando la regla 18 (secDefiniciones)
-    error       [reduce usando la regla 18 (secDefiniciones)]
-    ESCENA      reduce usando la regla 18 (secDefiniciones)
-    FINESCENA   reduce usando la regla 18 (secDefiniciones)
-    ID_GENERAL  [reduce usando la regla 18 (secDefiniciones)]
-    ID_NOMBRE   reduce usando la regla 18 (secDefiniciones)
-    ID_CADENA   [reduce usando la regla 18 (secDefiniciones)]
-    PAUSA       reduce usando la regla 18 (secDefiniciones)
-    MENSAJE     reduce usando la regla 18 (secDefiniciones)
-
-    secDefiniciones  ir al estado 141
+    expr_cadena  ir al estado 139
+    expr_arit    ir al estado 56
 
 
 Estado 129
 
-   63 expr_cadena: expr_cadena • CONCATENACION expr_cadena
-   63            | expr_cadena CONCATENACION expr_cadena •
+   41 entonacion: entonacion ',' • DESPACIO
+   42           | entonacion ',' • DEPRISA
+   43           | entonacion ',' • GRITANDO
+   44           | entonacion ',' • VOZ_BAJA
 
-    $default  reduce usando la regla 63 (expr_cadena)
+    DESPACIO  desplazar e ir al estado 140
+    DEPRISA   desplazar e ir al estado 141
+    GRITANDO  desplazar e ir al estado 142
+    VOZ_BAJA  desplazar e ir al estado 143
 
 
 Estado 130
 
-    2 salto: salto • '\n'
-   25 secDefiniciones: ID_CADENA '=' expr_cadena $@6 salto • secDefiniciones
+   31 secEscena: ID_NOMBRE '[' entonacion ']' • ':' expr_cadena $@11 salto secEscena
 
-    error       desplazar e ir al estado 15
-    ID_GENERAL  desplazar e ir al estado 17
-    ID_CADENA   desplazar e ir al estado 18
-    '\n'        desplazar e ir al estado 12
-
-    $end        reduce usando la regla 18 (secDefiniciones)
-    error       [reduce usando la regla 18 (secDefiniciones)]
-    ESCENA      reduce usando la regla 18 (secDefiniciones)
-    FINESCENA   reduce usando la regla 18 (secDefiniciones)
-    ID_GENERAL  [reduce usando la regla 18 (secDefiniciones)]
-    ID_NOMBRE   reduce usando la regla 18 (secDefiniciones)
-    ID_CADENA   [reduce usando la regla 18 (secDefiniciones)]
-    PAUSA       reduce usando la regla 18 (secDefiniciones)
-    MENSAJE     reduce usando la regla 18 (secDefiniciones)
-
-    secDefiniciones  ir al estado 142
+    ':'  desplazar e ir al estado 144
 
 
 Estado 131
 
-   29 secEscena: ESCENA expr_arit ':' $@7 • salto secEscena
+    2 salto: salto • '\n'
+   35 secEscena: PAUSA expr_arit $@13 salto • secEscena
 
-    '\n'  desplazar e ir al estado 4
+    error         desplazar e ir al estado 12
+    DEFINICIONES  desplazar e ir al estado 13
+    ESCENA        desplazar e ir al estado 24
+    FINESCENA     desplazar e ir al estado 25
+    ID_GENERAL    desplazar e ir al estado 14
+    ID_NOMBRE     desplazar e ir al estado 26
+    ID_CADENA     desplazar e ir al estado 15
+    PAUSA         desplazar e ir al estado 27
+    MENSAJE       desplazar e ir al estado 28
+    '\n'          desplazar e ir al estado 9
 
-    salto  ir al estado 143
+    $end  reduce usando la regla 11 (bloqueDefiniciones)
+    $end  [reduce usando la regla 21 (secEscena)]
+
+    bloqueDefiniciones  ir al estado 29
+    secEscena           ir al estado 145
 
 
 Estado 132
 
-   31 secEscena: FINESCENA $@8 salto secEscena •
+    2 salto: salto • '\n'
+   33 secEscena: MENSAJE expr_cadena $@12 salto • secEscena
 
-    $default  reduce usando la regla 31 (secEscena)
+    error         desplazar e ir al estado 12
+    DEFINICIONES  desplazar e ir al estado 13
+    ESCENA        desplazar e ir al estado 24
+    FINESCENA     desplazar e ir al estado 25
+    ID_GENERAL    desplazar e ir al estado 14
+    ID_NOMBRE     desplazar e ir al estado 26
+    ID_CADENA     desplazar e ir al estado 15
+    PAUSA         desplazar e ir al estado 27
+    MENSAJE       desplazar e ir al estado 28
+    '\n'          desplazar e ir al estado 9
+
+    $end  reduce usando la regla 11 (bloqueDefiniciones)
+    $end  [reduce usando la regla 21 (secEscena)]
+
+    bloqueDefiniciones  ir al estado 29
+    secEscena           ir al estado 146
 
 
 Estado 133
 
-   33 secEscena: ID_NOMBRE ':' expr_cadena $@9 • salto secEscena
+   10 bloquePersonajes: ID_NOMBRE '=' '<' idioma ',' voz '>' • salto $@2 bloquePersonajes
 
-    '\n'  desplazar e ir al estado 4
+    '\n'  desplazar e ir al estado 3
 
-    salto  ir al estado 144
+    salto  ir al estado 147
 
 
 Estado 134
 
-   35 secEscena: ID_NOMBRE '[' ']' ':' • expr_cadena $@10 salto secEscena
+   18 bloqueDefiniciones: ID_GENERAL '=' expr_log $@5 salto bloqueDefiniciones •
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    ID_CADENA   desplazar e ir al estado 57
-    CADENA      desplazar e ir al estado 58
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
-
-    expr_cadena  ir al estado 145
-    expr_arit    ir al estado 61
+    $default  reduce usando la regla 18 (bloqueDefiniciones)
 
 
 Estado 135
 
-   47 entonacion: entonacion ',' • DESPACIO
-   48           | entonacion ',' • DEPRISA
-   49           | entonacion ',' • GRITANDO
-   50           | entonacion ',' • VOZ_BAJA
+   16 bloqueDefiniciones: ID_GENERAL '=' expr_arit $@4 salto bloqueDefiniciones •
 
-    DESPACIO  desplazar e ir al estado 146
-    DEPRISA   desplazar e ir al estado 147
-    GRITANDO  desplazar e ir al estado 148
-    VOZ_BAJA  desplazar e ir al estado 149
+    $default  reduce usando la regla 16 (bloqueDefiniciones)
 
 
 Estado 136
 
-   37 secEscena: ID_NOMBRE '[' entonacion ']' • ':' expr_cadena $@11 salto secEscena
+   20 bloqueDefiniciones: ID_CADENA '=' expr_cadena $@6 salto bloqueDefiniciones •
 
-    ':'  desplazar e ir al estado 150
+    $default  reduce usando la regla 20 (bloqueDefiniciones)
 
 
 Estado 137
 
     2 salto: salto • '\n'
-   41 secEscena: PAUSA expr_arit $@13 salto • secEscena
+   23 secEscena: ESCENA expr_arit ':' $@7 salto • secEscena
 
-    error       desplazar e ir al estado 28
-    ESCENA      desplazar e ir al estado 29
-    FINESCENA   desplazar e ir al estado 30
-    ID_GENERAL  desplazar e ir al estado 17
-    ID_NOMBRE   desplazar e ir al estado 31
-    ID_CADENA   desplazar e ir al estado 18
-    PAUSA       desplazar e ir al estado 32
-    MENSAJE     desplazar e ir al estado 33
-    '\n'        desplazar e ir al estado 12
+    error         desplazar e ir al estado 12
+    DEFINICIONES  desplazar e ir al estado 13
+    ESCENA        desplazar e ir al estado 24
+    FINESCENA     desplazar e ir al estado 25
+    ID_GENERAL    desplazar e ir al estado 14
+    ID_NOMBRE     desplazar e ir al estado 26
+    ID_CADENA     desplazar e ir al estado 15
+    PAUSA         desplazar e ir al estado 27
+    MENSAJE       desplazar e ir al estado 28
+    '\n'          desplazar e ir al estado 9
 
-    $end  reduce usando la regla 18 (secDefiniciones)
-    $end  [reduce usando la regla 26 (secEscena)]
+    $end  reduce usando la regla 11 (bloqueDefiniciones)
+    $end  [reduce usando la regla 21 (secEscena)]
 
-    secDefiniciones  ir al estado 34
-    secEscena        ir al estado 151
+    bloqueDefiniciones  ir al estado 29
+    secEscena           ir al estado 148
 
 
 Estado 138
 
     2 salto: salto • '\n'
-   39 secEscena: MENSAJE expr_cadena $@12 salto • secEscena
+   27 secEscena: ID_NOMBRE ':' expr_cadena $@9 salto • secEscena
 
-    error       desplazar e ir al estado 28
-    ESCENA      desplazar e ir al estado 29
-    FINESCENA   desplazar e ir al estado 30
-    ID_GENERAL  desplazar e ir al estado 17
-    ID_NOMBRE   desplazar e ir al estado 31
-    ID_CADENA   desplazar e ir al estado 18
-    PAUSA       desplazar e ir al estado 32
-    MENSAJE     desplazar e ir al estado 33
-    '\n'        desplazar e ir al estado 12
+    error         desplazar e ir al estado 12
+    DEFINICIONES  desplazar e ir al estado 13
+    ESCENA        desplazar e ir al estado 24
+    FINESCENA     desplazar e ir al estado 25
+    ID_GENERAL    desplazar e ir al estado 14
+    ID_NOMBRE     desplazar e ir al estado 26
+    ID_CADENA     desplazar e ir al estado 15
+    PAUSA         desplazar e ir al estado 27
+    MENSAJE       desplazar e ir al estado 28
+    '\n'          desplazar e ir al estado 9
 
-    $end  reduce usando la regla 18 (secDefiniciones)
-    $end  [reduce usando la regla 26 (secEscena)]
+    $end  reduce usando la regla 11 (bloqueDefiniciones)
+    $end  [reduce usando la regla 21 (secEscena)]
 
-    secDefiniciones  ir al estado 34
-    secEscena        ir al estado 152
+    bloqueDefiniciones  ir al estado 29
+    secEscena           ir al estado 149
 
 
 Estado 139
 
-   12 secPersonajes: ID_NOMBRE '=' '<' idioma ',' voz '>' • salto $@2 secPersonajes
+   29 secEscena: ID_NOMBRE '[' ']' ':' expr_cadena • $@10 salto secEscena
+   57 expr_cadena: expr_cadena • CONCATENACION expr_cadena
 
-    '\n'  desplazar e ir al estado 4
+    CONCATENACION  desplazar e ir al estado 88
 
-    salto  ir al estado 153
+    $default  reduce usando la regla 28 ($@10)
+
+    $@10  ir al estado 150
 
 
 Estado 140
 
-   23 secDefiniciones: ID_GENERAL '=' expr_log $@5 salto secDefiniciones •
+   41 entonacion: entonacion ',' DESPACIO •
 
-    $default  reduce usando la regla 23 (secDefiniciones)
+    $default  reduce usando la regla 41 (entonacion)
 
 
 Estado 141
 
-   21 secDefiniciones: ID_GENERAL '=' expr_arit $@4 salto secDefiniciones •
+   42 entonacion: entonacion ',' DEPRISA •
 
-    $default  reduce usando la regla 21 (secDefiniciones)
+    $default  reduce usando la regla 42 (entonacion)
 
 
 Estado 142
 
-   25 secDefiniciones: ID_CADENA '=' expr_cadena $@6 salto secDefiniciones •
+   43 entonacion: entonacion ',' GRITANDO •
 
-    $default  reduce usando la regla 25 (secDefiniciones)
+    $default  reduce usando la regla 43 (entonacion)
 
 
 Estado 143
 
-    2 salto: salto • '\n'
-   29 secEscena: ESCENA expr_arit ':' $@7 salto • secEscena
+   44 entonacion: entonacion ',' VOZ_BAJA •
 
-    error       desplazar e ir al estado 28
-    ESCENA      desplazar e ir al estado 29
-    FINESCENA   desplazar e ir al estado 30
-    ID_GENERAL  desplazar e ir al estado 17
-    ID_NOMBRE   desplazar e ir al estado 31
-    ID_CADENA   desplazar e ir al estado 18
-    PAUSA       desplazar e ir al estado 32
-    MENSAJE     desplazar e ir al estado 33
-    '\n'        desplazar e ir al estado 12
-
-    $end  reduce usando la regla 18 (secDefiniciones)
-    $end  [reduce usando la regla 26 (secEscena)]
-
-    secDefiniciones  ir al estado 34
-    secEscena        ir al estado 154
+    $default  reduce usando la regla 44 (entonacion)
 
 
 Estado 144
 
-    2 salto: salto • '\n'
-   33 secEscena: ID_NOMBRE ':' expr_cadena $@9 salto • secEscena
+   31 secEscena: ID_NOMBRE '[' entonacion ']' ':' • expr_cadena $@11 salto secEscena
 
-    error       desplazar e ir al estado 28
-    ESCENA      desplazar e ir al estado 29
-    FINESCENA   desplazar e ir al estado 30
-    ID_GENERAL  desplazar e ir al estado 17
-    ID_NOMBRE   desplazar e ir al estado 31
-    ID_CADENA   desplazar e ir al estado 18
-    PAUSA       desplazar e ir al estado 32
-    MENSAJE     desplazar e ir al estado 33
-    '\n'        desplazar e ir al estado 12
+    NUMERO      desplazar e ir al estado 42
+    REAL        desplazar e ir al estado 43
+    ID_GENERAL  desplazar e ir al estado 47
+    ID_CADENA   desplazar e ir al estado 52
+    CADENA      desplazar e ir al estado 53
+    '-'         desplazar e ir al estado 48
+    '('         desplazar e ir al estado 54
 
-    $end  reduce usando la regla 18 (secDefiniciones)
-    $end  [reduce usando la regla 26 (secEscena)]
-
-    secDefiniciones  ir al estado 34
-    secEscena        ir al estado 155
+    expr_cadena  ir al estado 151
+    expr_arit    ir al estado 56
 
 
 Estado 145
 
-   35 secEscena: ID_NOMBRE '[' ']' ':' expr_cadena • $@10 salto secEscena
-   63 expr_cadena: expr_cadena • CONCATENACION expr_cadena
+   35 secEscena: PAUSA expr_arit $@13 salto secEscena •
 
-    CONCATENACION  desplazar e ir al estado 94
-
-    $default  reduce usando la regla 34 ($@10)
-
-    $@10  ir al estado 156
+    $default  reduce usando la regla 35 (secEscena)
 
 
 Estado 146
 
-   47 entonacion: entonacion ',' DESPACIO •
+   33 secEscena: MENSAJE expr_cadena $@12 salto secEscena •
 
-    $default  reduce usando la regla 47 (entonacion)
+    $default  reduce usando la regla 33 (secEscena)
 
 
 Estado 147
 
-   48 entonacion: entonacion ',' DEPRISA •
+    2 salto: salto • '\n'
+   10 bloquePersonajes: ID_NOMBRE '=' '<' idioma ',' voz '>' salto • $@2 bloquePersonajes
 
-    $default  reduce usando la regla 48 (entonacion)
+    '\n'  desplazar e ir al estado 9
+
+    $default  reduce usando la regla 9 ($@2)
+
+    $@2  ir al estado 152
 
 
 Estado 148
 
-   49 entonacion: entonacion ',' GRITANDO •
+   23 secEscena: ESCENA expr_arit ':' $@7 salto secEscena •
 
-    $default  reduce usando la regla 49 (entonacion)
+    $default  reduce usando la regla 23 (secEscena)
 
 
 Estado 149
 
-   50 entonacion: entonacion ',' VOZ_BAJA •
+   27 secEscena: ID_NOMBRE ':' expr_cadena $@9 salto secEscena •
 
-    $default  reduce usando la regla 50 (entonacion)
+    $default  reduce usando la regla 27 (secEscena)
 
 
 Estado 150
 
-   37 secEscena: ID_NOMBRE '[' entonacion ']' ':' • expr_cadena $@11 salto secEscena
+   29 secEscena: ID_NOMBRE '[' ']' ':' expr_cadena $@10 • salto secEscena
 
-    NUMERO      desplazar e ir al estado 47
-    REAL        desplazar e ir al estado 48
-    ID_GENERAL  desplazar e ir al estado 52
-    ID_CADENA   desplazar e ir al estado 57
-    CADENA      desplazar e ir al estado 58
-    '-'         desplazar e ir al estado 53
-    '('         desplazar e ir al estado 59
+    '\n'  desplazar e ir al estado 3
 
-    expr_cadena  ir al estado 157
-    expr_arit    ir al estado 61
+    salto  ir al estado 153
 
 
 Estado 151
 
-   41 secEscena: PAUSA expr_arit $@13 salto secEscena •
+   31 secEscena: ID_NOMBRE '[' entonacion ']' ':' expr_cadena • $@11 salto secEscena
+   57 expr_cadena: expr_cadena • CONCATENACION expr_cadena
 
-    $default  reduce usando la regla 41 (secEscena)
+    CONCATENACION  desplazar e ir al estado 88
+
+    $default  reduce usando la regla 30 ($@11)
+
+    $@11  ir al estado 154
 
 
 Estado 152
 
-   39 secEscena: MENSAJE expr_cadena $@12 salto secEscena •
+   10 bloquePersonajes: ID_NOMBRE '=' '<' idioma ',' voz '>' salto $@2 • bloquePersonajes
 
-    $default  reduce usando la regla 39 (secEscena)
+    PERSONAJES  desplazar e ir al estado 1
+    ID_NOMBRE   desplazar e ir al estado 2
+
+    ID_NOMBRE  [reduce usando la regla 6 (bloquePersonajes)]
+    $default   reduce usando la regla 6 (bloquePersonajes)
+
+    bloquePersonajes  ir al estado 155
 
 
 Estado 153
 
     2 salto: salto • '\n'
-   12 secPersonajes: ID_NOMBRE '=' '<' idioma ',' voz '>' salto • $@2 secPersonajes
+   29 secEscena: ID_NOMBRE '[' ']' ':' expr_cadena $@10 salto • secEscena
 
-    '\n'  desplazar e ir al estado 12
+    error         desplazar e ir al estado 12
+    DEFINICIONES  desplazar e ir al estado 13
+    ESCENA        desplazar e ir al estado 24
+    FINESCENA     desplazar e ir al estado 25
+    ID_GENERAL    desplazar e ir al estado 14
+    ID_NOMBRE     desplazar e ir al estado 26
+    ID_CADENA     desplazar e ir al estado 15
+    PAUSA         desplazar e ir al estado 27
+    MENSAJE       desplazar e ir al estado 28
+    '\n'          desplazar e ir al estado 9
 
-    $default  reduce usando la regla 11 ($@2)
+    $end  reduce usando la regla 11 (bloqueDefiniciones)
+    $end  [reduce usando la regla 21 (secEscena)]
 
-    $@2  ir al estado 158
+    bloqueDefiniciones  ir al estado 29
+    secEscena           ir al estado 156
 
 
 Estado 154
 
-   29 secEscena: ESCENA expr_arit ':' $@7 salto secEscena •
+   31 secEscena: ID_NOMBRE '[' entonacion ']' ':' expr_cadena $@11 • salto secEscena
 
-    $default  reduce usando la regla 29 (secEscena)
+    '\n'  desplazar e ir al estado 3
+
+    salto  ir al estado 157
 
 
 Estado 155
 
-   33 secEscena: ID_NOMBRE ':' expr_cadena $@9 salto secEscena •
+   10 bloquePersonajes: ID_NOMBRE '=' '<' idioma ',' voz '>' salto $@2 bloquePersonajes •
 
-    $default  reduce usando la regla 33 (secEscena)
+    $default  reduce usando la regla 10 (bloquePersonajes)
 
 
 Estado 156
 
-   35 secEscena: ID_NOMBRE '[' ']' ':' expr_cadena $@10 • salto secEscena
+   29 secEscena: ID_NOMBRE '[' ']' ':' expr_cadena $@10 salto secEscena •
 
-    '\n'  desplazar e ir al estado 4
-
-    salto  ir al estado 159
+    $default  reduce usando la regla 29 (secEscena)
 
 
 Estado 157
 
-   37 secEscena: ID_NOMBRE '[' entonacion ']' ':' expr_cadena • $@11 salto secEscena
-   63 expr_cadena: expr_cadena • CONCATENACION expr_cadena
+    2 salto: salto • '\n'
+   31 secEscena: ID_NOMBRE '[' entonacion ']' ':' expr_cadena $@11 salto • secEscena
 
-    CONCATENACION  desplazar e ir al estado 94
+    error         desplazar e ir al estado 12
+    DEFINICIONES  desplazar e ir al estado 13
+    ESCENA        desplazar e ir al estado 24
+    FINESCENA     desplazar e ir al estado 25
+    ID_GENERAL    desplazar e ir al estado 14
+    ID_NOMBRE     desplazar e ir al estado 26
+    ID_CADENA     desplazar e ir al estado 15
+    PAUSA         desplazar e ir al estado 27
+    MENSAJE       desplazar e ir al estado 28
+    '\n'          desplazar e ir al estado 9
 
-    $default  reduce usando la regla 36 ($@11)
+    $end  reduce usando la regla 11 (bloqueDefiniciones)
+    $end  [reduce usando la regla 21 (secEscena)]
 
-    $@11  ir al estado 160
+    bloqueDefiniciones  ir al estado 29
+    secEscena           ir al estado 158
 
 
 Estado 158
 
-   12 secPersonajes: ID_NOMBRE '=' '<' idioma ',' voz '>' salto $@2 • secPersonajes
+   31 secEscena: ID_NOMBRE '[' entonacion ']' ':' expr_cadena $@11 salto secEscena •
 
-    error      desplazar e ir al estado 1
-    ID_NOMBRE  desplazar e ir al estado 3
-
-    $end          reduce usando la regla 10 (secPersonajes)
-    error         [reduce usando la regla 10 (secPersonajes)]
-    DEFINICIONES  reduce usando la regla 10 (secPersonajes)
-    ESCENA        reduce usando la regla 10 (secPersonajes)
-    FINESCENA     reduce usando la regla 10 (secPersonajes)
-    ID_GENERAL    reduce usando la regla 10 (secPersonajes)
-    ID_NOMBRE     [reduce usando la regla 10 (secPersonajes)]
-    ID_CADENA     reduce usando la regla 10 (secPersonajes)
-    PAUSA         reduce usando la regla 10 (secPersonajes)
-    MENSAJE       reduce usando la regla 10 (secPersonajes)
-
-    secPersonajes  ir al estado 161
-
-
-Estado 159
-
-    2 salto: salto • '\n'
-   35 secEscena: ID_NOMBRE '[' ']' ':' expr_cadena $@10 salto • secEscena
-
-    error       desplazar e ir al estado 28
-    ESCENA      desplazar e ir al estado 29
-    FINESCENA   desplazar e ir al estado 30
-    ID_GENERAL  desplazar e ir al estado 17
-    ID_NOMBRE   desplazar e ir al estado 31
-    ID_CADENA   desplazar e ir al estado 18
-    PAUSA       desplazar e ir al estado 32
-    MENSAJE     desplazar e ir al estado 33
-    '\n'        desplazar e ir al estado 12
-
-    $end  reduce usando la regla 18 (secDefiniciones)
-    $end  [reduce usando la regla 26 (secEscena)]
-
-    secDefiniciones  ir al estado 34
-    secEscena        ir al estado 162
-
-
-Estado 160
-
-   37 secEscena: ID_NOMBRE '[' entonacion ']' ':' expr_cadena $@11 • salto secEscena
-
-    '\n'  desplazar e ir al estado 4
-
-    salto  ir al estado 163
-
-
-Estado 161
-
-   12 secPersonajes: ID_NOMBRE '=' '<' idioma ',' voz '>' salto $@2 secPersonajes •
-
-    $default  reduce usando la regla 12 (secPersonajes)
-
-
-Estado 162
-
-   35 secEscena: ID_NOMBRE '[' ']' ':' expr_cadena $@10 salto secEscena •
-
-    $default  reduce usando la regla 35 (secEscena)
-
-
-Estado 163
-
-    2 salto: salto • '\n'
-   37 secEscena: ID_NOMBRE '[' entonacion ']' ':' expr_cadena $@11 salto • secEscena
-
-    error       desplazar e ir al estado 28
-    ESCENA      desplazar e ir al estado 29
-    FINESCENA   desplazar e ir al estado 30
-    ID_GENERAL  desplazar e ir al estado 17
-    ID_NOMBRE   desplazar e ir al estado 31
-    ID_CADENA   desplazar e ir al estado 18
-    PAUSA       desplazar e ir al estado 32
-    MENSAJE     desplazar e ir al estado 33
-    '\n'        desplazar e ir al estado 12
-
-    $end  reduce usando la regla 18 (secDefiniciones)
-    $end  [reduce usando la regla 26 (secEscena)]
-
-    secDefiniciones  ir al estado 34
-    secEscena        ir al estado 164
-
-
-Estado 164
-
-   37 secEscena: ID_NOMBRE '[' entonacion ']' ':' expr_cadena $@11 salto secEscena •
-
-    $default  reduce usando la regla 37 (secEscena)
+    $default  reduce usando la regla 31 (secEscena)
