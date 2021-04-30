@@ -88,7 +88,7 @@ ofstream salida;
 %token DESPACIO DEPRISA GRITANDO VOZ_BAJA
 %token MASCULINO FEMENINO
 %token CONCATENACION
-%token SI SI_NO
+%token SI SI_NO REPETIR
 
 %left CONCATENACION
 %left OR
@@ -292,16 +292,19 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena                        { cout << "------
       | PAUSA expr_arit                                        {cout << "-------- pausa " << $2.valor << endl;} salto
       | identificador
       | condicional
+      | bucle
       ;
+
+bucle: REPETIR expr_arit '{' salto secBloqueEscena '}' salto  {cout << "+++ repetir " << $2.valor << endl;}
 
 condicional: parteSi parteSiNo 
       ;
 
-parteSi: SI '(' expr_log ')' salto_opc  '{' salto {ejecutar=$3;} secBloqueEscena '}' salto        {cout << "bloque si ( condicion=" << $3 <<  ")" << endl;}
+parteSi: SI '(' expr_log ')' salto_opc  '{' salto {ejecutar=$3;} secBloqueEscena '}' salto        {cout << "+++ bloque si ( condicion=" << $3 <<  ")" << endl;}
       ;
 
 parteSiNo: %prec SI
-      | SI_NO  '{' salto {ejecutar = !ejecutar;} secBloqueEscena '}' salto              {cout << "bloque sino " << endl;}
+      | SI_NO  '{' salto {ejecutar = !ejecutar;} secBloqueEscena '}' salto              {cout << "+++ bloque sino " << endl;}
       ;
 
 /*------------------------------------------------ entonacion ------------------------------------------------*/ 

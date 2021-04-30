@@ -92,7 +92,8 @@ extern int yydebug;
     CONCATENACION = 293,           /* CONCATENACION  */
     SI = 294,                      /* SI  */
     SI_NO = 295,                   /* SI_NO  */
-    menos = 296                    /* menos  */
+    REPETIR = 296,                 /* REPETIR  */
+    menos = 297                    /* menos  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -115,7 +116,7 @@ union YYSTYPE
  } c_expresion_arit;
 
 
-#line 119 "expresiones.h"
+#line 120 "expresiones.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

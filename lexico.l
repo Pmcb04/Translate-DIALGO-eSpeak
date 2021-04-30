@@ -61,6 +61,7 @@ real {entero}[.]{entero}?|{entero}?[.]{entero}
 
 [s][i]                                  return SI;
 [s][i][_][n][o]                         return SI_NO;
+[r][e][p][e][t][i][r]                   return REPETIR;
 
 [d][i][v]                               return DIV;
 [a][n][d]                               return AND;
