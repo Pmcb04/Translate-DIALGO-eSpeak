@@ -19,6 +19,9 @@ mensaje "prueba 1"
 
 mensaje "prueba 2"
 
+mensaje "hola$"
+
+mensaje "adios@"
 
 mensaje "prueba" ++ "3"
 

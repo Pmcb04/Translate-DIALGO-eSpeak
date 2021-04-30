@@ -33,6 +33,24 @@ si (inglesoitaliano == 1)
 si_no {
       Profesor [despacio] : "Escucha la siguiente presentación en italiano"
 }
+
+
+si (inglesoitaliano == 1) 
+{
+
+	Profesor [despacio] : "Dentro del bloque si de afuera"
+
+     si (inglesoitaliano == 1) 
+     {
+     	Profesor [despacio] : "Dentro del bucle si de adentro"
+	 }
+	 si_no {
+		Profesor [despacio] : "Dentro del bucle si_no de adentro"
+	 }
+}
+si_no {
+      Profesor [despacio] : "Dentro del bucle si_no de afuera"
+}
     
 
 
