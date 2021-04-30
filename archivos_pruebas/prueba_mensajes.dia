@@ -1,4 +1,19 @@
+PERSONAJES
 
+# Zona de definición de los personajes
+# Nombre con inicial en Mayúsculas = <idioma, mm/f>
+# Internamente se irá asignando un número de 1 a 5, por orden de definición
+ 
+Profesor = <es, m>
+
+Mary = <en, f>
+
+John = <en-us, m>
+
+Paola = <it, f>
+
+
+ESCENA 1: 
 
 mensaje "prueba 1"
 
@@ -13,3 +28,5 @@ mensaje "prueba" ++ 5.1
 
 
 mensaje "prueba" ++ "otra prueba" ++ 5.2
+
+FINESCENA

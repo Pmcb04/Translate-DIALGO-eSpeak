@@ -1,4 +1,19 @@
+PERSONAJES
 
+# Zona de definición de los personajes
+# Nombre con inicial en Mayúsculas = <idioma, mm/f>
+# Internamente se irá asignando un número de 1 a 5, por orden de definición
+ 
+Profesor = <es, m>
+
+Mary = <en, f>
+
+John = <en-us, m>
+
+Paola = <it, f>
+
+
+ESCENA 1:
 
 pausa 1
 pausa 3
@@ -8,3 +23,5 @@ pausa 4.5
 pausa 3*5-6
 
 pausa (4.6*0) + 4 / 2
+
+FINESCENA
