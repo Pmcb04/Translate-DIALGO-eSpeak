@@ -1,8 +1,28 @@
-for FILE in $(ls archivos_pruebas/*.dia)
-do
-    echo ""
-    echo "<-------------------------------------------- PRUEBA $FILE -------------------------------------------->"
-    ./translate $FILE
-    echo ""
+#!/bin/bash
+while true; do
+    num_archivos=$(ls archivos_pruebas/*.dia | wc -l)
+    i=1
 
+    newmap=($(ls archivos_pruebas/*.dia))
+
+    echo "Seleccione una opcion [1 - $num_archivos]"
+    for FILE in  $(ls archivos_pruebas/*.dia)
+    do
+        echo -n $i
+        echo -n ") "
+        echo $FILE 
+        ((i++))
+    done
+    echo -n $i
+    echo ") salir" 
+
+    read opcion
+    clear
+
+    if (( num_archivos >= opcion ));then
+         echo "----------------------------------- INICIO PRUEBA ${newmap[((opcion - 1))]} -----------------------------------"
+        ./translate ${newmap[((opcion - 1))]}
+    else
+        exit 1
+    fi
 done

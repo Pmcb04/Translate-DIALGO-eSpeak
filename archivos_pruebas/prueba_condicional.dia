@@ -1,0 +1,39 @@
+PERSONAJES
+
+# Zona de definición de los personajes
+# Nombre con inicial en Mayúsculas = <idioma, mm/f>
+# Internamente se irá asignando un número de 1 a 5, por orden de definición
+ 
+Profesor = <es, m>
+
+Mary = <en, f>
+
+John = <en-us, m>
+
+Paola = <it, f>
+
+ESCENA 4: 
+
+inglesoitaliano = 1
+    
+si  (inglesoitaliano == 1) {
+	
+	Mary: "Hello, my name is Mary"
+	John: "Hi, Mary. I am John"
+}
+si_no {
+	Paola: "Ciao. Mi chiamo Paola"
+	John: "Ciao, Paola. Il mio nome è John"	
+}
+
+si (inglesoitaliano == 1) 
+{
+     Profesor [despacio] : "Escucha la siguiente presentación en inglés"
+}
+si_no {
+      Profesor [despacio] : "Escucha la siguiente presentación en italiano"
+}
+    
+
+
+FINESCENA
