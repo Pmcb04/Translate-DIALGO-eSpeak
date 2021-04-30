@@ -90,7 +90,9 @@ extern int yydebug;
     MASCULINO = 291,               /* MASCULINO  */
     FEMENINO = 292,                /* FEMENINO  */
     CONCATENACION = 293,           /* CONCATENACION  */
-    menos = 294                    /* menos  */
+    SI = 294,                      /* SI  */
+    SI_NO = 295,                   /* SI_NO  */
+    menos = 296                    /* menos  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -99,7 +101,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 42 "expresiones.y"
+#line 43 "expresiones.y"
 
  int c_entero;
  float c_real;
@@ -113,7 +115,7 @@ union YYSTYPE
  } c_expresion_arit;
 
 
-#line 117 "expresiones.h"
+#line 119 "expresiones.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

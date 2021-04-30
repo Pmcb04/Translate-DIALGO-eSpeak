@@ -31,6 +31,7 @@ void yyerror(const char* s){         /*    llamada por cada error sintactico de 
 //Zona de definiciones
 bool errorSemantico = false; 
 bool errorVariable = false;
+bool ejecutar = false;
 int n_escena;
 Identifiers ids;
 Info info;
@@ -87,6 +88,7 @@ ofstream salida;
 %token DESPACIO DEPRISA GRITANDO VOZ_BAJA
 %token MASCULINO FEMENINO
 %token CONCATENACION
+%token SI SI_NO
 
 %left CONCATENACION
 %left OR
@@ -106,8 +108,12 @@ salto: '\n'          {n_lineas++;}
       | salto '\n'  {n_lineas++;}
       ;
 
-programa: salto bloquePersonajes bloqueDefiniciones secEscena
-      | bloquePersonajes bloqueDefiniciones secEscena
+salto_opc:        
+      | salto_opc '\n'  {n_lineas++;}
+      ;
+
+
+programa: salto_opc bloquePersonajes bloqueDefiniciones secEscena
       ;
 
 /*------------------------------------------------ personaje ------------------------------------------------*/ 
@@ -285,6 +291,17 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena                        { cout << "------
       | MENSAJE expr_cadena                                    {cout << "-------- mensaje " << strncpy($2, $2+1, strlen($2-2)) << endl;} salto // TODO completar salida 
       | PAUSA expr_arit                                        {cout << "-------- pausa " << $2.valor << endl;} salto
       | identificador
+      | condicional
+      ;
+
+condicional: parteSi parteSiNo 
+      ;
+
+parteSi: SI '(' expr_log ')' salto_opc  '{' salto {ejecutar=$3;} secBloqueEscena '}' salto        {cout << "bloque si ( condicion=" << $3 <<  ")" << endl;}
+      ;
+
+parteSiNo: %prec SI
+      | SI_NO  '{' salto {ejecutar = !ejecutar;} secBloqueEscena '}' salto              {cout << "bloque sino " << endl;}
       ;
 
 /*------------------------------------------------ entonacion ------------------------------------------------*/ 
@@ -300,7 +317,7 @@ tono:DESPACIO                       {strcpy($$, "despacio");}
 
 /*------------------------------------------------ idioma ------------------------------------------------ */ 
 
-idioma:EN                {strcpy($$, "en");}
+idioma:EN               {strcpy($$, "en");}
       | EN_US           {strcpy($$, "en-us");}
       | ES              {strcpy($$, "es");}
       | ES_LA           {strcpy($$, "es-la");}
@@ -312,12 +329,12 @@ idioma:EN                {strcpy($$, "en");}
 /*------------------------------------------------ voz ------------------------------------------------*/ 
 
 voz: MASCULINO         {strcpy($$, "m");}
-      |FEMENINO         {strcpy($$, "f");}
+      |FEMENINO        {strcpy($$, "f");}
       ;
 
 /* ------------------------------------------------ expresiones ------------------------------------------------*/ 
 
-expr_cadena : CADENA                                   {strcpy($$, $1);}
+expr_cadena : CADENA                           {strcpy($$, $1);}
       | ID_CADENA                              {strcpy($$, $1);}
       | expr_arit                              {sprintf($$, "%f", $1.valor);}
       | expr_cadena CONCATENACION expr_cadena  {cout << "-------- concatenacion cadena (" << $1 << ") cadena(" << $3 <<  ")" << endl; strcpy($$, $1); strcat($$, $3);}
@@ -425,12 +442,12 @@ int main(int argc, char *argv[]){
                   }
                   	
             }else{
-                  cout << argv[1] << ": ERROR el fichero de entrada debe ser formato .dia (name_file.dia)" << endl;
+                  cout << argv[1] << ": Error el fichero de entrada debe ser formato .dia (name_file.dia)" << endl;
 		      return -1;
             }
 	
 	}else{
-		cout << argv[0] << ": ERROR en el número de elementos" << endl;
+		cout << argv[0] << ": Error en el número de elementos" << endl;
 		return -1;
 	}
 }
