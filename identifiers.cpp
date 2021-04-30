@@ -21,12 +21,12 @@ Identifiers::Identifiers(){
 	num_identifiers = 0;	
 }
 
-void Identifiers::add(Info info){
-	ids[num_identifiers] = info;
+void Identifiers::add(Identifier identifier){
+	ids[num_identifiers] = identifier;
 	num_identifiers++;
 }
 
-void Identifiers::get(string id, Info &info){
+void Identifiers::get(string id, Identifier &identifier){
 	
 	bool enc = false;
 	int i = 0;
@@ -37,7 +37,7 @@ void Identifiers::get(string id, Info &info){
 		else
 			i++; 
 
-	info = ids[i];
+	identifier = ids[i];
 }
 
 TIPO Identifiers::getTipo(string id){

@@ -4,7 +4,7 @@
 #	Autors : Pedro Miguel Carmona Broncano && Rubén Marín Lucas
 #
 
-OBJ = expresiones.o lexico.o identifiers.o
+OBJ = expresiones.o lexico.o identifiers.o characters.o
 
 translate : $(OBJ)   #segunda fase de la traducción. Generación del código ejecutable 	
 	g++ -o translate $(OBJ)	
@@ -14,7 +14,10 @@ expresiones.o : expresiones.c        	#primera fase de la traducción del analiz
 
 identifiers.o : identifiers.cpp
 	g++ -c identifiers.cpp
-	
+
+characters.o : characters.cpp
+	g++ -c characters.cpp
+
 lexico.o : lex.yy.c						#primera fase de la traducción del analizador léxico
 	g++ -c -o lexico.o  lex.yy.c 	
 

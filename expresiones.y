@@ -15,6 +15,7 @@
 #include <sstream>
 #include <cstring>
 #include "identifiers.h"
+#include "characters.h"
 using namespace std;
 
  
@@ -22,6 +23,8 @@ using namespace std;
 extern int n_lineas;
 extern int yylex();
 extern FILE* yyin;
+extern int num_men;
+extern int num_women;
 
 //definición de procedimientos auxiliares
 void yyerror(const char* s){         /*    llamada por cada error sintactico de yacc */
@@ -34,7 +37,8 @@ bool errorVariable = false;
 bool ejecutar = false;
 int n_escena;
 Identifiers ids;
-Info info;
+Identifier ident;
+Characters chs;  
 TIPO tipo;
 ofstream salida;
 
@@ -125,7 +129,7 @@ secBloquePersonajes :  asignacionPersonaje
       | secBloquePersonajes asignacionPersonaje
       ;
 
-asignacionPersonaje: ID_NOMBRE '=' '<' idioma ',' voz '>'  { cout << "-------- asignacion nombre " << $1 << "," << $4 << "," << $6 <<  " linea " << n_lineas << endl;} salto
+asignacionPersonaje: ID_NOMBRE '=' '<' idioma ',' voz '>'  { cout << "-------- asignacion nombre " << $1 << "," << $4 << "," << $6 <<  " linea " << n_lineas << endl; chs.add(Character($1, n_lineas, $4, $6));} salto
       ;
 
 /*------------------------------------------------ definiciones ------------------------------------------------*/ 
@@ -146,10 +150,10 @@ identificadorGeneral: ID_GENERAL '=' expr_arit    {
                                           if(!errorVariable && !errorSemantico){
                                                 if(!ids.isExists($1))
                                                       if($3.esReal){
-                                                            ids.add(Info($1, n_lineas, $3.valor));
+                                                            ids.add(Identifier($1, n_lineas, $3.valor));
                                                             cout << "-------- asignacion id_general real " << $1 <<  ", " << $3.valor << endl;     
                                                       } else{
-                                                            ids.add(Info($1, n_lineas, (int)$3.valor)); 
+                                                            ids.add(Identifier($1, n_lineas, (int)$3.valor)); 
                                                             cout << "-------- asignacion id_general entero " << $1 <<  ", " << $3.valor << endl;     
                                                       } 
                                                             
@@ -192,7 +196,7 @@ identificadorGeneral: ID_GENERAL '=' expr_arit    {
                                    
                                           if(!errorVariable && !errorSemantico){
                                                 if(!ids.isExists($1)){
-                                                      ids.add(Info($1, n_lineas, $3));
+                                                      ids.add(Identifier($1, n_lineas, $3));
                                                       cout << "-------- asignacion id_general logico" << $1 <<  ", " << $3 << endl;     
                                                 }
                                                 else if(ids.getTipo($1) == TIPO::T_BOOL){
@@ -228,7 +232,7 @@ identificadorCadena:  ID_CADENA '=' expr_cadena {
             
                                           if(!errorVariable && !errorSemantico){
                                                 if(!ids.isExists($1)){
-                                                      ids.add(Info($1, n_lineas, $3));
+                                                      ids.add(Identifier($1, n_lineas, $3));
                                                       cout << "-------- asignacion id_cadena " << $1 <<  ", " << $3 << endl;     
                                                 }
                                                 else if(ids.getTipo($1) == TIPO::T_CADENA){
@@ -365,13 +369,13 @@ expr_arit: NUMERO			                {$$.esReal = false; $$.valor = $1; }
                                           if(ids.isExists($1)){
                                                 if(ids.getTipo($1) == TIPO::T_ENT){
                                                       $$.esReal = false;
-                                                      ids.get($1, info);
-                                                      $$.valor = info.valor.valor_entero;
+                                                      ids.get($1, ident);
+                                                      $$.valor = ident.valor.valor_entero;
                                                 }
                                                 else if(ids.getTipo($1) == TIPO::T_REAL){
                                                       $$.esReal = true;
-                                                      ids.get($1, info);
-                                                      $$.valor = info.valor.valor_real;
+                                                      ids.get($1, ident);
+                                                      $$.valor = ident.valor.valor_real;
                                                 }
                                                 else{ 
                                                       cout << "Error semantico en la linea " << n_lineas << ", la variable " << $1 << " no es de tipo ENTERA o REAL" << endl;            
@@ -439,7 +443,8 @@ int main(int argc, char *argv[]){
                   
                         salida.close();
 
-                        ids.printIdentifiers();
+                        ids.printIdentifiers(); // mostramos los identificadores declarados
+                        chs.printCharacters(); // mostramos los personajes declarados
 
                         return 0; 
                   }

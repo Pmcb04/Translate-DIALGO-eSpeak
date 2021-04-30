@@ -26,37 +26,37 @@ union tipo_valor{
 using namespace std;
 #include <string>
 
-struct Info {
+struct Identifier {
 	string id;
 	int line;
 	tipo_valor valor;
 	TIPO tipo;
 
-	Info(){
+	Identifier(){
 	}
 	
-	Info(string id, int line, float valor){
+	Identifier(string id, int line, float valor){
 		this->id = id;
 		this->line = line;
 		this->valor.valor_real = valor;
 		this->tipo = TIPO::T_REAL;
 	}
 
-	Info(string id, int line, int valor){
+	Identifier(string id, int line, int valor){
 		this->id = id;
 		this->line = line;
 		this->valor.valor_entero = valor;
 		this->tipo = TIPO::T_ENT;
 	}
 
-	Info(string id, int line, bool valor){
+	Identifier(string id, int line, bool valor){
 		this->id = id;
 		this->line = line;
 		this->valor.valor_bool = valor;
 		this->tipo = TIPO::T_BOOL;
 	}
 
-	Info(string id, int line, tipo_cadena valor){
+	Identifier(string id, int line, tipo_cadena valor){
 		this->id = id;
 		this->line = line;
 		strcpy(this->valor.valor_cadena, valor);
@@ -65,8 +65,8 @@ struct Info {
 
 };
 
-const int MAX_INFO = 100;
-typedef Info identifier[MAX_INFO];
+const int MAX_INFO_IDENTIFIERS = 100;
+typedef Identifier identifier[MAX_INFO_IDENTIFIERS];
 
 
 class Identifiers {
@@ -83,13 +83,13 @@ class Identifiers {
 	* Si existe ya en la estructura -> No hace nada
 	* Si no existe en la estructura -> Añade el identificador a la estructura
 	*/
-	void add(Info info);
+	void add(Identifier identifier);
 
 	/*
 	* Metodo que busca un identificador en la estructura y lo devuelve{
 	* PRE{el identificador deve existir en la estructura}
 	*/
-	void get(string id, Info &info);
+	void get(string id, Identifier &identifier);
 
 	/*
 	* Metodo que devuelve el tipo de la variable con identificador id

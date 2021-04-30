@@ -11,6 +11,7 @@
 #include <math.h>
 #include <iostream>
 #include <string>
+
 int n_lineas;
 %}
 
@@ -56,8 +57,8 @@ real {entero}[.]{entero}?|{entero}?[.]{entero}
 [i][t]                                  return IT;
 [f][r]                                  return FR;
 
-[m]                                     return MASCULINO;
-[f]                                     return FEMENINO;
+[m]                                     {return MASCULINO;}
+[f]                                     {return FEMENINO;}
 
 [s][i]                                  return SI;
 [s][i][_][n][o]                         return SI_NO;
