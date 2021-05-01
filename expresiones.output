@@ -80,130 +80,132 @@ Gramática
    43             | condicional
    44             | bucle
 
-   45 bucle: REPETIR expr_arit '{' salto secBloqueEscena '}' salto
+   45 $@14: %empty
 
-   46 condicional: parteSi parteSiNo
+   46 bucle: REPETIR expr_arit '{' salto $@14 secBloqueEscena '}' salto
 
-   47 $@14: %empty
+   47 condicional: parteSi parteSiNo
 
-   48 parteSi: SI '(' expr_log ')' salto_opc '{' salto $@14 secBloqueEscena '}' salto
+   48 $@15: %empty
 
-   49 parteSiNo: %empty
+   49 parteSi: SI '(' expr_log ')' salto_opc '{' salto $@15 secBloqueEscena '}' salto
 
-   50 $@15: %empty
+   50 parteSiNo: %empty
 
-   51 parteSiNo: SI_NO '{' salto $@15 secBloqueEscena '}' salto
+   51 $@16: %empty
 
-   52 entonacion: tono
-   53           | entonacion ',' tono
+   52 parteSiNo: SI_NO '{' salto $@16 secBloqueEscena '}' salto
 
-   54 tono: DESPACIO
-   55     | DEPRISA
-   56     | GRITANDO
-   57     | VOZ_BAJA
+   53 entonacion: tono
+   54           | entonacion ',' tono
 
-   58 idioma: EN
-   59       | EN_US
-   60       | ES
-   61       | ES_LA
-   62       | PT
-   63       | IT
-   64       | FR
+   55 tono: DESPACIO
+   56     | DEPRISA
+   57     | GRITANDO
+   58     | VOZ_BAJA
 
-   65 voz: MASCULINO
-   66    | FEMENINO
+   59 idioma: EN
+   60       | EN_US
+   61       | ES
+   62       | ES_LA
+   63       | PT
+   64       | IT
+   65       | FR
 
-   67 expr_cadena: CADENA
-   68            | ID_CADENA
-   69            | expr_arit
-   70            | expr_cadena CONCATENACION expr_cadena
+   66 voz: MASCULINO
+   67    | FEMENINO
 
-   71 expr_log: TRUE
-   72         | FALSE
-   73         | expr_log AND expr_log
-   74         | expr_log OR expr_log
-   75         | NOT expr_log
-   76         | '(' expr_log ')'
-   77         | expr_arit '>' expr_arit
-   78         | expr_arit MAYORIGUAL expr_arit
-   79         | expr_arit '<' expr_arit
-   80         | expr_arit MENORIGUAL expr_arit
-   81         | expr_arit IGUAL2 expr_arit
-   82         | expr_arit DISTINTO expr_arit
-   83         | expr_log IGUAL2 expr_log
-   84         | expr_log DISTINTO expr_log
+   68 expr_cadena: CADENA
+   69            | ID_CADENA
+   70            | expr_arit
+   71            | expr_cadena CONCATENACION expr_cadena
 
-   85 expr_arit: NUMERO
-   86          | REAL
-   87          | ID_GENERAL
-   88          | expr_arit '+' expr_arit
-   89          | expr_arit '-' expr_arit
-   90          | expr_arit '*' expr_arit
-   91          | expr_arit '/' expr_arit
-   92          | expr_arit DIV expr_arit
-   93          | '-' expr_arit
-   94          | '(' expr_arit ')'
+   72 expr_log: TRUE
+   73         | FALSE
+   74         | expr_log AND expr_log
+   75         | expr_log OR expr_log
+   76         | NOT expr_log
+   77         | '(' expr_log ')'
+   78         | expr_arit '>' expr_arit
+   79         | expr_arit MAYORIGUAL expr_arit
+   80         | expr_arit '<' expr_arit
+   81         | expr_arit MENORIGUAL expr_arit
+   82         | expr_arit IGUAL2 expr_arit
+   83         | expr_arit DISTINTO expr_arit
+   84         | expr_log IGUAL2 expr_log
+   85         | expr_log DISTINTO expr_log
+
+   86 expr_arit: NUMERO
+   87          | REAL
+   88          | ID_GENERAL
+   89          | expr_arit '+' expr_arit
+   90          | expr_arit '-' expr_arit
+   91          | expr_arit '*' expr_arit
+   92          | expr_arit '/' expr_arit
+   93          | expr_arit DIV expr_arit
+   94          | '-' expr_arit
+   95          | '(' expr_arit ')'
 
 
 Terminales con las reglas donde aparecen
 
     $end (0) 0
     '\n' (10) 1 2 4
-    '(' (40) 48 76 94
-    ')' (41) 48 76 94
-    '*' (42) 90
-    '+' (43) 88
-    ',' (44) 11 53
-    '-' (45) 89 93
-    '/' (47) 91
+    '(' (40) 49 77 95
+    ')' (41) 49 77 95
+    '*' (42) 91
+    '+' (43) 89
+    ',' (44) 11 54
+    '-' (45) 90 94
+    '/' (47) 92
     ':' (58) 29 33 35 37
-    '<' (60) 11 79
+    '<' (60) 11 80
     '=' (61) 11 20 22 24
-    '>' (62) 11 77
+    '>' (62) 11 78
     '[' (91) 35 37
     ']' (93) 35 37
-    '{' (123) 45 48 51
-    '}' (125) 45 48 51
+    '{' (123) 46 49 52
+    '}' (125) 46 49 52
     error (256)
-    NUMERO <c_entero> (258) 85
-    REAL <c_real> (259) 86
-    DIV (260) 92
-    AND (261) 73
-    OR (262) 74
-    NOT (263) 75
-    TRUE <c_bool> (264) 71
-    FALSE <c_bool> (265) 72
-    MAYORIGUAL (266) 78
-    MENORIGUAL (267) 80
-    IGUAL2 (268) 81 83
-    DISTINTO (269) 82 84
+    NUMERO <c_entero> (258) 86
+    REAL <c_real> (259) 87
+    DIV (260) 93
+    AND (261) 74
+    OR (262) 75
+    NOT (263) 76
+    TRUE <c_bool> (264) 72
+    FALSE <c_bool> (265) 73
+    MAYORIGUAL (266) 79
+    MENORIGUAL (267) 81
+    IGUAL2 (268) 82 84
+    DISTINTO (269) 83 85
     PERSONAJES (270) 7
     DEFINICIONES (271) 14
     ESCENA (272) 29
     FINESCENA (273) 29
-    ID_GENERAL <c_identificador> (274) 20 22 87
+    ID_GENERAL <c_identificador> (274) 20 22 88
     ID_NOMBRE <c_identificador> (275) 11 33 35 37
-    ID_CADENA <c_identificador> (276) 24 68
+    ID_CADENA <c_identificador> (276) 24 69
     PAUSA (277) 41
     MENSAJE (278) 39
-    CADENA <c_cadena> (279) 67
-    EN (280) 58
-    EN_US (281) 59
-    ES (282) 60
-    ES_LA (283) 61
-    PT (284) 62
-    IT (285) 63
-    FR (286) 64
-    DESPACIO <c_cadena> (287) 54
-    DEPRISA <c_cadena> (288) 55
-    GRITANDO <c_cadena> (289) 56
-    VOZ_BAJA <c_cadena> (290) 57
-    MASCULINO (291) 65
-    FEMENINO (292) 66
-    CONCATENACION (293) 70
-    SI (294) 48
-    SI_NO (295) 51
-    REPETIR (296) 45
+    CADENA <c_cadena> (279) 68
+    EN (280) 59
+    EN_US (281) 60
+    ES (282) 61
+    ES_LA (283) 62
+    PT (284) 63
+    IT (285) 64
+    FR (286) 65
+    DESPACIO <c_cadena> (287) 55
+    DEPRISA <c_cadena> (288) 56
+    GRITANDO <c_cadena> (289) 57
+    VOZ_BAJA <c_cadena> (290) 58
+    MASCULINO (291) 66
+    FEMENINO (292) 67
+    CONCATENACION (293) 71
+    SI (294) 49
+    SI_NO (295) 52
+    REPETIR (296) 46
     menos (297)
 
 
@@ -213,10 +215,10 @@ No terminales con las reglas donde aparecen
         on left: 0
     salto (60)
         on left: 1 2
-        on right: 2 7 11 14 20 22 24 29 33 35 37 39 41 45 48 51
+        on right: 2 7 11 14 20 22 24 29 33 35 37 39 41 46 49 52
     salto_opc (61)
         on left: 3 4
-        on right: 4 5 48
+        on right: 4 5 49
     programa (62)
         on left: 5
         on right: 0
@@ -276,7 +278,7 @@ No terminales con las reglas donde aparecen
         on right: 29
     secBloqueEscena (81)
         on left: 30 31
-        on right: 29 31 45 48 51
+        on right: 29 31 46 49 52
     bloqueEscena (82)
         on left: 33 35 37 39 41 42 43 44
         on right: 30 31
@@ -296,44 +298,47 @@ No terminales con las reglas donde aparecen
         on left: 40
         on right: 41
     bucle (88)
-        on left: 45
-        on right: 44
-    condicional (89)
         on left: 46
-        on right: 43
-    parteSi (90)
-        on left: 48
+        on right: 44
+    $@14 (89)
+        on left: 45
         on right: 46
-    $@14 (91)
+    condicional (90)
         on left: 47
-        on right: 48
-    parteSiNo (92)
-        on left: 49 51
-        on right: 46
-    $@15 (93)
-        on left: 50
-        on right: 51
-    entonacion <c_cadena> (94)
-        on left: 52 53
-        on right: 37 53
-    tono <c_cadena> (95)
-        on left: 54 55 56 57
-        on right: 52 53
-    idioma <c_cadena> (96)
-        on left: 58 59 60 61 62 63 64
+        on right: 43
+    parteSi (91)
+        on left: 49
+        on right: 47
+    $@15 (92)
+        on left: 48
+        on right: 49
+    parteSiNo (93)
+        on left: 50 52
+        on right: 47
+    $@16 (94)
+        on left: 51
+        on right: 52
+    entonacion <c_cadena> (95)
+        on left: 53 54
+        on right: 37 54
+    tono <c_cadena> (96)
+        on left: 55 56 57 58
+        on right: 53 54
+    idioma <c_cadena> (97)
+        on left: 59 60 61 62 63 64 65
         on right: 11
-    voz <c_cadena> (97)
-        on left: 65 66
+    voz <c_cadena> (98)
+        on left: 66 67
         on right: 11
-    expr_cadena <c_cadena> (98)
-        on left: 67 68 69 70
-        on right: 24 33 35 37 39 70
-    expr_log <c_bool> (99)
-        on left: 71 72 73 74 75 76 77 78 79 80 81 82 83 84
-        on right: 22 48 73 74 75 76 83 84
-    expr_arit <c_expresion_arit> (100)
-        on left: 85 86 87 88 89 90 91 92 93 94
-        on right: 20 29 41 45 69 77 78 79 80 81 82 88 89 90 91 92 93 94
+    expr_cadena <c_cadena> (99)
+        on left: 68 69 70 71
+        on right: 24 33 35 37 39 71
+    expr_log <c_bool> (100)
+        on left: 72 73 74 75 76 77 78 79 80 81 82 83 84 85
+        on right: 22 49 74 75 76 77 84 85
+    expr_arit <c_expresion_arit> (101)
+        on left: 86 87 88 89 90 91 92 93 94 95
+        on right: 20 29 41 46 70 78 79 80 81 82 83 89 90 91 92 93 94 95
 
 
 Estado 0
@@ -536,28 +541,28 @@ Estado 20
 
 Estado 21
 
-   85 expr_arit: NUMERO •
-
-    $default  reduce usando la regla 85 (expr_arit)
-
-
-Estado 22
-
-   86 expr_arit: REAL •
+   86 expr_arit: NUMERO •
 
     $default  reduce usando la regla 86 (expr_arit)
 
 
-Estado 23
+Estado 22
 
-   87 expr_arit: ID_GENERAL •
+   87 expr_arit: REAL •
 
     $default  reduce usando la regla 87 (expr_arit)
 
 
+Estado 23
+
+   88 expr_arit: ID_GENERAL •
+
+    $default  reduce usando la regla 88 (expr_arit)
+
+
 Estado 24
 
-   93 expr_arit: '-' • expr_arit
+   94 expr_arit: '-' • expr_arit
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -570,7 +575,7 @@ Estado 24
 
 Estado 25
 
-   94 expr_arit: '(' • expr_arit ')'
+   95 expr_arit: '(' • expr_arit ')'
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -584,11 +589,11 @@ Estado 25
 Estado 26
 
    29 escena: ESCENA expr_arit • ':' $@7 salto secBloqueEscena FINESCENA $@8 salto
-   88 expr_arit: expr_arit • '+' expr_arit
-   89          | expr_arit • '-' expr_arit
-   90          | expr_arit • '*' expr_arit
-   91          | expr_arit • '/' expr_arit
-   92          | expr_arit • DIV expr_arit
+   89 expr_arit: expr_arit • '+' expr_arit
+   90          | expr_arit • '-' expr_arit
+   91          | expr_arit • '*' expr_arit
+   92          | expr_arit • '/' expr_arit
+   93          | expr_arit • DIV expr_arit
 
     DIV  desplazar e ir al estado 38
     '+'  desplazar e ir al estado 39
@@ -672,24 +677,24 @@ Estado 35
 
 Estado 36
 
-   88 expr_arit: expr_arit • '+' expr_arit
-   89          | expr_arit • '-' expr_arit
-   90          | expr_arit • '*' expr_arit
-   91          | expr_arit • '/' expr_arit
-   92          | expr_arit • DIV expr_arit
-   93          | '-' expr_arit •
+   89 expr_arit: expr_arit • '+' expr_arit
+   90          | expr_arit • '-' expr_arit
+   91          | expr_arit • '*' expr_arit
+   92          | expr_arit • '/' expr_arit
+   93          | expr_arit • DIV expr_arit
+   94          | '-' expr_arit •
 
-    $default  reduce usando la regla 93 (expr_arit)
+    $default  reduce usando la regla 94 (expr_arit)
 
 
 Estado 37
 
-   88 expr_arit: expr_arit • '+' expr_arit
-   89          | expr_arit • '-' expr_arit
-   90          | expr_arit • '*' expr_arit
-   91          | expr_arit • '/' expr_arit
-   92          | expr_arit • DIV expr_arit
-   94          | '(' expr_arit • ')'
+   89 expr_arit: expr_arit • '+' expr_arit
+   90          | expr_arit • '-' expr_arit
+   91          | expr_arit • '*' expr_arit
+   92          | expr_arit • '/' expr_arit
+   93          | expr_arit • DIV expr_arit
+   95          | '(' expr_arit • ')'
 
     DIV  desplazar e ir al estado 38
     '+'  desplazar e ir al estado 39
@@ -701,7 +706,7 @@ Estado 37
 
 Estado 38
 
-   92 expr_arit: expr_arit DIV • expr_arit
+   93 expr_arit: expr_arit DIV • expr_arit
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -714,7 +719,7 @@ Estado 38
 
 Estado 39
 
-   88 expr_arit: expr_arit '+' • expr_arit
+   89 expr_arit: expr_arit '+' • expr_arit
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -727,7 +732,7 @@ Estado 39
 
 Estado 40
 
-   89 expr_arit: expr_arit '-' • expr_arit
+   90 expr_arit: expr_arit '-' • expr_arit
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -740,7 +745,7 @@ Estado 40
 
 Estado 41
 
-   90 expr_arit: expr_arit '*' • expr_arit
+   91 expr_arit: expr_arit '*' • expr_arit
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -753,7 +758,7 @@ Estado 41
 
 Estado 42
 
-   91 expr_arit: expr_arit '/' • expr_arit
+   92 expr_arit: expr_arit '/' • expr_arit
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -831,47 +836,31 @@ Estado 47
 
 Estado 48
 
-   94 expr_arit: '(' expr_arit ')' •
+   95 expr_arit: '(' expr_arit ')' •
 
-    $default  reduce usando la regla 94 (expr_arit)
+    $default  reduce usando la regla 95 (expr_arit)
 
 
 Estado 49
 
-   88 expr_arit: expr_arit • '+' expr_arit
-   89          | expr_arit • '-' expr_arit
-   90          | expr_arit • '*' expr_arit
-   91          | expr_arit • '/' expr_arit
-   92          | expr_arit • DIV expr_arit
-   92          | expr_arit DIV expr_arit •
+   89 expr_arit: expr_arit • '+' expr_arit
+   90          | expr_arit • '-' expr_arit
+   91          | expr_arit • '*' expr_arit
+   92          | expr_arit • '/' expr_arit
+   93          | expr_arit • DIV expr_arit
+   93          | expr_arit DIV expr_arit •
 
-    $default  reduce usando la regla 92 (expr_arit)
+    $default  reduce usando la regla 93 (expr_arit)
 
 
 Estado 50
 
-   88 expr_arit: expr_arit • '+' expr_arit
-   88          | expr_arit '+' expr_arit •
-   89          | expr_arit • '-' expr_arit
-   90          | expr_arit • '*' expr_arit
-   91          | expr_arit • '/' expr_arit
-   92          | expr_arit • DIV expr_arit
-
-    DIV  desplazar e ir al estado 38
-    '*'  desplazar e ir al estado 41
-    '/'  desplazar e ir al estado 42
-
-    $default  reduce usando la regla 88 (expr_arit)
-
-
-Estado 51
-
-   88 expr_arit: expr_arit • '+' expr_arit
-   89          | expr_arit • '-' expr_arit
-   89          | expr_arit '-' expr_arit •
-   90          | expr_arit • '*' expr_arit
-   91          | expr_arit • '/' expr_arit
-   92          | expr_arit • DIV expr_arit
+   89 expr_arit: expr_arit • '+' expr_arit
+   89          | expr_arit '+' expr_arit •
+   90          | expr_arit • '-' expr_arit
+   91          | expr_arit • '*' expr_arit
+   92          | expr_arit • '/' expr_arit
+   93          | expr_arit • DIV expr_arit
 
     DIV  desplazar e ir al estado 38
     '*'  desplazar e ir al estado 41
@@ -880,28 +869,44 @@ Estado 51
     $default  reduce usando la regla 89 (expr_arit)
 
 
-Estado 52
+Estado 51
 
-   88 expr_arit: expr_arit • '+' expr_arit
-   89          | expr_arit • '-' expr_arit
-   90          | expr_arit • '*' expr_arit
-   90          | expr_arit '*' expr_arit •
-   91          | expr_arit • '/' expr_arit
-   92          | expr_arit • DIV expr_arit
+   89 expr_arit: expr_arit • '+' expr_arit
+   90          | expr_arit • '-' expr_arit
+   90          | expr_arit '-' expr_arit •
+   91          | expr_arit • '*' expr_arit
+   92          | expr_arit • '/' expr_arit
+   93          | expr_arit • DIV expr_arit
+
+    DIV  desplazar e ir al estado 38
+    '*'  desplazar e ir al estado 41
+    '/'  desplazar e ir al estado 42
 
     $default  reduce usando la regla 90 (expr_arit)
 
 
-Estado 53
+Estado 52
 
-   88 expr_arit: expr_arit • '+' expr_arit
-   89          | expr_arit • '-' expr_arit
-   90          | expr_arit • '*' expr_arit
-   91          | expr_arit • '/' expr_arit
-   91          | expr_arit '/' expr_arit •
-   92          | expr_arit • DIV expr_arit
+   89 expr_arit: expr_arit • '+' expr_arit
+   90          | expr_arit • '-' expr_arit
+   91          | expr_arit • '*' expr_arit
+   91          | expr_arit '*' expr_arit •
+   92          | expr_arit • '/' expr_arit
+   93          | expr_arit • DIV expr_arit
 
     $default  reduce usando la regla 91 (expr_arit)
+
+
+Estado 53
+
+   89 expr_arit: expr_arit • '+' expr_arit
+   90          | expr_arit • '-' expr_arit
+   91          | expr_arit • '*' expr_arit
+   92          | expr_arit • '/' expr_arit
+   92          | expr_arit '/' expr_arit •
+   93          | expr_arit • DIV expr_arit
+
+    $default  reduce usando la regla 92 (expr_arit)
 
 
 Estado 54
@@ -915,51 +920,51 @@ Estado 54
 
 Estado 55
 
-   58 idioma: EN •
-
-    $default  reduce usando la regla 58 (idioma)
-
-
-Estado 56
-
-   59 idioma: EN_US •
+   59 idioma: EN •
 
     $default  reduce usando la regla 59 (idioma)
 
 
-Estado 57
+Estado 56
 
-   60 idioma: ES •
+   60 idioma: EN_US •
 
     $default  reduce usando la regla 60 (idioma)
 
 
-Estado 58
+Estado 57
 
-   61 idioma: ES_LA •
+   61 idioma: ES •
 
     $default  reduce usando la regla 61 (idioma)
 
 
-Estado 59
+Estado 58
 
-   62 idioma: PT •
+   62 idioma: ES_LA •
 
     $default  reduce usando la regla 62 (idioma)
 
 
-Estado 60
+Estado 59
 
-   63 idioma: IT •
+   63 idioma: PT •
 
     $default  reduce usando la regla 63 (idioma)
 
 
-Estado 61
+Estado 60
 
-   64 idioma: FR •
+   64 idioma: IT •
 
     $default  reduce usando la regla 64 (idioma)
+
+
+Estado 61
+
+   65 idioma: FR •
+
+    $default  reduce usando la regla 65 (idioma)
 
 
 Estado 62
@@ -971,7 +976,7 @@ Estado 62
 
 Estado 63
 
-   75 expr_log: NOT • expr_log
+   76 expr_log: NOT • expr_log
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -988,22 +993,22 @@ Estado 63
 
 Estado 64
 
-   71 expr_log: TRUE •
-
-    $default  reduce usando la regla 71 (expr_log)
-
-
-Estado 65
-
-   72 expr_log: FALSE •
+   72 expr_log: TRUE •
 
     $default  reduce usando la regla 72 (expr_log)
 
 
+Estado 65
+
+   73 expr_log: FALSE •
+
+    $default  reduce usando la regla 73 (expr_log)
+
+
 Estado 66
 
-   76 expr_log: '(' • expr_log ')'
-   94 expr_arit: '(' • expr_arit ')'
+   77 expr_log: '(' • expr_log ')'
+   95 expr_arit: '(' • expr_arit ')'
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -1021,10 +1026,10 @@ Estado 66
 Estado 67
 
    22 identificadorGeneral: ID_GENERAL '=' expr_log • $@5 salto
-   73 expr_log: expr_log • AND expr_log
-   74         | expr_log • OR expr_log
-   83         | expr_log • IGUAL2 expr_log
-   84         | expr_log • DISTINTO expr_log
+   74 expr_log: expr_log • AND expr_log
+   75         | expr_log • OR expr_log
+   84         | expr_log • IGUAL2 expr_log
+   85         | expr_log • DISTINTO expr_log
 
     AND       desplazar e ir al estado 79
     OR        desplazar e ir al estado 80
@@ -1039,17 +1044,17 @@ Estado 67
 Estado 68
 
    20 identificadorGeneral: ID_GENERAL '=' expr_arit • $@4 salto
-   77 expr_log: expr_arit • '>' expr_arit
-   78         | expr_arit • MAYORIGUAL expr_arit
-   79         | expr_arit • '<' expr_arit
-   80         | expr_arit • MENORIGUAL expr_arit
-   81         | expr_arit • IGUAL2 expr_arit
-   82         | expr_arit • DISTINTO expr_arit
-   88 expr_arit: expr_arit • '+' expr_arit
-   89          | expr_arit • '-' expr_arit
-   90          | expr_arit • '*' expr_arit
-   91          | expr_arit • '/' expr_arit
-   92          | expr_arit • DIV expr_arit
+   78 expr_log: expr_arit • '>' expr_arit
+   79         | expr_arit • MAYORIGUAL expr_arit
+   80         | expr_arit • '<' expr_arit
+   81         | expr_arit • MENORIGUAL expr_arit
+   82         | expr_arit • IGUAL2 expr_arit
+   83         | expr_arit • DISTINTO expr_arit
+   89 expr_arit: expr_arit • '+' expr_arit
+   90          | expr_arit • '-' expr_arit
+   91          | expr_arit • '*' expr_arit
+   92          | expr_arit • '/' expr_arit
+   93          | expr_arit • DIV expr_arit
 
     DIV         desplazar e ir al estado 38
     MAYORIGUAL  desplazar e ir al estado 84
@@ -1070,22 +1075,22 @@ Estado 68
 
 Estado 69
 
-   68 expr_cadena: ID_CADENA •
+   69 expr_cadena: ID_CADENA •
 
-    $default  reduce usando la regla 68 (expr_cadena)
+    $default  reduce usando la regla 69 (expr_cadena)
 
 
 Estado 70
 
-   67 expr_cadena: CADENA •
+   68 expr_cadena: CADENA •
 
-    $default  reduce usando la regla 67 (expr_cadena)
+    $default  reduce usando la regla 68 (expr_cadena)
 
 
 Estado 71
 
    24 identificadorCadena: ID_CADENA '=' expr_cadena • $@6 salto
-   70 expr_cadena: expr_cadena • CONCATENACION expr_cadena
+   71 expr_cadena: expr_cadena • CONCATENACION expr_cadena
 
     CONCATENACION  desplazar e ir al estado 91
 
@@ -1096,12 +1101,12 @@ Estado 71
 
 Estado 72
 
-   69 expr_cadena: expr_arit •
-   88 expr_arit: expr_arit • '+' expr_arit
-   89          | expr_arit • '-' expr_arit
-   90          | expr_arit • '*' expr_arit
-   91          | expr_arit • '/' expr_arit
-   92          | expr_arit • DIV expr_arit
+   70 expr_cadena: expr_arit •
+   89 expr_arit: expr_arit • '+' expr_arit
+   90          | expr_arit • '-' expr_arit
+   91          | expr_arit • '*' expr_arit
+   92          | expr_arit • '/' expr_arit
+   93          | expr_arit • DIV expr_arit
 
     DIV  desplazar e ir al estado 38
     '+'  desplazar e ir al estado 39
@@ -1109,7 +1114,7 @@ Estado 72
     '*'  desplazar e ir al estado 41
     '/'  desplazar e ir al estado 42
 
-    $default  reduce usando la regla 69 (expr_cadena)
+    $default  reduce usando la regla 70 (expr_cadena)
 
 
 Estado 73
@@ -1148,28 +1153,28 @@ Estado 74
 
 Estado 75
 
-   73 expr_log: expr_log • AND expr_log
-   74         | expr_log • OR expr_log
-   75         | NOT expr_log •
-   83         | expr_log • IGUAL2 expr_log
-   84         | expr_log • DISTINTO expr_log
+   74 expr_log: expr_log • AND expr_log
+   75         | expr_log • OR expr_log
+   76         | NOT expr_log •
+   84         | expr_log • IGUAL2 expr_log
+   85         | expr_log • DISTINTO expr_log
 
-    $default  reduce usando la regla 75 (expr_log)
+    $default  reduce usando la regla 76 (expr_log)
 
 
 Estado 76
 
-   77 expr_log: expr_arit • '>' expr_arit
-   78         | expr_arit • MAYORIGUAL expr_arit
-   79         | expr_arit • '<' expr_arit
-   80         | expr_arit • MENORIGUAL expr_arit
-   81         | expr_arit • IGUAL2 expr_arit
-   82         | expr_arit • DISTINTO expr_arit
-   88 expr_arit: expr_arit • '+' expr_arit
-   89          | expr_arit • '-' expr_arit
-   90          | expr_arit • '*' expr_arit
-   91          | expr_arit • '/' expr_arit
-   92          | expr_arit • DIV expr_arit
+   78 expr_log: expr_arit • '>' expr_arit
+   79         | expr_arit • MAYORIGUAL expr_arit
+   80         | expr_arit • '<' expr_arit
+   81         | expr_arit • MENORIGUAL expr_arit
+   82         | expr_arit • IGUAL2 expr_arit
+   83         | expr_arit • DISTINTO expr_arit
+   89 expr_arit: expr_arit • '+' expr_arit
+   90          | expr_arit • '-' expr_arit
+   91          | expr_arit • '*' expr_arit
+   92          | expr_arit • '/' expr_arit
+   93          | expr_arit • DIV expr_arit
 
     DIV         desplazar e ir al estado 38
     MAYORIGUAL  desplazar e ir al estado 84
@@ -1186,11 +1191,11 @@ Estado 76
 
 Estado 77
 
-   73 expr_log: expr_log • AND expr_log
-   74         | expr_log • OR expr_log
-   76         | '(' expr_log • ')'
-   83         | expr_log • IGUAL2 expr_log
-   84         | expr_log • DISTINTO expr_log
+   74 expr_log: expr_log • AND expr_log
+   75         | expr_log • OR expr_log
+   77         | '(' expr_log • ')'
+   84         | expr_log • IGUAL2 expr_log
+   85         | expr_log • DISTINTO expr_log
 
     AND       desplazar e ir al estado 79
     OR        desplazar e ir al estado 80
@@ -1201,18 +1206,18 @@ Estado 77
 
 Estado 78
 
-   77 expr_log: expr_arit • '>' expr_arit
-   78         | expr_arit • MAYORIGUAL expr_arit
-   79         | expr_arit • '<' expr_arit
-   80         | expr_arit • MENORIGUAL expr_arit
-   81         | expr_arit • IGUAL2 expr_arit
-   82         | expr_arit • DISTINTO expr_arit
-   88 expr_arit: expr_arit • '+' expr_arit
-   89          | expr_arit • '-' expr_arit
-   90          | expr_arit • '*' expr_arit
-   91          | expr_arit • '/' expr_arit
-   92          | expr_arit • DIV expr_arit
-   94          | '(' expr_arit • ')'
+   78 expr_log: expr_arit • '>' expr_arit
+   79         | expr_arit • MAYORIGUAL expr_arit
+   80         | expr_arit • '<' expr_arit
+   81         | expr_arit • MENORIGUAL expr_arit
+   82         | expr_arit • IGUAL2 expr_arit
+   83         | expr_arit • DISTINTO expr_arit
+   89 expr_arit: expr_arit • '+' expr_arit
+   90          | expr_arit • '-' expr_arit
+   91          | expr_arit • '*' expr_arit
+   92          | expr_arit • '/' expr_arit
+   93          | expr_arit • DIV expr_arit
+   95          | '(' expr_arit • ')'
 
     DIV         desplazar e ir al estado 38
     MAYORIGUAL  desplazar e ir al estado 84
@@ -1230,7 +1235,7 @@ Estado 78
 
 Estado 79
 
-   73 expr_log: expr_log AND • expr_log
+   74 expr_log: expr_log AND • expr_log
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -1247,7 +1252,7 @@ Estado 79
 
 Estado 80
 
-   74 expr_log: expr_log OR • expr_log
+   75 expr_log: expr_log OR • expr_log
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -1264,7 +1269,7 @@ Estado 80
 
 Estado 81
 
-   83 expr_log: expr_log IGUAL2 • expr_log
+   84 expr_log: expr_log IGUAL2 • expr_log
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -1281,7 +1286,7 @@ Estado 81
 
 Estado 82
 
-   84 expr_log: expr_log DISTINTO • expr_log
+   85 expr_log: expr_log DISTINTO • expr_log
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -1307,7 +1312,7 @@ Estado 83
 
 Estado 84
 
-   78 expr_log: expr_arit MAYORIGUAL • expr_arit
+   79 expr_log: expr_arit MAYORIGUAL • expr_arit
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -1320,7 +1325,7 @@ Estado 84
 
 Estado 85
 
-   80 expr_log: expr_arit MENORIGUAL • expr_arit
+   81 expr_log: expr_arit MENORIGUAL • expr_arit
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -1333,7 +1338,7 @@ Estado 85
 
 Estado 86
 
-   81 expr_log: expr_arit IGUAL2 • expr_arit
+   82 expr_log: expr_arit IGUAL2 • expr_arit
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -1346,7 +1351,7 @@ Estado 86
 
 Estado 87
 
-   82 expr_log: expr_arit DISTINTO • expr_arit
+   83 expr_log: expr_arit DISTINTO • expr_arit
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -1359,7 +1364,7 @@ Estado 87
 
 Estado 88
 
-   79 expr_log: expr_arit '<' • expr_arit
+   80 expr_log: expr_arit '<' • expr_arit
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -1372,7 +1377,7 @@ Estado 88
 
 Estado 89
 
-   77 expr_log: expr_arit '>' • expr_arit
+   78 expr_log: expr_arit '>' • expr_arit
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -1394,7 +1399,7 @@ Estado 90
 
 Estado 91
 
-   70 expr_cadena: expr_cadena CONCATENACION • expr_cadena
+   71 expr_cadena: expr_cadena CONCATENACION • expr_cadena
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -1458,14 +1463,14 @@ Estado 95
 
 Estado 96
 
-   48 parteSi: SI • '(' expr_log ')' salto_opc '{' salto $@14 secBloqueEscena '}' salto
+   49 parteSi: SI • '(' expr_log ')' salto_opc '{' salto $@15 secBloqueEscena '}' salto
 
     '('  desplazar e ir al estado 126
 
 
 Estado 97
 
-   45 bucle: REPETIR • expr_arit '{' salto secBloqueEscena '}' salto
+   46 bucle: REPETIR • expr_arit '{' salto $@14 secBloqueEscena '}' salto
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -1529,27 +1534,27 @@ Estado 102
 
 Estado 103
 
-   46 condicional: parteSi • parteSiNo
+   47 condicional: parteSi • parteSiNo
 
     SI_NO  desplazar e ir al estado 130
 
-    $default  reduce usando la regla 49 (parteSiNo)
+    $default  reduce usando la regla 50 (parteSiNo)
 
     parteSiNo  ir al estado 131
 
 
 Estado 104
 
-   65 voz: MASCULINO •
+   66 voz: MASCULINO •
 
-    $default  reduce usando la regla 65 (voz)
+    $default  reduce usando la regla 66 (voz)
 
 
 Estado 105
 
-   66 voz: FEMENINO •
+   67 voz: FEMENINO •
 
-    $default  reduce usando la regla 66 (voz)
+    $default  reduce usando la regla 67 (voz)
 
 
 Estado 106
@@ -1561,60 +1566,60 @@ Estado 106
 
 Estado 107
 
-   76 expr_log: '(' expr_log ')' •
+   77 expr_log: '(' expr_log ')' •
 
-    $default  reduce usando la regla 76 (expr_log)
+    $default  reduce usando la regla 77 (expr_log)
 
 
 Estado 108
 
-   73 expr_log: expr_log • AND expr_log
-   73         | expr_log AND expr_log •
-   74         | expr_log • OR expr_log
-   83         | expr_log • IGUAL2 expr_log
-   84         | expr_log • DISTINTO expr_log
+   74 expr_log: expr_log • AND expr_log
+   74         | expr_log AND expr_log •
+   75         | expr_log • OR expr_log
+   84         | expr_log • IGUAL2 expr_log
+   85         | expr_log • DISTINTO expr_log
 
-    IGUAL2    desplazar e ir al estado 81
-    DISTINTO  desplazar e ir al estado 82
-
-    $default  reduce usando la regla 73 (expr_log)
-
-
-Estado 109
-
-   73 expr_log: expr_log • AND expr_log
-   74         | expr_log • OR expr_log
-   74         | expr_log OR expr_log •
-   83         | expr_log • IGUAL2 expr_log
-   84         | expr_log • DISTINTO expr_log
-
-    AND       desplazar e ir al estado 79
     IGUAL2    desplazar e ir al estado 81
     DISTINTO  desplazar e ir al estado 82
 
     $default  reduce usando la regla 74 (expr_log)
 
 
+Estado 109
+
+   74 expr_log: expr_log • AND expr_log
+   75         | expr_log • OR expr_log
+   75         | expr_log OR expr_log •
+   84         | expr_log • IGUAL2 expr_log
+   85         | expr_log • DISTINTO expr_log
+
+    AND       desplazar e ir al estado 79
+    IGUAL2    desplazar e ir al estado 81
+    DISTINTO  desplazar e ir al estado 82
+
+    $default  reduce usando la regla 75 (expr_log)
+
+
 Estado 110
 
-   73 expr_log: expr_log • AND expr_log
-   74         | expr_log • OR expr_log
-   83         | expr_log • IGUAL2 expr_log
-   83         | expr_log IGUAL2 expr_log •
-   84         | expr_log • DISTINTO expr_log
+   74 expr_log: expr_log • AND expr_log
+   75         | expr_log • OR expr_log
+   84         | expr_log • IGUAL2 expr_log
+   84         | expr_log IGUAL2 expr_log •
+   85         | expr_log • DISTINTO expr_log
 
-    $default  reduce usando la regla 83 (expr_log)
+    $default  reduce usando la regla 84 (expr_log)
 
 
 Estado 111
 
-   73 expr_log: expr_log • AND expr_log
-   74         | expr_log • OR expr_log
-   83         | expr_log • IGUAL2 expr_log
-   84         | expr_log • DISTINTO expr_log
-   84         | expr_log DISTINTO expr_log •
+   74 expr_log: expr_log • AND expr_log
+   75         | expr_log • OR expr_log
+   84         | expr_log • IGUAL2 expr_log
+   85         | expr_log • DISTINTO expr_log
+   85         | expr_log DISTINTO expr_log •
 
-    $default  reduce usando la regla 84 (expr_log)
+    $default  reduce usando la regla 85 (expr_log)
 
 
 Estado 112
@@ -1629,84 +1634,12 @@ Estado 112
 
 Estado 113
 
-   78 expr_log: expr_arit MAYORIGUAL expr_arit •
-   88 expr_arit: expr_arit • '+' expr_arit
-   89          | expr_arit • '-' expr_arit
-   90          | expr_arit • '*' expr_arit
-   91          | expr_arit • '/' expr_arit
-   92          | expr_arit • DIV expr_arit
-
-    DIV  desplazar e ir al estado 38
-    '+'  desplazar e ir al estado 39
-    '-'  desplazar e ir al estado 40
-    '*'  desplazar e ir al estado 41
-    '/'  desplazar e ir al estado 42
-
-    $default  reduce usando la regla 78 (expr_log)
-
-
-Estado 114
-
-   80 expr_log: expr_arit MENORIGUAL expr_arit •
-   88 expr_arit: expr_arit • '+' expr_arit
-   89          | expr_arit • '-' expr_arit
-   90          | expr_arit • '*' expr_arit
-   91          | expr_arit • '/' expr_arit
-   92          | expr_arit • DIV expr_arit
-
-    DIV  desplazar e ir al estado 38
-    '+'  desplazar e ir al estado 39
-    '-'  desplazar e ir al estado 40
-    '*'  desplazar e ir al estado 41
-    '/'  desplazar e ir al estado 42
-
-    $default  reduce usando la regla 80 (expr_log)
-
-
-Estado 115
-
-   81 expr_log: expr_arit IGUAL2 expr_arit •
-   88 expr_arit: expr_arit • '+' expr_arit
-   89          | expr_arit • '-' expr_arit
-   90          | expr_arit • '*' expr_arit
-   91          | expr_arit • '/' expr_arit
-   92          | expr_arit • DIV expr_arit
-
-    DIV  desplazar e ir al estado 38
-    '+'  desplazar e ir al estado 39
-    '-'  desplazar e ir al estado 40
-    '*'  desplazar e ir al estado 41
-    '/'  desplazar e ir al estado 42
-
-    $default  reduce usando la regla 81 (expr_log)
-
-
-Estado 116
-
-   82 expr_log: expr_arit DISTINTO expr_arit •
-   88 expr_arit: expr_arit • '+' expr_arit
-   89          | expr_arit • '-' expr_arit
-   90          | expr_arit • '*' expr_arit
-   91          | expr_arit • '/' expr_arit
-   92          | expr_arit • DIV expr_arit
-
-    DIV  desplazar e ir al estado 38
-    '+'  desplazar e ir al estado 39
-    '-'  desplazar e ir al estado 40
-    '*'  desplazar e ir al estado 41
-    '/'  desplazar e ir al estado 42
-
-    $default  reduce usando la regla 82 (expr_log)
-
-
-Estado 117
-
-   79 expr_log: expr_arit '<' expr_arit •
-   88 expr_arit: expr_arit • '+' expr_arit
-   89          | expr_arit • '-' expr_arit
-   90          | expr_arit • '*' expr_arit
-   91          | expr_arit • '/' expr_arit
-   92          | expr_arit • DIV expr_arit
+   79 expr_log: expr_arit MAYORIGUAL expr_arit •
+   89 expr_arit: expr_arit • '+' expr_arit
+   90          | expr_arit • '-' expr_arit
+   91          | expr_arit • '*' expr_arit
+   92          | expr_arit • '/' expr_arit
+   93          | expr_arit • DIV expr_arit
 
     DIV  desplazar e ir al estado 38
     '+'  desplazar e ir al estado 39
@@ -1717,14 +1650,14 @@ Estado 117
     $default  reduce usando la regla 79 (expr_log)
 
 
-Estado 118
+Estado 114
 
-   77 expr_log: expr_arit '>' expr_arit •
-   88 expr_arit: expr_arit • '+' expr_arit
-   89          | expr_arit • '-' expr_arit
-   90          | expr_arit • '*' expr_arit
-   91          | expr_arit • '/' expr_arit
-   92          | expr_arit • DIV expr_arit
+   81 expr_log: expr_arit MENORIGUAL expr_arit •
+   89 expr_arit: expr_arit • '+' expr_arit
+   90          | expr_arit • '-' expr_arit
+   91          | expr_arit • '*' expr_arit
+   92          | expr_arit • '/' expr_arit
+   93          | expr_arit • DIV expr_arit
 
     DIV  desplazar e ir al estado 38
     '+'  desplazar e ir al estado 39
@@ -1732,7 +1665,79 @@ Estado 118
     '*'  desplazar e ir al estado 41
     '/'  desplazar e ir al estado 42
 
-    $default  reduce usando la regla 77 (expr_log)
+    $default  reduce usando la regla 81 (expr_log)
+
+
+Estado 115
+
+   82 expr_log: expr_arit IGUAL2 expr_arit •
+   89 expr_arit: expr_arit • '+' expr_arit
+   90          | expr_arit • '-' expr_arit
+   91          | expr_arit • '*' expr_arit
+   92          | expr_arit • '/' expr_arit
+   93          | expr_arit • DIV expr_arit
+
+    DIV  desplazar e ir al estado 38
+    '+'  desplazar e ir al estado 39
+    '-'  desplazar e ir al estado 40
+    '*'  desplazar e ir al estado 41
+    '/'  desplazar e ir al estado 42
+
+    $default  reduce usando la regla 82 (expr_log)
+
+
+Estado 116
+
+   83 expr_log: expr_arit DISTINTO expr_arit •
+   89 expr_arit: expr_arit • '+' expr_arit
+   90          | expr_arit • '-' expr_arit
+   91          | expr_arit • '*' expr_arit
+   92          | expr_arit • '/' expr_arit
+   93          | expr_arit • DIV expr_arit
+
+    DIV  desplazar e ir al estado 38
+    '+'  desplazar e ir al estado 39
+    '-'  desplazar e ir al estado 40
+    '*'  desplazar e ir al estado 41
+    '/'  desplazar e ir al estado 42
+
+    $default  reduce usando la regla 83 (expr_log)
+
+
+Estado 117
+
+   80 expr_log: expr_arit '<' expr_arit •
+   89 expr_arit: expr_arit • '+' expr_arit
+   90          | expr_arit • '-' expr_arit
+   91          | expr_arit • '*' expr_arit
+   92          | expr_arit • '/' expr_arit
+   93          | expr_arit • DIV expr_arit
+
+    DIV  desplazar e ir al estado 38
+    '+'  desplazar e ir al estado 39
+    '-'  desplazar e ir al estado 40
+    '*'  desplazar e ir al estado 41
+    '/'  desplazar e ir al estado 42
+
+    $default  reduce usando la regla 80 (expr_log)
+
+
+Estado 118
+
+   78 expr_log: expr_arit '>' expr_arit •
+   89 expr_arit: expr_arit • '+' expr_arit
+   90          | expr_arit • '-' expr_arit
+   91          | expr_arit • '*' expr_arit
+   92          | expr_arit • '/' expr_arit
+   93          | expr_arit • DIV expr_arit
+
+    DIV  desplazar e ir al estado 38
+    '+'  desplazar e ir al estado 39
+    '-'  desplazar e ir al estado 40
+    '*'  desplazar e ir al estado 41
+    '/'  desplazar e ir al estado 42
+
+    $default  reduce usando la regla 78 (expr_log)
 
 
 Estado 119
@@ -1747,10 +1752,10 @@ Estado 119
 
 Estado 120
 
-   70 expr_cadena: expr_cadena • CONCATENACION expr_cadena
-   70            | expr_cadena CONCATENACION expr_cadena •
+   71 expr_cadena: expr_cadena • CONCATENACION expr_cadena
+   71            | expr_cadena CONCATENACION expr_cadena •
 
-    $default  reduce usando la regla 70 (expr_cadena)
+    $default  reduce usando la regla 71 (expr_cadena)
 
 
 Estado 121
@@ -1797,11 +1802,11 @@ Estado 123
 Estado 124
 
    41 bloqueEscena: PAUSA expr_arit • $@13 salto
-   88 expr_arit: expr_arit • '+' expr_arit
-   89          | expr_arit • '-' expr_arit
-   90          | expr_arit • '*' expr_arit
-   91          | expr_arit • '/' expr_arit
-   92          | expr_arit • DIV expr_arit
+   89 expr_arit: expr_arit • '+' expr_arit
+   90          | expr_arit • '-' expr_arit
+   91          | expr_arit • '*' expr_arit
+   92          | expr_arit • '/' expr_arit
+   93          | expr_arit • DIV expr_arit
 
     DIV  desplazar e ir al estado 38
     '+'  desplazar e ir al estado 39
@@ -1817,7 +1822,7 @@ Estado 124
 Estado 125
 
    39 bloqueEscena: MENSAJE expr_cadena • $@12 salto
-   70 expr_cadena: expr_cadena • CONCATENACION expr_cadena
+   71 expr_cadena: expr_cadena • CONCATENACION expr_cadena
 
     CONCATENACION  desplazar e ir al estado 91
 
@@ -1828,7 +1833,7 @@ Estado 125
 
 Estado 126
 
-   48 parteSi: SI '(' • expr_log ')' salto_opc '{' salto $@14 secBloqueEscena '}' salto
+   49 parteSi: SI '(' • expr_log ')' salto_opc '{' salto $@15 secBloqueEscena '}' salto
 
     NUMERO      desplazar e ir al estado 21
     REAL        desplazar e ir al estado 22
@@ -1845,12 +1850,12 @@ Estado 126
 
 Estado 127
 
-   45 bucle: REPETIR expr_arit • '{' salto secBloqueEscena '}' salto
-   88 expr_arit: expr_arit • '+' expr_arit
-   89          | expr_arit • '-' expr_arit
-   90          | expr_arit • '*' expr_arit
-   91          | expr_arit • '/' expr_arit
-   92          | expr_arit • DIV expr_arit
+   46 bucle: REPETIR expr_arit • '{' salto $@14 secBloqueEscena '}' salto
+   89 expr_arit: expr_arit • '+' expr_arit
+   90          | expr_arit • '-' expr_arit
+   91          | expr_arit • '*' expr_arit
+   92          | expr_arit • '/' expr_arit
+   93          | expr_arit • DIV expr_arit
 
     DIV  desplazar e ir al estado 38
     '+'  desplazar e ir al estado 39
@@ -1878,16 +1883,16 @@ Estado 129
 
 Estado 130
 
-   51 parteSiNo: SI_NO • '{' salto $@15 secBloqueEscena '}' salto
+   52 parteSiNo: SI_NO • '{' salto $@16 secBloqueEscena '}' salto
 
     '{'  desplazar e ir al estado 146
 
 
 Estado 131
 
-   46 condicional: parteSi parteSiNo •
+   47 condicional: parteSi parteSiNo •
 
-    $default  reduce usando la regla 46 (condicional)
+    $default  reduce usando la regla 47 (condicional)
 
 
 Estado 132
@@ -1902,7 +1907,7 @@ Estado 132
 Estado 133
 
    33 bloqueEscena: ID_NOMBRE ':' expr_cadena • $@9 salto
-   70 expr_cadena: expr_cadena • CONCATENACION expr_cadena
+   71 expr_cadena: expr_cadena • CONCATENACION expr_cadena
 
     CONCATENACION  desplazar e ir al estado 91
 
@@ -1913,30 +1918,30 @@ Estado 133
 
 Estado 134
 
-   54 tono: DESPACIO •
-
-    $default  reduce usando la regla 54 (tono)
-
-
-Estado 135
-
-   55 tono: DEPRISA •
+   55 tono: DESPACIO •
 
     $default  reduce usando la regla 55 (tono)
 
 
-Estado 136
+Estado 135
 
-   56 tono: GRITANDO •
+   56 tono: DEPRISA •
 
     $default  reduce usando la regla 56 (tono)
 
 
-Estado 137
+Estado 136
 
-   57 tono: VOZ_BAJA •
+   57 tono: GRITANDO •
 
     $default  reduce usando la regla 57 (tono)
+
+
+Estado 137
+
+   58 tono: VOZ_BAJA •
+
+    $default  reduce usando la regla 58 (tono)
 
 
 Estado 138
@@ -1949,7 +1954,7 @@ Estado 138
 Estado 139
 
    37 bloqueEscena: ID_NOMBRE '[' entonacion • ']' ':' expr_cadena $@11 salto
-   53 entonacion: entonacion • ',' tono
+   54 entonacion: entonacion • ',' tono
 
     ','  desplazar e ir al estado 150
     ']'  desplazar e ir al estado 151
@@ -1957,9 +1962,9 @@ Estado 139
 
 Estado 140
 
-   52 entonacion: tono •
+   53 entonacion: tono •
 
-    $default  reduce usando la regla 52 (entonacion)
+    $default  reduce usando la regla 53 (entonacion)
 
 
 Estado 141
@@ -1982,11 +1987,11 @@ Estado 142
 
 Estado 143
 
-   48 parteSi: SI '(' expr_log • ')' salto_opc '{' salto $@14 secBloqueEscena '}' salto
-   73 expr_log: expr_log • AND expr_log
-   74         | expr_log • OR expr_log
-   83         | expr_log • IGUAL2 expr_log
-   84         | expr_log • DISTINTO expr_log
+   49 parteSi: SI '(' expr_log • ')' salto_opc '{' salto $@15 secBloqueEscena '}' salto
+   74 expr_log: expr_log • AND expr_log
+   75         | expr_log • OR expr_log
+   84         | expr_log • IGUAL2 expr_log
+   85         | expr_log • DISTINTO expr_log
 
     AND       desplazar e ir al estado 79
     OR        desplazar e ir al estado 80
@@ -1997,7 +2002,7 @@ Estado 143
 
 Estado 144
 
-   45 bucle: REPETIR expr_arit '{' • salto secBloqueEscena '}' salto
+   46 bucle: REPETIR expr_arit '{' • salto $@14 secBloqueEscena '}' salto
 
     '\n'  desplazar e ir al estado 10
 
@@ -2015,7 +2020,7 @@ Estado 145
 
 Estado 146
 
-   51 parteSiNo: SI_NO '{' • salto $@15 secBloqueEscena '}' salto
+   52 parteSiNo: SI_NO '{' • salto $@16 secBloqueEscena '}' salto
 
     '\n'  desplazar e ir al estado 10
 
@@ -2058,7 +2063,7 @@ Estado 149
 
 Estado 150
 
-   53 entonacion: entonacion ',' • tono
+   54 entonacion: entonacion ',' • tono
 
     DESPACIO  desplazar e ir al estado 134
     DEPRISA   desplazar e ir al estado 135
@@ -2097,7 +2102,7 @@ Estado 153
 
 Estado 154
 
-   48 parteSi: SI '(' expr_log ')' • salto_opc '{' salto $@14 secBloqueEscena '}' salto
+   49 parteSi: SI '(' expr_log ')' • salto_opc '{' salto $@15 secBloqueEscena '}' salto
 
     $default  reduce usando la regla 3 (salto_opc)
 
@@ -2107,25 +2112,13 @@ Estado 154
 Estado 155
 
     2 salto: salto • '\n'
-   45 bucle: REPETIR expr_arit '{' salto • secBloqueEscena '}' salto
+   46 bucle: REPETIR expr_arit '{' salto • $@14 secBloqueEscena '}' salto
 
-    ID_GENERAL  desplazar e ir al estado 30
-    ID_NOMBRE   desplazar e ir al estado 93
-    ID_CADENA   desplazar e ir al estado 31
-    PAUSA       desplazar e ir al estado 94
-    MENSAJE     desplazar e ir al estado 95
-    SI          desplazar e ir al estado 96
-    REPETIR     desplazar e ir al estado 97
-    '\n'        desplazar e ir al estado 17
+    '\n'  desplazar e ir al estado 17
 
-    identificador         ir al estado 98
-    identificadorGeneral  ir al estado 34
-    identificadorCadena   ir al estado 35
-    secBloqueEscena       ir al estado 164
-    bloqueEscena          ir al estado 100
-    bucle                 ir al estado 101
-    condicional           ir al estado 102
-    parteSi               ir al estado 103
+    $default  reduce usando la regla 45 ($@14)
+
+    $@14  ir al estado 164
 
 
 Estado 156
@@ -2141,13 +2134,13 @@ Estado 156
 Estado 157
 
     2 salto: salto • '\n'
-   51 parteSiNo: SI_NO '{' salto • $@15 secBloqueEscena '}' salto
+   52 parteSiNo: SI_NO '{' salto • $@16 secBloqueEscena '}' salto
 
     '\n'  desplazar e ir al estado 17
 
-    $default  reduce usando la regla 50 ($@15)
+    $default  reduce usando la regla 51 ($@16)
 
-    $@15  ir al estado 165
+    $@16  ir al estado 165
 
 
 Estado 158
@@ -2173,7 +2166,7 @@ Estado 159
 Estado 160
 
    35 bloqueEscena: ID_NOMBRE '[' ']' ':' expr_cadena • $@10 salto
-   70 expr_cadena: expr_cadena • CONCATENACION expr_cadena
+   71 expr_cadena: expr_cadena • CONCATENACION expr_cadena
 
     CONCATENACION  desplazar e ir al estado 91
 
@@ -2184,9 +2177,9 @@ Estado 160
 
 Estado 161
 
-   53 entonacion: entonacion ',' tono •
+   54 entonacion: entonacion ',' tono •
 
-    $default  reduce usando la regla 53 (entonacion)
+    $default  reduce usando la regla 54 (entonacion)
 
 
 Estado 162
@@ -2208,7 +2201,7 @@ Estado 162
 Estado 163
 
     4 salto_opc: salto_opc • '\n'
-   48 parteSi: SI '(' expr_log ')' salto_opc • '{' salto $@14 secBloqueEscena '}' salto
+   49 parteSi: SI '(' expr_log ')' salto_opc • '{' salto $@15 secBloqueEscena '}' salto
 
     '\n'  desplazar e ir al estado 4
     '{'   desplazar e ir al estado 168
@@ -2216,8 +2209,7 @@ Estado 163
 
 Estado 164
 
-   31 secBloqueEscena: secBloqueEscena • bloqueEscena
-   45 bucle: REPETIR expr_arit '{' salto secBloqueEscena • '}' salto
+   46 bucle: REPETIR expr_arit '{' salto $@14 • secBloqueEscena '}' salto
 
     ID_GENERAL  desplazar e ir al estado 30
     ID_NOMBRE   desplazar e ir al estado 93
@@ -2226,12 +2218,12 @@ Estado 164
     MENSAJE     desplazar e ir al estado 95
     SI          desplazar e ir al estado 96
     REPETIR     desplazar e ir al estado 97
-    '}'         desplazar e ir al estado 169
 
     identificador         ir al estado 98
     identificadorGeneral  ir al estado 34
     identificadorCadena   ir al estado 35
-    bloqueEscena          ir al estado 129
+    secBloqueEscena       ir al estado 169
+    bloqueEscena          ir al estado 100
     bucle                 ir al estado 101
     condicional           ir al estado 102
     parteSi               ir al estado 103
@@ -2239,7 +2231,7 @@ Estado 164
 
 Estado 165
 
-   51 parteSiNo: SI_NO '{' salto $@15 • secBloqueEscena '}' salto
+   52 parteSiNo: SI_NO '{' salto $@16 • secBloqueEscena '}' salto
 
     ID_GENERAL  desplazar e ir al estado 30
     ID_NOMBRE   desplazar e ir al estado 93
@@ -2271,7 +2263,7 @@ Estado 166
 Estado 167
 
    37 bloqueEscena: ID_NOMBRE '[' entonacion ']' ':' expr_cadena • $@11 salto
-   70 expr_cadena: expr_cadena • CONCATENACION expr_cadena
+   71 expr_cadena: expr_cadena • CONCATENACION expr_cadena
 
     CONCATENACION  desplazar e ir al estado 91
 
@@ -2282,7 +2274,7 @@ Estado 167
 
 Estado 168
 
-   48 parteSi: SI '(' expr_log ')' salto_opc '{' • salto $@14 secBloqueEscena '}' salto
+   49 parteSi: SI '(' expr_log ')' salto_opc '{' • salto $@15 secBloqueEscena '}' salto
 
     '\n'  desplazar e ir al estado 10
 
@@ -2291,17 +2283,31 @@ Estado 168
 
 Estado 169
 
-   45 bucle: REPETIR expr_arit '{' salto secBloqueEscena '}' • salto
+   31 secBloqueEscena: secBloqueEscena • bloqueEscena
+   46 bucle: REPETIR expr_arit '{' salto $@14 secBloqueEscena • '}' salto
 
-    '\n'  desplazar e ir al estado 10
+    ID_GENERAL  desplazar e ir al estado 30
+    ID_NOMBRE   desplazar e ir al estado 93
+    ID_CADENA   desplazar e ir al estado 31
+    PAUSA       desplazar e ir al estado 94
+    MENSAJE     desplazar e ir al estado 95
+    SI          desplazar e ir al estado 96
+    REPETIR     desplazar e ir al estado 97
+    '}'         desplazar e ir al estado 174
 
-    salto  ir al estado 174
+    identificador         ir al estado 98
+    identificadorGeneral  ir al estado 34
+    identificadorCadena   ir al estado 35
+    bloqueEscena          ir al estado 129
+    bucle                 ir al estado 101
+    condicional           ir al estado 102
+    parteSi               ir al estado 103
 
 
 Estado 170
 
    31 secBloqueEscena: secBloqueEscena • bloqueEscena
-   51 parteSiNo: SI_NO '{' salto $@15 secBloqueEscena • '}' salto
+   52 parteSiNo: SI_NO '{' salto $@16 secBloqueEscena • '}' salto
 
     ID_GENERAL  desplazar e ir al estado 30
     ID_NOMBRE   desplazar e ir al estado 93
@@ -2343,32 +2349,31 @@ Estado 172
 Estado 173
 
     2 salto: salto • '\n'
-   48 parteSi: SI '(' expr_log ')' salto_opc '{' salto • $@14 secBloqueEscena '}' salto
+   49 parteSi: SI '(' expr_log ')' salto_opc '{' salto • $@15 secBloqueEscena '}' salto
 
     '\n'  desplazar e ir al estado 17
 
-    $default  reduce usando la regla 47 ($@14)
+    $default  reduce usando la regla 48 ($@15)
 
-    $@14  ir al estado 177
+    $@15  ir al estado 177
 
 
 Estado 174
 
-    2 salto: salto • '\n'
-   45 bucle: REPETIR expr_arit '{' salto secBloqueEscena '}' salto •
-
-    '\n'  desplazar e ir al estado 17
-
-    $default  reduce usando la regla 45 (bucle)
-
-
-Estado 175
-
-   51 parteSiNo: SI_NO '{' salto $@15 secBloqueEscena '}' • salto
+   46 bucle: REPETIR expr_arit '{' salto $@14 secBloqueEscena '}' • salto
 
     '\n'  desplazar e ir al estado 10
 
     salto  ir al estado 178
+
+
+Estado 175
+
+   52 parteSiNo: SI_NO '{' salto $@16 secBloqueEscena '}' • salto
+
+    '\n'  desplazar e ir al estado 10
+
+    salto  ir al estado 179
 
 
 Estado 176
@@ -2383,7 +2388,7 @@ Estado 176
 
 Estado 177
 
-   48 parteSi: SI '(' expr_log ')' salto_opc '{' salto $@14 • secBloqueEscena '}' salto
+   49 parteSi: SI '(' expr_log ')' salto_opc '{' salto $@15 • secBloqueEscena '}' salto
 
     ID_GENERAL  desplazar e ir al estado 30
     ID_NOMBRE   desplazar e ir al estado 93
@@ -2396,7 +2401,7 @@ Estado 177
     identificador         ir al estado 98
     identificadorGeneral  ir al estado 34
     identificadorCadena   ir al estado 35
-    secBloqueEscena       ir al estado 179
+    secBloqueEscena       ir al estado 180
     bloqueEscena          ir al estado 100
     bucle                 ir al estado 101
     condicional           ir al estado 102
@@ -2406,17 +2411,27 @@ Estado 177
 Estado 178
 
     2 salto: salto • '\n'
-   51 parteSiNo: SI_NO '{' salto $@15 secBloqueEscena '}' salto •
+   46 bucle: REPETIR expr_arit '{' salto $@14 secBloqueEscena '}' salto •
 
     '\n'  desplazar e ir al estado 17
 
-    $default  reduce usando la regla 51 (parteSiNo)
+    $default  reduce usando la regla 46 (bucle)
 
 
 Estado 179
 
+    2 salto: salto • '\n'
+   52 parteSiNo: SI_NO '{' salto $@16 secBloqueEscena '}' salto •
+
+    '\n'  desplazar e ir al estado 17
+
+    $default  reduce usando la regla 52 (parteSiNo)
+
+
+Estado 180
+
    31 secBloqueEscena: secBloqueEscena • bloqueEscena
-   48 parteSi: SI '(' expr_log ')' salto_opc '{' salto $@14 secBloqueEscena • '}' salto
+   49 parteSi: SI '(' expr_log ')' salto_opc '{' salto $@15 secBloqueEscena • '}' salto
 
     ID_GENERAL  desplazar e ir al estado 30
     ID_NOMBRE   desplazar e ir al estado 93
@@ -2425,7 +2440,7 @@ Estado 179
     MENSAJE     desplazar e ir al estado 95
     SI          desplazar e ir al estado 96
     REPETIR     desplazar e ir al estado 97
-    '}'         desplazar e ir al estado 180
+    '}'         desplazar e ir al estado 181
 
     identificador         ir al estado 98
     identificadorGeneral  ir al estado 34
@@ -2436,20 +2451,20 @@ Estado 179
     parteSi               ir al estado 103
 
 
-Estado 180
+Estado 181
 
-   48 parteSi: SI '(' expr_log ')' salto_opc '{' salto $@14 secBloqueEscena '}' • salto
+   49 parteSi: SI '(' expr_log ')' salto_opc '{' salto $@15 secBloqueEscena '}' • salto
 
     '\n'  desplazar e ir al estado 10
 
-    salto  ir al estado 181
+    salto  ir al estado 182
 
 
-Estado 181
+Estado 182
 
     2 salto: salto • '\n'
-   48 parteSi: SI '(' expr_log ')' salto_opc '{' salto $@14 secBloqueEscena '}' salto •
+   49 parteSi: SI '(' expr_log ')' salto_opc '{' salto $@15 secBloqueEscena '}' salto •
 
     '\n'  desplazar e ir al estado 17
 
-    $default  reduce usando la regla 48 (parteSi)
+    $default  reduce usando la regla 49 (parteSi)

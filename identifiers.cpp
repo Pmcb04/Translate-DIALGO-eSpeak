@@ -40,7 +40,7 @@ void Identifiers::get(string id, Identifier &identifier){
 	identifier = ids[i];
 }
 
-TIPO Identifiers::getTipo(string id){
+TIPO_IDENT Identifiers::getTipo(string id){
 
 	bool enc = false;
 	int i = 0;
@@ -150,7 +150,7 @@ void Identifiers::printIdentifiers(ofstream &salida){
 		string print = (ids[i].valor.valor_bool == true)? "true" : "false" ;
 		switch (ids[i].tipo)
 		{
-		case TIPO::T_ENT:
+		case TIPO_IDENT::T_ENT:
 			printElement(ids[i].id, numWidth, salida);
 			printElement("entero", numWidth, salida);
 			printElement(ids[i].valor.valor_entero, numWidth, salida);
@@ -158,7 +158,7 @@ void Identifiers::printIdentifiers(ofstream &salida){
 			salida << endl;
 			break;
 
-		case TIPO::T_REAL:
+		case TIPO_IDENT::T_REAL:
 			printElement(ids[i].id, numWidth, salida);
 			printElement("real", numWidth, salida);
 			printElement(ids[i].valor.valor_real, numWidth, salida);
@@ -166,7 +166,7 @@ void Identifiers::printIdentifiers(ofstream &salida){
 			salida << endl;
 			break;	
 
-		case TIPO::T_BOOL: 
+		case TIPO_IDENT::T_BOOL: 
 			printElement(ids[i].id, numWidth, salida);
 			printElement("logico", numWidth, salida);
 			printElement(print, numWidth, salida);
@@ -174,7 +174,7 @@ void Identifiers::printIdentifiers(ofstream &salida){
 			salida << endl;
 			break;	
 
-		case TIPO::T_CADENA: 
+		case TIPO_IDENT::T_CADENA: 
 			printElement(ids[i].id, numWidth, salida);
 			printElement("cadena", numWidth, salida);
 			printElement(ids[i].valor.valor_cadena, numWidth, salida);
@@ -218,7 +218,7 @@ void Identifiers::printIdentifiers(){
 		string print = (ids[i].valor.valor_bool == true)? "true" : "false" ;
 		switch (ids[i].tipo)
 		{
-		case TIPO::T_ENT:
+		case TIPO_IDENT::T_ENT:
 			printElement(ids[i].id, numWidth);
 			printElement("entero", numWidth);
 			printElement(ids[i].valor.valor_entero, numWidth);
@@ -226,7 +226,7 @@ void Identifiers::printIdentifiers(){
 			cout << endl;
 			break;
 
-		case TIPO::T_REAL:
+		case TIPO_IDENT::T_REAL:
 			printElement(ids[i].id, numWidth);
 			printElement("real", numWidth);
 			printElement(ids[i].valor.valor_real, numWidth);
@@ -234,7 +234,7 @@ void Identifiers::printIdentifiers(){
 			cout << endl;
 			break;	
 
-		case TIPO::T_BOOL: 
+		case TIPO_IDENT::T_BOOL: 
 			printElement(ids[i].id, numWidth);
 			printElement("logico", numWidth);
 			printElement(print, numWidth);
@@ -242,7 +242,7 @@ void Identifiers::printIdentifiers(){
 			cout << endl;
 			break;	
 
-		case TIPO::T_CADENA: 
+		case TIPO_IDENT::T_CADENA: 
 			printElement(ids[i].id, numWidth);
 			printElement("cadena", numWidth);
 			printElement(ids[i].valor.valor_cadena, numWidth);

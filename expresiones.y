@@ -16,6 +16,7 @@
 #include <cstring>
 #include "identifiers.h"
 #include "characters.h"
+#include "loops.h"
 using namespace std;
 
  
@@ -32,15 +33,28 @@ void yyerror(const char* s){         /*    llamada por cada error sintactico de 
 }
 
 //Zona de definiciones
-bool errorSemantico = false; 
-bool errorVariable = false;
-bool ejecutar = false;
+
+ofstream salida;
+int n_loop;
 int n_escena;
+string str;
+tipo_cadena tc;
+
+bool ejecutar = false;
+bool esBucle = false;
+bool errorVariable = false;
+bool errorSemantico = false; 
+
+
+Character ch;
+Characters chs;  
+
+Loops ls;
+Table *table;
+
 Identifiers ids;
 Identifier ident;
-Characters chs;  
-TIPO tipo;
-ofstream salida;
+TIPO_IDENT tipo_ident;
 
 %}
 
@@ -157,12 +171,12 @@ identificadorGeneral: ID_GENERAL '=' expr_arit    {
                                                             cout << "-------- asignacion id_general entero " << $1 <<  ", " << $3.valor << endl;     
                                                       } 
                                                             
-                                                else if($3.esReal && ids.getTipo($1) == TIPO::T_REAL){
+                                                else if($3.esReal && ids.getTipo($1) == TIPO_IDENT::T_REAL){
                                                       ids.setValor($1, $3.valor);
                                                       cout << "-------- actualizacion valor asignacion id_general real" << $1 <<  ", " << $3.valor << endl;     
                                                 }
                                                 
-                                                else if(!$3.esReal && ids.getTipo($1) == TIPO::T_ENT){
+                                                else if(!$3.esReal && ids.getTipo($1) == TIPO_IDENT::T_ENT){
                                                       ids.setValor($1, (int)$3.valor);                                          
                                                       cout << "-------- actualizacion valor asignacion id_general entero" << $1 <<  ", " << $3.valor << endl;     
                                                 }
@@ -170,9 +184,9 @@ identificadorGeneral: ID_GENERAL '=' expr_arit    {
 
                                                       cout << "********** Error semantico en la linea " << n_lineas << ", la variable " << $1 << " es de tipo ";
                                                       
-                                                      tipo = ids.getTipo($1); // averiguamos el tipo de $1, es decir de la variable
+                                                      tipo_ident = ids.getTipo($1); // averiguamos el tipo de $1, es decir de la variable
 
-                                                      switch (tipo) {
+                                                      switch (tipo_ident) {
                                                       case T_ENT: cout << "entero "; break;
                                                       case T_REAL: cout << "real "; break;
                                                       case T_BOOL: cout << "bool "; break;
@@ -199,7 +213,7 @@ identificadorGeneral: ID_GENERAL '=' expr_arit    {
                                                       ids.add(Identifier($1, n_lineas, $3));
                                                       cout << "-------- asignacion id_general logico" << $1 <<  ", " << $3 << endl;     
                                                 }
-                                                else if(ids.getTipo($1) == TIPO::T_BOOL){
+                                                else if(ids.getTipo($1) == TIPO_IDENT::T_BOOL){
                                                       ids.setValor($1, $3);
                                                       cout << "-------- actualizacion valor asignacion id_general logico" << $1 <<  ", " << $3 << endl;     
                                                 }
@@ -207,9 +221,9 @@ identificadorGeneral: ID_GENERAL '=' expr_arit    {
 
                                                       cout << "********** Error semantico en la linea " << n_lineas << ", la variable " << $1 << " es de tipo ";
                                                       
-                                                      tipo = ids.getTipo($1); // averiguamos el tipo de $1, es decir de la variable
+                                                      tipo_ident = ids.getTipo($1); // averiguamos el tipo de $1, es decir de la variable
 
-                                                      switch (tipo) {
+                                                      switch (tipo_ident) {
                                                       case T_ENT: cout << "entero "; break;
                                                       case T_REAL: cout << "real "; break;
                                                       case T_BOOL: cout << "bool "; break;
@@ -235,7 +249,7 @@ identificadorCadena:  ID_CADENA '=' expr_cadena {
                                                       ids.add(Identifier($1, n_lineas, $3));
                                                       cout << "-------- asignacion id_cadena " << $1 <<  ", " << $3 << endl;     
                                                 }
-                                                else if(ids.getTipo($1) == TIPO::T_CADENA){
+                                                else if(ids.getTipo($1) == TIPO_IDENT::T_CADENA){
                                                       ids.setValor($1, $3);
                                                       cout << "-------- actualizacion valor asignacion id_cadena " << $1 <<  ", " << $3 << endl;     
                                                 }
@@ -243,9 +257,9 @@ identificadorCadena:  ID_CADENA '=' expr_cadena {
 
                                                       cout << "********** Error semantico en la linea " << n_lineas << ", la variable " << $1 << " es de tipo ";
                                                       
-                                                      tipo = ids.getTipo($1); // averiguamos el tipo de $1, es decir de la variable
+                                                      tipo_ident = ids.getTipo($1); // averiguamos el tipo de $1, es decir de la variable
 
-                                                      switch (tipo) {
+                                                      switch (tipo_ident) {
                                                       case T_ENT: cout << "entero "; break;
                                                       case T_REAL: cout << "real "; break;
                                                       case T_BOOL: cout << "bool "; break;
@@ -289,17 +303,78 @@ secBloqueEscena: bloqueEscena
       | secBloqueEscena bloqueEscena       
       ;
 
-bloqueEscena: ID_NOMBRE ':' expr_cadena                        { cout << "-------- personaje " << " [" << $1 << "] "  << " en linea " << n_lineas << " dice : " << $3 << endl; } salto
-      | ID_NOMBRE  '[' ']' ':' expr_cadena                     { cout << "-------- personaje " << " [" << $1 << "] "  << " en linea " << n_lineas << " dice : " << $5 << endl; } salto
-      | ID_NOMBRE  '[' entonacion ']' ':' expr_cadena          { cout << "-------- personaje " << " [" << $1 << "] " << " en linea " << n_lineas << " dice : " << $6 << " con entonación " << $3 << endl; } salto
-      | MENSAJE expr_cadena                                    {cout << "-------- mensaje " << strncpy($2, $2+1, strlen($2-2)) << endl;} salto // TODO completar salida 
-      | PAUSA expr_arit                                        {cout << "-------- pausa " << $2.valor << endl;} salto
+bloqueEscena: ID_NOMBRE ':' expr_cadena                        { cout << "-------- personaje " << " [" << $1 << "] "  << " en linea " << n_lineas << " dice : " << $3 << endl; 
+                                                                  
+                                                                  if(chs.isExists($1)){
+                                                                        chs.get($1, ch);
+                                                                        str = ch.languaje + "+";
+                                                                        str += ch.gender;
+                                                                        str += to_string(ch.numCharacter) + " ";
+                                                                        strcpy(tc, str.c_str());
+                                                                        strcat(tc, $3);
+                                                                        cout << "cadena" << tc << endl;
+                                                                        
+                                                                        if(esBucle)
+                                                                              (*table).add(Row(tc, TIPO_ROW::T_FRASE)); 
+                                                                        else
+                                                                              salida << tc << endl;
+
+                                                                  }
+
+                                                               } salto
+      | ID_NOMBRE  '[' ']' ':' expr_cadena                     { cout << "-------- personaje " << " [" << $1 << "] "  << " en linea " << n_lineas << " dice : " << $5 << endl; 
+                                                                  
+                                                                  if(chs.isExists($1)){
+                                                                        chs.get($1, ch);
+                                                                        str = ch.languaje + "+";
+                                                                        str += ch.gender;
+                                                                        str += to_string(ch.numCharacter) + " ";
+                                                                        strcpy(tc, str.c_str());
+                                                                        strcat(tc, $5);
+                                                                        cout << "cadena" << tc << endl;
+
+                                                                        if(esBucle)
+                                                                              (*table).add(Row(tc, TIPO_ROW::T_FRASE));
+                                                                        else
+                                                                              salida << tc << endl;
+                                                                  }
+
+                                                               } salto
+      | ID_NOMBRE  '[' entonacion ']' ':' expr_cadena          { cout << "-------- personaje " << " [" << $1 << "] " << " en linea " << n_lineas << " dice : " << $6 << " con entonación " << $3 << endl; 
+                                                                  
+                                                                  if(chs.isExists($1)){
+                                                                        chs.get($1, ch);
+                                                                        str = ch.languaje + "+";
+                                                                        str += ch.gender;
+                                                                        str += to_string(ch.numCharacter) + " ";
+                                                                        strcpy(tc, str.c_str());
+                                                                        strcat(tc, $3);
+                                                                        strcat(tc, $6);
+                                                                        cout << "cadena" << tc << endl;
+
+                                                                        if(esBucle)
+                                                                              (*table).add(Row(tc, TIPO_ROW::T_FRASE)); 
+                                                                        else
+                                                                              salida << tc << endl;  
+                                                                  } 
+
+
+                                                               
+                                                               } salto
+
+      // TODO #2 completar detección para fichero salida y bucle (mensajes)
+      | MENSAJE expr_cadena                                    { cout << "-------- mensaje " << strncpy($2, $2+1, strlen($2-2)) << endl;} salto // TODO completar salida 
+      // TODO #3 completar detección para fichero salida y bucle (pausa)
+      | PAUSA expr_arit                                        { cout << "-------- pausa " << $2.valor << endl;} salto
+      // TODO #4 completar detección para fichero salida y bucle (identificador)
       | identificador
-      | condicional
+       // TODO #5 completar detección para fichero salida y bucle (condicional)
+      | condicional      
+      // TODO #6 completar detección para fichero salida y bucle (bucle)
       | bucle
       ;
-
-bucle: REPETIR expr_arit '{' salto secBloqueEscena '}' salto  {cout << "+++ repetir " << $2.valor << endl;}
+/* para bucles anidados añadir una variable para indicar en que nivel de profundidad de bucles nos encontramos */
+bucle: REPETIR expr_arit '{' salto {table = new Table($2.valor); esBucle = true; cout << "+++ repetir " << $2.valor <<  "(n_loop=" << n_loop <<  ") " << endl;}  secBloqueEscena '}' salto  {esBucle = false; ls.add((*table)); cout << "+++ fin repetir " << $2.valor << endl; n_loop++;}
 
 condicional: parteSi parteSiNo 
       ;
@@ -314,13 +389,13 @@ parteSiNo: %prec SI
 /*------------------------------------------------ entonacion ------------------------------------------------*/ 
 
 entonacion: tono                    {strcpy($$, $1);}
-      | entonacion ',' tono         {strcpy($$, $1); strcat($$, ","); strcat($$, $3);}
+      | entonacion ',' tono         {strcpy($$, $1); strcat($$, $3);}
       ;
 
-tono:DESPACIO                       {strcpy($$, "despacio");}
-      | DEPRISA                     {strcpy($$, "deprisa");}
-      | GRITANDO                    {strcpy($$, "gritando");}
-      | VOZ_BAJA                    {strcpy($$, "voz baja");}
+tono:DESPACIO                       {strcpy($$, "-s 80 ");}
+      | DEPRISA                     {strcpy($$, "-s 300 ");}
+      | GRITANDO                    {strcpy($$, "-a 200 ");}
+      | VOZ_BAJA                    {strcpy($$, "-a 30 ");}
 
 /*------------------------------------------------ idioma ------------------------------------------------ */ 
 
@@ -344,6 +419,7 @@ voz: MASCULINO         {strcpy($$, "m");}
 expr_cadena : CADENA                           {strcpy($$, $1);}
       | ID_CADENA                              {strcpy($$, $1);}
       | expr_arit                              {sprintf($$, "%f", $1.valor);}
+      // TODO ver como concatenar expresiones aritmeticas
       | expr_cadena CONCATENACION expr_cadena  {cout << "-------- concatenacion cadena (" << $1 << ") cadena(" << $3 <<  ")" << endl; strcpy($$, $1); strcat($$, $3);}
       ;     
 
@@ -367,12 +443,12 @@ expr_arit: NUMERO			                {$$.esReal = false; $$.valor = $1; }
       | REAL                                  {$$.esReal = true;  $$.valor = $1; }      
       | ID_GENERAL                       {
                                           if(ids.isExists($1)){
-                                                if(ids.getTipo($1) == TIPO::T_ENT){
+                                                if(ids.getTipo($1) == TIPO_IDENT::T_ENT){
                                                       $$.esReal = false;
                                                       ids.get($1, ident);
                                                       $$.valor = ident.valor.valor_entero;
                                                 }
-                                                else if(ids.getTipo($1) == TIPO::T_REAL){
+                                                else if(ids.getTipo($1) == TIPO_IDENT::T_REAL){
                                                       $$.esReal = true;
                                                       ids.get($1, ident);
                                                       $$.valor = ident.valor.valor_real;
@@ -435,6 +511,7 @@ int main(int argc, char *argv[]){
                   }else{
                         n_lineas = 1;  
                         n_escena = 0;   
+                        n_loop = 0;
                         
                         yyin = fopen(argv[1], "rt");
                         salida.open(outfileName + ".sh");
@@ -445,6 +522,7 @@ int main(int argc, char *argv[]){
 
                         ids.printIdentifiers(); // mostramos los identificadores declarados
                         chs.printCharacters(); // mostramos los personajes declarados
+                        ls.printLoops(); // mostramos los bucles declarados
 
                         return 0; 
                   }

@@ -45,7 +45,10 @@ class Characters {
 
  	
    public:
-    	
+
+	/*
+	* Constructor por defecto de la clase Characters
+	*/	
     Characters();
     
 	/*
@@ -57,7 +60,7 @@ class Characters {
 
 	/*
 	* Metodo que busca un personajes en la estructura y lo devuelve
-	* PRE{el personajes deve existir en la estructura}
+	* PRE{el personajes debe existir en la estructura}
 	*/
 	void get(string id, Character &character);
 
@@ -79,6 +82,9 @@ class Characters {
 	*/
 	void printCharacters();
 
+	/*
+	* Destructor por defecto de la clase Characters
+	*/	
     ~Characters();
  };
 

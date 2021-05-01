@@ -7,20 +7,39 @@ PERSONAJES
  
 Profesor = <es, m>
 
+Luis = <pt, m>
+
+Personaje1 = <it, f>
+
+Personaje2 = <fr, m>
+
 Mary = <en, f>
 
-John = <en-us, m>
+John = <es-la, m>
 
-Paola = <it, f>
+Paola = <en-us, f>
 
 ESCENA 1:
 
 inglesoitaliano=1
 
+Personaje2[]: "Hello"
+
 repetir 4 {
+    Personaje1[]: "Hola"
+    Personaje2[]: "Hello"
+}
+
+repetir 5 {
     Personaje1: "Hola"
     Personaje2: "Hello"
+
+    mensaje "prueba 1"
+
+    mensaje "prueba 2"
 }
+
+
 
 repetir 4 {
     Personaje1: "Hola"
@@ -48,22 +67,23 @@ repetir 4 {
         Profesor [despacio] : "Dentro del bucle si_no de afuera"
     }
 
-    repetir 5 {
-        Personaje1: "Hola"
-        Personaje2: "Hello"
-
-        mensaje "prueba 1"
-
-        mensaje "prueba 2"
-    }
-
-
 
     mensaje "hola$"
 
     mensaje "adios@"
 
 }
+
+repetir 5 {
+    Personaje1: "Hola"
+    Personaje2: "Hello"
+
+    mensaje "prueba 1"
+
+    mensaje "prueba 2"
+}
+
+
 
 repetir 4.5 {
     Personaje1: "Hola"

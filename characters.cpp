@@ -23,16 +23,19 @@ Characters::Characters(){
 
 void Characters::add(Character character){
 
-	if(character.gender == "m"){
-		num_men++;
-		character.numCharacter = num_men;
-	}else if(character.gender == "f"){
-		num_women++;
-		character.numCharacter = num_women;
-	}
+	if(!isExists(character.id)){ // si existe en la estructura no tiene que contar como uno nuevo
+		if(character.gender == "m"){
+			num_men++;
+			character.numCharacter = num_men;
+		}else if(character.gender == "f"){
+			num_women++;
+			character.numCharacter = num_women;
+		}
 
-	chs[num_characters] = character;
-	num_characters++;
+		chs[num_characters] = character;
+		num_characters++;
+
+	}
 }
 
 void Characters::get(string id, Character &character){

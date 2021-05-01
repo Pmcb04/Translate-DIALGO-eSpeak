@@ -8,8 +8,11 @@
 #define IDENTIFIERS_H
 
 #include <cstring>
+#include <iostream>
+#include <string>
+using namespace std;
  
-enum TIPO{
+enum TIPO_IDENT{
 	T_ENT, T_REAL, T_BOOL, T_CADENA
 };
 
@@ -22,16 +25,15 @@ union tipo_valor{
 	tipo_cadena valor_cadena;
 };
 
-#include <iostream>
-using namespace std;
-#include <string>
-
 struct Identifier {
 	string id;
 	int line;
 	tipo_valor valor;
-	TIPO tipo;
+	TIPO_IDENT tipo;
 
+	/*
+	* Constructor por defecto de al estructura Identifier
+	*/
 	Identifier(){
 	}
 	
@@ -39,28 +41,28 @@ struct Identifier {
 		this->id = id;
 		this->line = line;
 		this->valor.valor_real = valor;
-		this->tipo = TIPO::T_REAL;
+		this->tipo = TIPO_IDENT::T_REAL;
 	}
 
 	Identifier(string id, int line, int valor){
 		this->id = id;
 		this->line = line;
 		this->valor.valor_entero = valor;
-		this->tipo = TIPO::T_ENT;
+		this->tipo = TIPO_IDENT::T_ENT;
 	}
 
 	Identifier(string id, int line, bool valor){
 		this->id = id;
 		this->line = line;
 		this->valor.valor_bool = valor;
-		this->tipo = TIPO::T_BOOL;
+		this->tipo = TIPO_IDENT::T_BOOL;
 	}
 
 	Identifier(string id, int line, tipo_cadena valor){
 		this->id = id;
 		this->line = line;
 		strcpy(this->valor.valor_cadena, valor);
-		this->tipo = TIPO::T_CADENA;
+		this->tipo = TIPO_IDENT::T_CADENA;
 	}
 
 };
@@ -75,7 +77,10 @@ class Identifiers {
      int num_identifiers;
  	
    public:
-    	
+    
+	/*
+	* Constructor por defecto de la clase Identifiers
+	*/
     Identifiers();
     
 	/*
@@ -87,7 +92,7 @@ class Identifiers {
 
 	/*
 	* Metodo que busca un identificador en la estructura y lo devuelve{
-	* PRE{el identificador deve existir en la estructura}
+	* PRE{el identificador debe existir en la estructura}
 	*/
 	void get(string id, Identifier &identifier);
 
@@ -95,7 +100,7 @@ class Identifiers {
 	* Metodo que devuelve el tipo de la variable con identificador id
 	* PRE{la variable con identificador id debe estar previamente guardada en la estructura}
 	*/
-	TIPO getTipo(string id);
+	TIPO_IDENT getTipo(string id);
 	
 	/*
 	* Asigna el valor a la variable info que le pasemos por parametro
@@ -139,6 +144,9 @@ class Identifiers {
 	*/
 	void printIdentifiers();
 
+	/*
+	* Destructor por defecto de la clase Identifiers
+	*/
     ~Identifiers();
  };
 
