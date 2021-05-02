@@ -29,12 +29,67 @@ Table::Table(int repeats){
 
 void Table::add(Row row){
 		table[num_rows] = row;
-		cout << "add row " << num_rows << endl;
 		num_rows++;
 }
 
 void Table::get(int line, Row &row){
 	row = table[line];
+}
+
+void Table::run(ofstream &salida){
+
+	for (int i = 0; i < repeats; i++)
+		for (int j = 0; j < num_rows; j++)
+			runRow(j, salida);
+}
+
+void Table::runRow(int index, ofstream &salida){
+
+	Row row = table[index];
+
+	switch (row.tipo)
+	{
+	case TIPO_ROW::T_ASIGN_CAD:
+			salida << "asignacion cadena" << endl;
+			break;
+
+		case TIPO_ROW::T_ASIGN_ENT:
+			salida << "asignacion entera" << endl;
+			break;	
+
+		case TIPO_ROW::T_ASIGN_REAL:
+			salida << "asignacion real" << endl;
+			break;	
+
+		case TIPO_ROW::T_ASIGN_LOG: 
+			salida << "asignacion logica" << endl;
+			break;
+
+        case TIPO_ROW::T_FRASE: 
+			salida << "espeak -v " << row.data.data_cadena << endl; 
+			break;
+
+        case TIPO_ROW::T_MENSAJE: 
+			salida << "echo " << row.data.data_cadena << endl;
+			break;
+
+        case TIPO_ROW::T_PAUSA: 
+			salida << "sleep " << row.data.data_real << endl;
+			break;
+	
+		case TIPO_ROW::T_CONDICIONAL:
+			salida << "condicional" << endl;
+			break;
+
+		case TIPO_ROW::T_BUCLE:
+			salida << "bucle" << endl;
+			break;
+
+		default:
+			salida << "";
+			break;
+		}
+
 }
 
 

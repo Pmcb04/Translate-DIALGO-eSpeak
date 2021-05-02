@@ -312,12 +312,11 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena                        { cout << "------
                                                                         str += to_string(ch.numCharacter) + " ";
                                                                         strcpy(tc, str.c_str());
                                                                         strcat(tc, $3);
-                                                                        cout << "cadena" << tc << endl;
                                                                         
                                                                         if(esBucle)
                                                                               (*table).add(Row(tc, TIPO_ROW::T_FRASE)); 
                                                                         else
-                                                                              salida << tc << endl;
+                                                                              salida << "espeak -v " << tc << endl;
 
                                                                   }
 
@@ -331,16 +330,16 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena                        { cout << "------
                                                                         str += to_string(ch.numCharacter) + " ";
                                                                         strcpy(tc, str.c_str());
                                                                         strcat(tc, $5);
-                                                                        cout << "cadena" << tc << endl;
 
                                                                         if(esBucle)
                                                                               (*table).add(Row(tc, TIPO_ROW::T_FRASE));
                                                                         else
-                                                                              salida << tc << endl;
+                                                                              salida << "espeak -v " << tc << endl;
                                                                   }
 
                                                                } salto
-      | ID_NOMBRE  '[' entonacion ']' ':' expr_cadena          { cout << "-------- personaje " << " [" << $1 << "] " << " en linea " << n_lineas << " dice : " << $6 << " con entonación " << $3 << endl; 
+      | ID_NOMBRE  '[' entonacion ']' ':' expr_cadena          { 
+                                                                  cout << "-------- personaje " << " [" << $1 << "] " << " en linea " << n_lineas << " dice : " << $6 << " con entonación " << $3 << endl; 
                                                                   
                                                                   if(chs.isExists($1)){
                                                                         chs.get($1, ch);
@@ -350,22 +349,37 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena                        { cout << "------
                                                                         strcpy(tc, str.c_str());
                                                                         strcat(tc, $3);
                                                                         strcat(tc, $6);
-                                                                        cout << "cadena" << tc << endl;
 
                                                                         if(esBucle)
                                                                               (*table).add(Row(tc, TIPO_ROW::T_FRASE)); 
                                                                         else
-                                                                              salida << tc << endl;  
+                                                                              salida << "espeak -v " << tc << endl;  
                                                                   } 
 
 
                                                                
                                                                } salto
 
-      // TODO #2 completar detección para fichero salida y bucle (mensajes)
-      | MENSAJE expr_cadena                                    { cout << "-------- mensaje " << strncpy($2, $2+1, strlen($2-2)) << endl;} salto // TODO completar salida 
-      // TODO #3 completar detección para fichero salida y bucle (pausa)
-      | PAUSA expr_arit                                        { cout << "-------- pausa " << $2.valor << endl;} salto
+      | MENSAJE expr_cadena                                    { 
+
+                                                                  strcpy(tc, $2);
+                                                                  cout << "-------- mensaje " << $2 << endl; 
+                                                                  
+                                                                  if(esBucle)
+                                                                        (*table).add(Row(tc, TIPO_ROW::T_MENSAJE)); 
+                                                                  else
+                                                                        salida << "echo " << tc << endl;
+                                                               } salto
+
+      | PAUSA expr_arit                                        { 
+                                                                  cout << "-------- pausa " << $2.valor << endl; 
+                                                                  
+                                                                  if(esBucle)
+                                                                        (*table).add(Row($2.valor, TIPO_ROW::T_PAUSA)); 
+                                                                  else
+                                                                        salida << "sleep " << $2.valor << endl;
+                                                                  
+                                                               } salto
       // TODO #4 completar detección para fichero salida y bucle (identificador)
       | identificador
        // TODO #5 completar detección para fichero salida y bucle (condicional)
@@ -374,12 +388,12 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena                        { cout << "------
       | bucle
       ;
 /* para bucles anidados añadir una variable para indicar en que nivel de profundidad de bucles nos encontramos */
-bucle: REPETIR expr_arit '{' salto {table = new Table($2.valor); esBucle = true; cout << "+++ repetir " << $2.valor <<  "(n_loop=" << n_loop <<  ") " << endl;}  secBloqueEscena '}' salto  {esBucle = false; ls.add((*table)); cout << "+++ fin repetir " << $2.valor << endl; n_loop++;}
+bucle: REPETIR expr_arit '{' salto {table = new Table($2.valor); esBucle = true; cout << "+++ repetir " << $2.valor <<  "(n_loop=" << n_loop <<  ") " << endl;}  secBloqueEscena '}' salto  {esBucle = false; ls.add((*table)); table->run(salida); cout << "+++ fin repetir " << $2.valor << endl; n_loop++;}
 
 condicional: parteSi parteSiNo 
       ;
 
-parteSi: SI '(' expr_log ')' salto_opc  '{' salto {ejecutar=$3;} secBloqueEscena '}' salto        {cout << "+++ bloque si ( condicion=" << $3 <<  ")" << endl;}
+parteSi: SI '(' expr_log ')' salto_opc  '{' salto {ejecutar=$3;} secBloqueEscena '}' salto        {cout << "+++ bloque si ( condicion=" << $3 <<  ")" << endl;} 
       ;
 
 parteSiNo: %prec SI
@@ -419,7 +433,7 @@ voz: MASCULINO         {strcpy($$, "m");}
 expr_cadena : CADENA                           {strcpy($$, $1);}
       | ID_CADENA                              {strcpy($$, $1);}
       | expr_arit                              {sprintf($$, "%f", $1.valor);}
-      // TODO ver como concatenar expresiones aritmeticas
+      // TODO #7 ver como concatenar expresiones aritmeticas
       | expr_cadena CONCATENACION expr_cadena  {cout << "-------- concatenacion cadena (" << $1 << ") cadena(" << $3 <<  ")" << endl; strcpy($$, $1); strcat($$, $3);}
       ;     
 

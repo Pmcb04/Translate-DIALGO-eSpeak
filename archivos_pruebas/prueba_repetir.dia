@@ -26,8 +26,8 @@ inglesoitaliano=1
 Personaje2[]: "Hello"
 
 repetir 4 {
-    Personaje1[]: "Hola"
-    Personaje2[]: "Hello"
+    Mary[]: "Hola"
+    Paola[]: "Hello"
 }
 
 repetir 5 {
@@ -72,6 +72,10 @@ repetir 4 {
 
     mensaje "adios@"
 
+    pausa 4
+
+    pausa 1.5
+
 }
 
 repetir 5 {
@@ -87,7 +91,9 @@ repetir 5 {
 
 repetir 4.5 {
     Personaje1: "Hola"
+    pausa 9
     Personaje2: "Hello"
+    pausa 1.45
 }
 
 FINESCENA
