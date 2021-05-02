@@ -90,6 +90,16 @@ class Table {
 		void get(int line, Row &row);
 
 		/*
+		* Metodo que procesa la tabla, repeats veces las instrucciones que tenga y las suelta en salida
+		*/
+		void run(ofstream &salida);
+
+		/*
+		* Metodo que procesa la linea y las suelta en salida
+		*/
+		void runRow(int index, ofstream &salida);
+
+		/*
 		* Metodo que se encarga de imprimir toda la estructura con información en el fichero de salida "salida"
 		*/
 		void printTable(ofstream &salida);
