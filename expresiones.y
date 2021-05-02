@@ -393,7 +393,7 @@ bucle: REPETIR expr_arit '{' salto {table = new Table($2.valor); esBucle = true;
 condicional: parteSi parteSiNo 
       ;
 
-parteSi: SI '(' expr_log ')' salto_opc  '{' salto {ejecutar=$3;} secBloqueEscena '}' salto        {cout << "+++ bloque si ( condicion=" << $3 <<  ")" << endl;}
+parteSi: SI '(' expr_log ')' salto_opc  '{' salto {ejecutar=$3;} secBloqueEscena '}' salto        {cout << "+++ bloque si ( condicion=" << $3 <<  ")" << endl;} 
       ;
 
 parteSiNo: %prec SI
