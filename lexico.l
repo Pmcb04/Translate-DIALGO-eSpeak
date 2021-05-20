@@ -32,37 +32,37 @@ real {entero}[.]{entero}?|{entero}?[.]{entero}
  
 %%
 
-"#"				        BEGIN(COMMENT1); 
-<COMMENT1>"\n"			{BEGIN(0); return '\n';}
-<COMMENT1>.             ;
+"#"				                        BEGIN(COMMENT1); 
+<COMMENT1>"\n"			                {BEGIN(0); return '\n';}
+<COMMENT1>.                             ;
 
-[P][E][R][S][O][N][A][J][E][S]          return PERSONAJES;
-[D][E][F][I][N][I][C][I][O][N][E][S]    return DEFINICIONES;
-[E][S][C][E][N][A]                      return ESCENA;
-[F][I][N][E][S][C][E][N][A]             return FINESCENA;
+PERSONAJES                              return PERSONAJES;
+DEFINICIONES                            return DEFINICIONES;
+ESCENA                                  return ESCENA;
+FINESCENA                               return FINESCENA;
 
-[p][a][u][s][a]                         return PAUSA;
-[m][e][n][s][a][j][e]                   return MENSAJE;
+pausa                                   return PAUSA;
+mensaje                                 return MENSAJE;
 
-[d][e][s][p][a][c][i][o]                return DESPACIO;
-[d][e][p][r][i][s][a]                   return DEPRISA;
-[g][r][i][t][a][n][d][o]                return GRITANDO;
-[v][o][z][ ][b][a][j][a]                return VOZ_BAJA;
+despacio                                {strcpy(yylval.c_cadena, "-s 80 ");  return TONO;}
+deprisa                                 {strcpy(yylval.c_cadena, "-s 300 "); return TONO;}
+gritando                                {strcpy(yylval.c_cadena, "-a 200 "); return TONO;}
+voz[ ]baja                              {strcpy(yylval.c_cadena, "-a 30 ");  return TONO;}
 
-[e][n]                                  return EN;
-[e][n][-][u][s]                         return EN_US;
-[e][s]                                  return ES;
-[e][s][-][l][a]                         return ES_LA;
-[p][t]                                  return PT;
-[i][t]                                  return IT;
-[f][r]                                  return FR;
+en                                      {strcpy(yylval.c_cadena, yytext); return IDIOMA;}
+en-us                                   {strcpy(yylval.c_cadena, yytext); return IDIOMA;}
+es                                      {strcpy(yylval.c_cadena, yytext); return IDIOMA;}
+es-la                                   {strcpy(yylval.c_cadena, yytext); return IDIOMA;}
+pt                                      {strcpy(yylval.c_cadena, yytext); return IDIOMA;}
+it                                      {strcpy(yylval.c_cadena, yytext); return IDIOMA;}
+fr                                      {strcpy(yylval.c_cadena, yytext); return IDIOMA;}
 
-[m]                                     {return MASCULINO;}
-[f]                                     {return FEMENINO;}
+m                                       {strcpy(yylval.c_cadena, yytext); return VOZ;}
+f                                       {strcpy(yylval.c_cadena, yytext); return VOZ;}
 
-[s][i]                                  return SI;
-[s][i][_][n][o]                         return SI_NO;
-[r][e][p][e][t][i][r]                   return REPETIR;
+si                                      return SI;
+si_no                                   return SI_NO;
+repetir                                 return REPETIR;
 
 [d][i][v]                               return DIV;
 [a][n][d]                               return AND;

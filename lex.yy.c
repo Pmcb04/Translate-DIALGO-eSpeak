@@ -889,67 +889,67 @@ return MENSAJE;
 case 10:
 YY_RULE_SETUP
 #line 47 "lexico.l"
-return DESPACIO;
+{strcpy(yylval.c_cadena, "-s 80 ");  return TONO;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 48 "lexico.l"
-return DEPRISA;
+{strcpy(yylval.c_cadena, "-s 300 "); return TONO;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 49 "lexico.l"
-return GRITANDO;
+{strcpy(yylval.c_cadena, "-a 200 "); return TONO;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 50 "lexico.l"
-return VOZ_BAJA;
+{strcpy(yylval.c_cadena, "-a 30 ");  return TONO;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 52 "lexico.l"
-return EN;
+{strcpy(yylval.c_cadena, yytext); return IDIOMA;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 53 "lexico.l"
-return EN_US;
+{strcpy(yylval.c_cadena, yytext); return IDIOMA;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 54 "lexico.l"
-return ES;
+{strcpy(yylval.c_cadena, yytext); return IDIOMA;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 55 "lexico.l"
-return ES_LA;
+{strcpy(yylval.c_cadena, yytext); return IDIOMA;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 56 "lexico.l"
-return PT;
+{strcpy(yylval.c_cadena, yytext); return IDIOMA;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 57 "lexico.l"
-return IT;
+{strcpy(yylval.c_cadena, yytext); return IDIOMA;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 58 "lexico.l"
-return FR;
+{strcpy(yylval.c_cadena, yytext); return IDIOMA;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 60 "lexico.l"
-{return MASCULINO;}
+{strcpy(yylval.c_cadena, yytext); return VOZ;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 61 "lexico.l"
-{return FEMENINO;}
+{strcpy(yylval.c_cadena, yytext); return VOZ;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP

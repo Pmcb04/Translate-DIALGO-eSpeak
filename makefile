@@ -6,8 +6,8 @@
 
 OBJ = expresiones.o lexico.o identifiers.o characters.o tables.o  loops.o
 
-translate : $(OBJ)   #segunda fase de la traducción. Generación del código ejecutable 	
-	g++ -o translate $(OBJ)	
+dialgo : $(OBJ)   #segunda fase de la traducción. Generación del código ejecutable 	
+	g++ -o dialgo $(OBJ)	
 
 expresiones.o : expresiones.c        	#primera fase de la traducción del analizador sintáctico
 	g++ -c -o expresiones.o  expresiones.c 

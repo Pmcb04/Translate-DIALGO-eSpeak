@@ -76,24 +76,14 @@ extern int yydebug;
     PAUSA = 277,                   /* PAUSA  */
     MENSAJE = 278,                 /* MENSAJE  */
     CADENA = 279,                  /* CADENA  */
-    EN = 280,                      /* EN  */
-    EN_US = 281,                   /* EN_US  */
-    ES = 282,                      /* ES  */
-    ES_LA = 283,                   /* ES_LA  */
-    PT = 284,                      /* PT  */
-    IT = 285,                      /* IT  */
-    FR = 286,                      /* FR  */
-    DESPACIO = 287,                /* DESPACIO  */
-    DEPRISA = 288,                 /* DEPRISA  */
-    GRITANDO = 289,                /* GRITANDO  */
-    VOZ_BAJA = 290,                /* VOZ_BAJA  */
-    MASCULINO = 291,               /* MASCULINO  */
-    FEMENINO = 292,                /* FEMENINO  */
-    CONCATENACION = 293,           /* CONCATENACION  */
-    SI = 294,                      /* SI  */
-    SI_NO = 295,                   /* SI_NO  */
-    REPETIR = 296,                 /* REPETIR  */
-    menos = 297                    /* menos  */
+    IDIOMA = 280,                  /* IDIOMA  */
+    TONO = 281,                    /* TONO  */
+    VOZ = 282,                     /* VOZ  */
+    CONCATENACION = 283,           /* CONCATENACION  */
+    SI = 284,                      /* SI  */
+    SI_NO = 285,                   /* SI_NO  */
+    REPETIR = 286,                 /* REPETIR  */
+    menos = 287                    /* menos  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -116,7 +106,7 @@ union YYSTYPE
  } c_expresion_arit;
 
 
-#line 120 "expresiones.h"
+#line 110 "expresiones.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -88,23 +88,18 @@ TIPO_IDENT tipo_ident;
 %type <c_cadena> expr_cadena
 
 %type <c_cadena> entonacion
-%type <c_cadena> tono
-%type <c_cadena> idioma
-%type <c_cadena> voz
-
-%type <c_cadena> DESPACIO
-%type <c_cadena> DEPRISA
-%type <c_cadena> VOZ_BAJA
-%type <c_cadena> GRITANDO
+%type <c_cadena> TONO
+%type <c_cadena> IDIOMA
+%type <c_cadena> VOZ
 
 %start programa
 %token NUMERO REAL DIV AND OR NOT TRUE FALSE MAYORIGUAL MENORIGUAL IGUAL2 DISTINTO 
 %token PERSONAJES DEFINICIONES ESCENA FINESCENA 
 %token ID_GENERAL ID_NOMBRE ID_CADENA     
 %token PAUSA MENSAJE CADENA 
-%token EN EN_US ES ES_LA PT IT FR
-%token DESPACIO DEPRISA GRITANDO VOZ_BAJA
-%token MASCULINO FEMENINO
+%token IDIOMA
+%token TONO
+%token VOZ
 %token CONCATENACION
 %token SI SI_NO REPETIR
 
@@ -123,7 +118,7 @@ TIPO_IDENT tipo_ident;
 /*------------------------------------------------ programa ------------------------------------------------*/ 
 
 salto: '\n'          {n_lineas++;}
-      | salto '\n'  {n_lineas++;}
+      | salto '\n'   {n_lineas++;}
       ;
 
 salto_opc:        
@@ -143,7 +138,7 @@ secBloquePersonajes :  asignacionPersonaje
       | secBloquePersonajes asignacionPersonaje
       ;
 
-asignacionPersonaje: ID_NOMBRE '=' '<' idioma ',' voz '>'  { cout << "-------- asignacion nombre " << $1 << "," << $4 << "," << $6 <<  " linea " << n_lineas << endl; chs.add(Character($1, n_lineas, $4, $6));} salto
+asignacionPersonaje: ID_NOMBRE '=' '<' IDIOMA ',' VOZ '>' salto { cout << "-------- asignacion nombre " << $1 << "," << $4 << "," << $6 <<  " linea " << n_lineas << endl; chs.add(Character($1, n_lineas, $4, $6));} 
       ;
 
 /*------------------------------------------------ definiciones ------------------------------------------------*/ 
@@ -402,30 +397,8 @@ parteSiNo: %prec SI
 
 /*------------------------------------------------ entonacion ------------------------------------------------*/ 
 
-entonacion: tono                    {strcpy($$, $1);}
-      | entonacion ',' tono         {strcpy($$, $1); strcat($$, $3);}
-      ;
-
-tono:DESPACIO                       {strcpy($$, "-s 80 ");}
-      | DEPRISA                     {strcpy($$, "-s 300 ");}
-      | GRITANDO                    {strcpy($$, "-a 200 ");}
-      | VOZ_BAJA                    {strcpy($$, "-a 30 ");}
-
-/*------------------------------------------------ idioma ------------------------------------------------ */ 
-
-idioma:EN               {strcpy($$, "en");}
-      | EN_US           {strcpy($$, "en-us");}
-      | ES              {strcpy($$, "es");}
-      | ES_LA           {strcpy($$, "es-la");}
-      | PT              {strcpy($$, "pt");}      
-      | IT              {strcpy($$, "it");}
-      | FR              {strcpy($$, "fr");}
-      ;
-
-/*------------------------------------------------ voz ------------------------------------------------*/ 
-
-voz: MASCULINO         {strcpy($$, "m");}
-      |FEMENINO        {strcpy($$, "f");}
+entonacion: TONO                    {strcpy($$, $1);}
+      | entonacion ',' TONO         {strcpy($$, $1); strcat($$, $3);}
       ;
 
 /* ------------------------------------------------ expresiones ------------------------------------------------*/ 
