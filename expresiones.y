@@ -404,10 +404,20 @@ entonacion: TONO                    {strcpy($$, $1);}
 /* ------------------------------------------------ expresiones ------------------------------------------------*/ 
 
 expr_cadena : CADENA                           {strcpy($$, $1);}
-      | ID_CADENA                              {strcpy($$, $1);}
-      | expr_arit                              {sprintf($$, "%f", $1.valor);}
-      // TODO #7 ver como concatenar expresiones aritmeticas
-      | expr_cadena CONCATENACION expr_cadena  {cout << "-------- concatenacion cadena (" << $1 << ") cadena(" << $3 <<  ")" << endl; strcpy($$, $1); strcat($$, $3);}
+      | ID_CADENA                              {strcpy($$, $1);} // TODO : obtener valor
+      | expr_arit                              {string str = '"' + to_string($1.valor)  + '"'; strcpy($$, str.c_str());}
+      | expr_cadena CONCATENACION expr_cadena  {cout << "-------- concatenacion cadena (" << $1 << ") cadena(" << $3 <<  ")" << endl; 
+                                                string str1($1);  
+                                                string str2($3);  
+
+                                                str1 = str1.replace(0, 1, "");
+                                                str1 = str1.replace(str1.length()-1, 1, "");
+
+                                                str2 = str2.replace(0, 1, "");
+                                                str2 = str2.replace(str2.length()-1, 1, "");
+
+                                                str1 = '"' + str1 + str2 + '"';
+                                                strcpy($$, str1.c_str());}
       ;     
 
 expr_log : TRUE                               {$$ = true; }

@@ -630,10 +630,10 @@ static const yytype_int16 yyrline[] =
      158,   204,   204,   240,   240,   277,   278,   281,   294,   281,
      297,   298,   301,   301,   319,   319,   336,   336,   358,   358,
      369,   369,   379,   381,   383,   386,   386,   388,   391,   391,
-     394,   395,   395,   400,   401,   406,   407,   408,   410,   413,
-     414,   415,   416,   417,   418,   419,   420,   421,   422,   423,
-     424,   425,   426,   429,   430,   431,   454,   455,   456,   458,
-     467,   481,   482
+     394,   395,   395,   400,   401,   406,   407,   408,   409,   423,
+     424,   425,   426,   427,   428,   429,   430,   431,   432,   433,
+     434,   435,   436,   439,   440,   441,   464,   465,   466,   468,
+     477,   491,   492
 };
 #endif
 
@@ -1689,114 +1689,125 @@ yyreduce:
 
   case 57: /* expr_cadena: expr_arit  */
 #line 408 "expresiones.y"
-                                               {sprintf((yyval.c_cadena), "%f", (yyvsp[0].c_expresion_arit).valor);}
+                                               {string str = '"' + to_string((yyvsp[0].c_expresion_arit).valor)  + '"'; strcpy((yyval.c_cadena), str.c_str());}
 #line 1694 "expresiones.c"
     break;
 
   case 58: /* expr_cadena: expr_cadena CONCATENACION expr_cadena  */
-#line 410 "expresiones.y"
-                                               {cout << "-------- concatenacion cadena (" << (yyvsp[-2].c_cadena) << ") cadena(" << (yyvsp[0].c_cadena) <<  ")" << endl; strcpy((yyval.c_cadena), (yyvsp[-2].c_cadena)); strcat((yyval.c_cadena), (yyvsp[0].c_cadena));}
-#line 1700 "expresiones.c"
+#line 409 "expresiones.y"
+                                               {cout << "-------- concatenacion cadena (" << (yyvsp[-2].c_cadena) << ") cadena(" << (yyvsp[0].c_cadena) <<  ")" << endl; 
+                                                string str1((yyvsp[-2].c_cadena));  
+                                                string str2((yyvsp[0].c_cadena));  
+
+                                                str1 = str1.replace(0, 1, "");
+                                                str1 = str1.replace(str1.length()-1, 1, "");
+
+                                                str2 = str2.replace(0, 1, "");
+                                                str2 = str2.replace(str2.length()-1, 1, "");
+
+                                                str1 = '"' + str1 + str2 + '"';
+                                                strcpy((yyval.c_cadena), str1.c_str());}
+#line 1711 "expresiones.c"
     break;
 
   case 59: /* expr_log: TRUE  */
-#line 413 "expresiones.y"
+#line 423 "expresiones.y"
                                               {(yyval.c_bool) = true; }
-#line 1706 "expresiones.c"
+#line 1717 "expresiones.c"
     break;
 
   case 60: /* expr_log: FALSE  */
-#line 414 "expresiones.y"
+#line 424 "expresiones.y"
                                               {(yyval.c_bool) = false; }
-#line 1712 "expresiones.c"
+#line 1723 "expresiones.c"
     break;
 
   case 61: /* expr_log: expr_log AND expr_log  */
-#line 415 "expresiones.y"
+#line 425 "expresiones.y"
                                               {(yyval.c_bool) = (yyvsp[-2].c_bool) and (yyvsp[0].c_bool); }
-#line 1718 "expresiones.c"
+#line 1729 "expresiones.c"
     break;
 
   case 62: /* expr_log: expr_log OR expr_log  */
-#line 416 "expresiones.y"
+#line 426 "expresiones.y"
                                               {(yyval.c_bool) = (yyvsp[-2].c_bool) or (yyvsp[0].c_bool); }
-#line 1724 "expresiones.c"
+#line 1735 "expresiones.c"
     break;
 
   case 63: /* expr_log: NOT expr_log  */
-#line 417 "expresiones.y"
+#line 427 "expresiones.y"
                                               {(yyval.c_bool) = (not (yyvsp[0].c_bool)); }
-#line 1730 "expresiones.c"
+#line 1741 "expresiones.c"
     break;
 
   case 64: /* expr_log: '(' expr_log ')'  */
-#line 418 "expresiones.y"
+#line 428 "expresiones.y"
                                                   {(yyval.c_bool) =     (yyvsp[-1].c_bool); }
-#line 1736 "expresiones.c"
+#line 1747 "expresiones.c"
     break;
 
   case 65: /* expr_log: expr_arit '>' expr_arit  */
-#line 419 "expresiones.y"
+#line 429 "expresiones.y"
                                               {(yyval.c_bool) = ((yyvsp[-2].c_expresion_arit).valor > (yyvsp[0].c_expresion_arit).valor)  ? true : false; }
-#line 1742 "expresiones.c"
+#line 1753 "expresiones.c"
     break;
 
   case 66: /* expr_log: expr_arit MAYORIGUAL expr_arit  */
-#line 420 "expresiones.y"
+#line 430 "expresiones.y"
                                               {(yyval.c_bool) = ((yyvsp[-2].c_expresion_arit).valor >= (yyvsp[0].c_expresion_arit).valor) ? true : false; }
-#line 1748 "expresiones.c"
+#line 1759 "expresiones.c"
     break;
 
   case 67: /* expr_log: expr_arit '<' expr_arit  */
-#line 421 "expresiones.y"
+#line 431 "expresiones.y"
                                               {(yyval.c_bool) = ((yyvsp[-2].c_expresion_arit).valor < (yyvsp[0].c_expresion_arit).valor)  ? true : false; }
-#line 1754 "expresiones.c"
+#line 1765 "expresiones.c"
     break;
 
   case 68: /* expr_log: expr_arit MENORIGUAL expr_arit  */
-#line 422 "expresiones.y"
+#line 432 "expresiones.y"
                                               {(yyval.c_bool) = ((yyvsp[-2].c_expresion_arit).valor <= (yyvsp[0].c_expresion_arit).valor) ? true : false; }
-#line 1760 "expresiones.c"
+#line 1771 "expresiones.c"
     break;
 
   case 69: /* expr_log: expr_arit IGUAL2 expr_arit  */
-#line 423 "expresiones.y"
+#line 433 "expresiones.y"
                                               {(yyval.c_bool) = ((yyvsp[-2].c_expresion_arit).valor == (yyvsp[0].c_expresion_arit).valor) ? true : false; }
-#line 1766 "expresiones.c"
+#line 1777 "expresiones.c"
     break;
 
   case 70: /* expr_log: expr_arit DISTINTO expr_arit  */
-#line 424 "expresiones.y"
+#line 434 "expresiones.y"
                                               {(yyval.c_bool) = ((yyvsp[-2].c_expresion_arit).valor != (yyvsp[0].c_expresion_arit).valor) ? true : false; }
-#line 1772 "expresiones.c"
+#line 1783 "expresiones.c"
     break;
 
   case 71: /* expr_log: expr_log IGUAL2 expr_log  */
-#line 425 "expresiones.y"
+#line 435 "expresiones.y"
                                               {(yyval.c_bool) = ((yyvsp[-2].c_bool) == (yyvsp[0].c_bool)) ? true : false; }
-#line 1778 "expresiones.c"
+#line 1789 "expresiones.c"
     break;
 
   case 72: /* expr_log: expr_log DISTINTO expr_log  */
-#line 426 "expresiones.y"
+#line 436 "expresiones.y"
                                               {(yyval.c_bool) = ((yyvsp[-2].c_bool) != (yyvsp[0].c_bool)) ? true : false; }
-#line 1784 "expresiones.c"
+#line 1795 "expresiones.c"
     break;
 
   case 73: /* expr_arit: NUMERO  */
-#line 429 "expresiones.y"
+#line 439 "expresiones.y"
                                                         {(yyval.c_expresion_arit).esReal = false; (yyval.c_expresion_arit).valor = (yyvsp[0].c_entero); }
-#line 1790 "expresiones.c"
+#line 1801 "expresiones.c"
     break;
 
   case 74: /* expr_arit: REAL  */
-#line 430 "expresiones.y"
+#line 440 "expresiones.y"
                                               {(yyval.c_expresion_arit).esReal = true;  (yyval.c_expresion_arit).valor = (yyvsp[0].c_real); }
-#line 1796 "expresiones.c"
+#line 1807 "expresiones.c"
     break;
 
   case 75: /* expr_arit: ID_GENERAL  */
-#line 431 "expresiones.y"
+#line 441 "expresiones.y"
                                          {
                                           if(ids.isExists((yyvsp[0].c_identificador))){
                                                 if(ids.getTipo((yyvsp[0].c_identificador)) == TIPO_IDENT::T_ENT){
@@ -1820,29 +1831,29 @@ yyreduce:
                                                 
                                           }
                                     }
-#line 1824 "expresiones.c"
+#line 1835 "expresiones.c"
     break;
 
   case 76: /* expr_arit: expr_arit '+' expr_arit  */
-#line 454 "expresiones.y"
+#line 464 "expresiones.y"
                                               {(yyval.c_expresion_arit).esReal = (yyvsp[-2].c_expresion_arit).esReal || (yyvsp[0].c_expresion_arit).esReal; (yyval.c_expresion_arit).valor = ((yyval.c_expresion_arit).esReal) ? (yyvsp[-2].c_expresion_arit).valor + (yyvsp[0].c_expresion_arit).valor : int((yyvsp[-2].c_expresion_arit).valor) + int((yyvsp[0].c_expresion_arit).valor); }
-#line 1830 "expresiones.c"
+#line 1841 "expresiones.c"
     break;
 
   case 77: /* expr_arit: expr_arit '-' expr_arit  */
-#line 455 "expresiones.y"
+#line 465 "expresiones.y"
                                               {(yyval.c_expresion_arit).esReal = (yyvsp[-2].c_expresion_arit).esReal || (yyvsp[0].c_expresion_arit).esReal; (yyval.c_expresion_arit).valor = ((yyval.c_expresion_arit).esReal) ? (yyvsp[-2].c_expresion_arit).valor - (yyvsp[0].c_expresion_arit).valor : int((yyvsp[-2].c_expresion_arit).valor) - int((yyvsp[0].c_expresion_arit).valor); }
-#line 1836 "expresiones.c"
+#line 1847 "expresiones.c"
     break;
 
   case 78: /* expr_arit: expr_arit '*' expr_arit  */
-#line 456 "expresiones.y"
+#line 466 "expresiones.y"
                                               {(yyval.c_expresion_arit).esReal = (yyvsp[-2].c_expresion_arit).esReal || (yyvsp[0].c_expresion_arit).esReal; (yyval.c_expresion_arit).valor = ((yyval.c_expresion_arit).esReal) ? (yyvsp[-2].c_expresion_arit).valor * (yyvsp[0].c_expresion_arit).valor : int((yyvsp[-2].c_expresion_arit).valor) * int((yyvsp[0].c_expresion_arit).valor); }
-#line 1842 "expresiones.c"
+#line 1853 "expresiones.c"
     break;
 
   case 79: /* expr_arit: expr_arit '/' expr_arit  */
-#line 458 "expresiones.y"
+#line 468 "expresiones.y"
                                               {(yyval.c_expresion_arit).esReal = true; 
                                                 if((yyvsp[0].c_expresion_arit).valor == 0){ 
                                                       errorSemantico = true; 
@@ -1851,11 +1862,11 @@ yyreduce:
                                                 else 
                                                       (yyval.c_expresion_arit).valor = (yyvsp[-2].c_expresion_arit).valor / (yyvsp[0].c_expresion_arit).valor;
                                               }
-#line 1855 "expresiones.c"
+#line 1866 "expresiones.c"
     break;
 
   case 80: /* expr_arit: expr_arit DIV expr_arit  */
-#line 467 "expresiones.y"
+#line 477 "expresiones.y"
                                               {(yyval.c_expresion_arit).esReal = (yyvsp[-2].c_expresion_arit).esReal || (yyvsp[0].c_expresion_arit).esReal; 
                                                 if((yyvsp[0].c_expresion_arit).valor == 0){ 
                                                       errorSemantico = true;
@@ -1869,23 +1880,23 @@ yyreduce:
                                                             (yyval.c_expresion_arit).valor = int((yyvsp[-2].c_expresion_arit).valor) / int((yyvsp[0].c_expresion_arit).valor);
                                                 }
                                                }
-#line 1873 "expresiones.c"
+#line 1884 "expresiones.c"
     break;
 
   case 81: /* expr_arit: '-' expr_arit  */
-#line 481 "expresiones.y"
+#line 491 "expresiones.y"
                                               {(yyval.c_expresion_arit).esReal = (yyvsp[0].c_expresion_arit).esReal ; (yyval.c_expresion_arit).valor = ((yyvsp[0].c_expresion_arit).esReal) ? -(yyvsp[0].c_expresion_arit).valor : int(-(yyvsp[0].c_expresion_arit).valor); }
-#line 1879 "expresiones.c"
+#line 1890 "expresiones.c"
     break;
 
   case 82: /* expr_arit: '(' expr_arit ')'  */
-#line 482 "expresiones.y"
+#line 492 "expresiones.y"
                                                   {(yyval.c_expresion_arit).esReal = (yyvsp[-1].c_expresion_arit).esReal ; (yyval.c_expresion_arit).valor = ((yyvsp[-1].c_expresion_arit).esReal) ?  (yyvsp[-1].c_expresion_arit).valor : int( (yyvsp[-1].c_expresion_arit).valor); }
-#line 1885 "expresiones.c"
+#line 1896 "expresiones.c"
     break;
 
 
-#line 1889 "expresiones.c"
+#line 1900 "expresiones.c"
 
       default: break;
     }
@@ -2079,7 +2090,7 @@ yyreturn:
   return yyresult;
 }
 
-#line 484 "expresiones.y"
+#line 494 "expresiones.y"
 
 
 int main(int argc, char *argv[]){
