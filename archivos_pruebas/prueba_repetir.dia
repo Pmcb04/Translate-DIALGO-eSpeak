@@ -39,45 +39,6 @@ repetir 5 {
     mensaje "prueba 2"
 }
 
-
-
-repetir 4 {
-    Personaje1: "Hola"
-    si (inglesoitaliano == 1) 
-    {
-
-        Profesor [despacio] : "Dentro del bloque si de afuera"
-
-        si (inglesoitaliano == 1) 
-        {
-            Profesor [despacio] : "Dentro del bucle si de adentro"
-            John [voz baja, deprisa]: "Hi, Mary. I am John"
-            pausa 1
-            asignacion1 = 1
-            John [voz baja, despacio]: "Hi, Mary. I am John"
-            asignacion2 = 2
-            pausa 2.5
-            John [voz baja, gritando]: "Hi, Mary. I am John"
-        }
-        si_no {
-            Profesor [despacio] : "Dentro del bucle si_no de adentro"
-        }
-    }
-    si_no {
-        Profesor [despacio] : "Dentro del bucle si_no de afuera"
-    }
-
-
-    mensaje "hola$"
-
-    mensaje "adios@"
-
-    pausa 4
-
-    pausa 1.5
-
-}
-
 repetir 5 {
     Personaje1: "Hola"
     Personaje2: "Hello"

@@ -92,7 +92,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 61 "expresiones.y"
+#line 62 "expresiones.y"
 
  int c_entero;
  float c_real;

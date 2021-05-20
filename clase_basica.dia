@@ -74,7 +74,7 @@ ESCENA 4:
 mensaje "Si pones el valor de la bandera inglesoitaliano a 1, las frases se dirán en inglés. "
 mensaje "Si le pones otro valor distinto, se dirán en italiano"
 
-inglesoitaliano = 2
+inglesoitaliano = 1
     
 si (inglesoitaliano == 1) 
 {

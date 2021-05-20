@@ -1,3 +1,4 @@
+echo Inicio de la escena 1
 espeak -v en-us+m2 "Hi, Mary. I am John"
 espeak -v en-us+m2 "Hi, Mary. I am John"
 espeak -v en-us+m2 -s 80 "Hi, Mary. I am John"
@@ -20,3 +21,4 @@ espeak -v en-us+m2 -s 80 -s 300 -a 30 "Hi, Mary. I am John"
 espeak -v en-us+m2 -s 80 -s 300 -a 200 "Hi, Mary. I am John"
 espeak -v en-us+m2 -s 80 -a 30 -a 200 "Hi, Mary. I am John"
 espeak -v en-us+m2 -s 80 -s 300 -a 30 -a 200 "Hi, Mary. I am John"
+echo Fin de la escena 1

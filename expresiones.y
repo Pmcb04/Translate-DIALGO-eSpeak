@@ -42,6 +42,7 @@ tipo_cadena tc;
 
 bool ejecutar = false;
 bool esBucle = false;
+bool esCondicional = false;
 bool errorVariable = false;
 bool errorSemantico = false; 
 
@@ -177,7 +178,7 @@ identificadorGeneral: ID_GENERAL '=' expr_arit    {
                                                 }
                                                 else{
 
-                                                      cout << "********** Error semantico en la linea " << n_lineas << ", la variable " << $1 << " es de tipo ";
+                                                      cout << "***** Error semantico en la linea " << n_lineas << ", la variable " << $1 << " es de tipo ";
                                                       
                                                       tipo_ident = ids.getTipo($1); // averiguamos el tipo de $1, es decir de la variable
 
@@ -214,7 +215,7 @@ identificadorGeneral: ID_GENERAL '=' expr_arit    {
                                                 }
                                                 else{
 
-                                                      cout << "********** Error semantico en la linea " << n_lineas << ", la variable " << $1 << " es de tipo ";
+                                                      cout << "***** Error semantico en la linea " << n_lineas << ", la variable " << $1 << " es de tipo ";
                                                       
                                                       tipo_ident = ids.getTipo($1); // averiguamos el tipo de $1, es decir de la variable
 
@@ -250,7 +251,7 @@ identificadorCadena:  ID_CADENA '=' expr_cadena {
                                                 }
                                                 else{
 
-                                                      cout << "********** Error semantico en la linea " << n_lineas << ", la variable " << $1 << " es de tipo ";
+                                                      cout << "***** Error semantico en la linea " << n_lineas << ", la variable " << $1 << " es de tipo ";
                                                       
                                                       tipo_ident = ids.getTipo($1); // averiguamos el tipo de $1, es decir de la variable
 
@@ -282,16 +283,21 @@ escena:ESCENA expr_arit ':' {
                                     if(!$2.esReal){
                                           if($2.valor > n_escena){
                                                 cout << "+++ Inicio de la escena " << $2.valor << endl;
+                                                salida << "echo Inicio de la escena " << $2.valor << endl;
                                                 n_escena = $2.valor;
                                           }
                                           else
-                                                cout << "Error semantico en la linea " << n_lineas << ", la escena " << $2.valor << " no puede ser procesada" <<  endl;
+                                                cout << "***** Error semantico en la linea " << n_lineas << ", la escena " << $2.valor << " no puede ser procesada" <<  endl;
                                     }
                                     else
-                                          cout << "Error semantico en la linea " << n_lineas << ", el número de escena debe ser de tipo ENTERO" << endl;
+                                          cout << "***** Error semantico en la linea " << n_lineas << ", el número de escena debe ser de tipo ENTERO" << endl;
       
       
-                              } salto secBloqueEscena FINESCENA {cout << "+++ Fin de la escena " << n_escena << endl; } salto
+                              } salto secBloqueEscena FINESCENA {
+                                          cout << "+++ Fin de la escena " << n_escena << endl; 
+                                          salida << "echo Fin de la escena " << n_escena << endl; 
+                              
+                              } salto
       ; 
 
 secBloqueEscena: bloqueEscena      
@@ -308,10 +314,12 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena                        { cout << "------
                                                                         strcpy(tc, str.c_str());
                                                                         strcat(tc, $3);
                                                                         
-                                                                        if(esBucle)
-                                                                              (*table).add(Row(tc, TIPO_ROW::T_FRASE)); 
-                                                                        else
-                                                                              salida << "espeak -v " << tc << endl;
+                                                                        if(!esCondicional || esCondicional && ejecutar){
+                                                                              if(esBucle)
+                                                                                    (*table).add(Row(tc, TIPO_ROW::T_FRASE));
+                                                                              else
+                                                                                    salida << "espeak -v " << tc << endl;
+                                                                        }
 
                                                                   }
 
@@ -326,10 +334,12 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena                        { cout << "------
                                                                         strcpy(tc, str.c_str());
                                                                         strcat(tc, $5);
 
-                                                                        if(esBucle)
-                                                                              (*table).add(Row(tc, TIPO_ROW::T_FRASE));
-                                                                        else
-                                                                              salida << "espeak -v " << tc << endl;
+                                                                        if(!esCondicional || esCondicional && ejecutar){
+                                                                              if(esBucle)
+                                                                                    (*table).add(Row(tc, TIPO_ROW::T_FRASE));
+                                                                              else
+                                                                                    salida << "espeak -v " << tc << endl;
+                                                                        }
                                                                   }
 
                                                                } salto
@@ -345,10 +355,13 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena                        { cout << "------
                                                                         strcat(tc, $3);
                                                                         strcat(tc, $6);
 
-                                                                        if(esBucle)
-                                                                              (*table).add(Row(tc, TIPO_ROW::T_FRASE)); 
-                                                                        else
+
+                                                                        if(!esCondicional || esCondicional && ejecutar){
+                                                                           if(esBucle)
+                                                                              (*table).add(Row(tc, TIPO_ROW::T_FRASE));
+                                                                           else
                                                                               salida << "espeak -v " << tc << endl;  
+                                                                        }
                                                                   } 
 
 
@@ -360,39 +373,42 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena                        { cout << "------
                                                                   strcpy(tc, $2);
                                                                   cout << "-------- mensaje " << $2 << endl; 
                                                                   
-                                                                  if(esBucle)
+                                                                  if(!esCondicional || esCondicional && ejecutar){
+                                                                     if(esBucle) 
                                                                         (*table).add(Row(tc, TIPO_ROW::T_MENSAJE)); 
-                                                                  else
+                                                                     else
                                                                         salida << "echo " << tc << endl;
+                                                                  }
+
                                                                } salto
 
       | PAUSA expr_arit                                        { 
                                                                   cout << "-------- pausa " << $2.valor << endl; 
                                                                   
-                                                                  if(esBucle)
-                                                                        (*table).add(Row($2.valor, TIPO_ROW::T_PAUSA)); 
-                                                                  else
-                                                                        salida << "sleep " << $2.valor << endl;
+                                                                  if(!esCondicional || esCondicional && ejecutar){
+                                                                        if(esBucle)
+                                                                              (*table).add(Row($2.valor, TIPO_ROW::T_PAUSA)); 
+                                                                        else
+                                                                              salida << "sleep " << $2.valor << endl;
+                                                                  }  
                                                                   
                                                                } salto
-      // TODO #4 completar detección para fichero salida y bucle (identificador)
       | identificador
-       // TODO #5 completar detección para fichero salida y bucle (condicional)
       | condicional      
-      // TODO #6 completar detección para fichero salida y bucle (bucle)
       | bucle
       ;
-/* para bucles anidados añadir una variable para indicar en que nivel de profundidad de bucles nos encontramos */
-bucle: REPETIR expr_arit '{' salto {table = new Table($2.valor); esBucle = true; cout << "+++ repetir " << $2.valor <<  "(n_loop=" << n_loop <<  ") " << endl;}  secBloqueEscena '}' salto  {esBucle = false; ls.add((*table)); table->run(salida); cout << "+++ fin repetir " << $2.valor << endl; n_loop++;}
 
-condicional: parteSi parteSiNo 
+/* para bucles anidados añadir una variable para indicar en que nivel de profundidad de bucles nos encontramos */
+bucle: REPETIR expr_arit '{' salto {table = new Table($2.valor); esBucle = true; cout << "+++ repetir " << $2.valor <<  "(n_loop=" << n_loop <<  ") " << endl; n_loop++;}  secBloqueEscena '}' salto  {esBucle = false; ls.add((*table)); table->run(salida); cout << "+++ fin repetir " << $2.valor << endl; }
+
+condicional: parteSi parteSiNo            {esCondicional = false;}
       ;
 
-parteSi: SI '(' expr_log ')' salto_opc  '{' salto {ejecutar=$3;} secBloqueEscena '}' salto        {cout << "+++ bloque si ( condicion=" << $3 <<  ")" << endl;} 
+parteSi: SI '(' expr_log ')' salto_opc  '{' salto {esCondicional = true; ejecutar=$3; cout << "+++ inicio bloque si ( condicion=" << $3 <<  ")" << endl;} secBloqueEscena '}' salto        {cout << "+++ fin bloque si ( condicion=" << $3 <<  ")" << endl;} 
       ;
 
 parteSiNo: %prec SI
-      | SI_NO  '{' salto {ejecutar = !ejecutar;} secBloqueEscena '}' salto              {cout << "+++ bloque sino " << endl;}
+      | SI_NO  '{' salto {ejecutar = !ejecutar; cout << "+++ inicio bloque sino " << endl;} secBloqueEscena '}' salto              {cout << "+++ fin bloque sino " << endl;}
       ;
 
 /*------------------------------------------------ entonacion ------------------------------------------------*/ 
@@ -404,8 +420,36 @@ entonacion: TONO                    {strcpy($$, $1);}
 /* ------------------------------------------------ expresiones ------------------------------------------------*/ 
 
 expr_cadena : CADENA                           {strcpy($$, $1);}
-      | ID_CADENA                              {strcpy($$, $1);} // TODO : obtener valor
-      | expr_arit                              {string str = '"' + to_string($1.valor)  + '"'; strcpy($$, str.c_str());}
+      | ID_CADENA                              {
+                                                if(ids.isExists($1)){
+                                                      if(ids.getTipo($1) == TIPO_IDENT::T_CADENA){
+                                                            ids.get($1, ident);
+                                                            strcpy($$, ident.valor.valor_cadena);
+                                                      }
+                                                      else{ 
+                                                            cout << "***** Error semantico en la linea " << n_lineas << ", la variable " << $1 << " no es de tipo CADENA" << endl;            
+                                                            errorSemantico = true;
+                                                      }
+                                                } 
+                                                else{
+                                                      cout << "***** Error semantico en la linea " << n_lineas << ", la variable " << $1 << " no esta definida" << endl;
+                                                      errorVariable = true;
+                                                      
+                                                }
+                                               }
+      | expr_arit                              {
+                                                      string str = to_string($1.valor);
+
+                                                      if($1.esReal)
+                                                            str = str.substr(0, str.find(".")+2);
+                                                      else
+                                                            str = str.substr(0, str.find("."));
+
+                                                      str = '"' + str  + '"';
+
+                                                      strcpy($$, str.c_str());
+                                               }
+
       | expr_cadena CONCATENACION expr_cadena  {cout << "-------- concatenacion cadena (" << $1 << ") cadena(" << $3 <<  ")" << endl; 
                                                 string str1($1);  
                                                 string str2($3);  
@@ -438,29 +482,29 @@ expr_log : TRUE                               {$$ = true; }
 
 expr_arit: NUMERO			                {$$.esReal = false; $$.valor = $1; } 
       | REAL                                  {$$.esReal = true;  $$.valor = $1; }      
-      | ID_GENERAL                       {
-                                          if(ids.isExists($1)){
-                                                if(ids.getTipo($1) == TIPO_IDENT::T_ENT){
-                                                      $$.esReal = false;
-                                                      ids.get($1, ident);
-                                                      $$.valor = ident.valor.valor_entero;
+      | ID_GENERAL                            {
+                                                if(ids.isExists($1)){
+                                                      if(ids.getTipo($1) == TIPO_IDENT::T_ENT){
+                                                            $$.esReal = false;
+                                                            ids.get($1, ident);
+                                                            $$.valor = ident.valor.valor_entero;
+                                                      }
+                                                      else if(ids.getTipo($1) == TIPO_IDENT::T_REAL){
+                                                            $$.esReal = true;
+                                                            ids.get($1, ident);
+                                                            $$.valor = ident.valor.valor_real;
+                                                      }
+                                                      else{ 
+                                                            cout << "***** Error semantico en la linea " << n_lineas << ", la variable " << $1 << " no es de tipo ENTERA o REAL" << endl;            
+                                                            errorSemantico = true;
+                                                      }
+                                                } 
+                                                else{
+                                                      cout << "***** Error semantico en la linea " << n_lineas << ", la variable " << $1 << " no esta definida" << endl;
+                                                      errorVariable = true;
+                                                      
                                                 }
-                                                else if(ids.getTipo($1) == TIPO_IDENT::T_REAL){
-                                                      $$.esReal = true;
-                                                      ids.get($1, ident);
-                                                      $$.valor = ident.valor.valor_real;
-                                                }
-                                                else{ 
-                                                      cout << "Error semantico en la linea " << n_lineas << ", la variable " << $1 << " no es de tipo ENTERA o REAL" << endl;            
-                                                      errorSemantico = true;
-                                                }
-                                          } 
-                                          else{
-                                                cout << "Error semantico en la linea " << n_lineas << ", la variable " << $1 << " no esta definida" << endl;
-                                                errorVariable = true;
-                                                
-                                          }
-                                    }            
+                                              }            
       | expr_arit '+' expr_arit               {$$.esReal = $1.esReal || $3.esReal; $$.valor = ($$.esReal) ? $1.valor + $3.valor : int($1.valor) + int($3.valor); }
       | expr_arit '-' expr_arit               {$$.esReal = $1.esReal || $3.esReal; $$.valor = ($$.esReal) ? $1.valor - $3.valor : int($1.valor) - int($3.valor); }
       | expr_arit '*' expr_arit               {$$.esReal = $1.esReal || $3.esReal; $$.valor = ($$.esReal) ? $1.valor * $3.valor : int($1.valor) * int($3.valor); }
