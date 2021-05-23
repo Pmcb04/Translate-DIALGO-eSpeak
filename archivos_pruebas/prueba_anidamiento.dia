@@ -28,27 +28,65 @@ repetir 4 {
     si (inglesoitaliano == 1) 
     {
 
-        Profesor [despacio] : "Dentro del bloque si de afuera"
+        mensaje "Dentro del bloque si de afuera"
 
         si (inglesoitaliano == 1) 
         {
-            Profesor [despacio] : "Dentro del bucle si de adentro"
-            John [voz baja, deprisa]: "Hi, Mary. I am John"
-            pausa 1
-            asignacion1 = 1
-            John [voz baja, despacio]: "Hi, Mary. I am John"
-            asignacion2 = 2
-            pausa 2.5
-            John [voz baja, gritando]: "Hi, Mary. I am John"
+            mensaje "Dentro del bloque si del medio"
+            mensaje "Condicional - Condicional anidado conseguido!!! :)"
+
+            si (inglesoitaliano == 1) 
+            {
+                mensaje "Dentro del bloque si de adentro"
+                mensaje "Condicional - Condicional anidado conseguido!!! :)"
+                John [voz baja, deprisa]: "Hi, Mary. I am John"
+                pausa 1
+                asignacion1 = 1
+                John [voz baja, despacio]: "Hi, Mary. I am John"
+                asignacion2 = 2
+                pausa 2.5
+                John [voz baja, gritando]: "Hi, Mary. I am John"
+            }
+            si_no {
+                mensaje "Dentro del bloque si_no de adentro"
+                mensaje "Condicional - Condicional anidado no conseguido :("
+            }
+
+
         }
         si_no {
-            Profesor [despacio] : "Dentro del bucle si_no de adentro"
+            mensaje "Dentro del bloque si_no del medio"
+            mensaje "Condicional - Condicional anidado no conseguido :("
         }
     }
     si_no {
-        Profesor [despacio] : "Dentro del bucle si_no de afuera"
+        mensaje "Dentro del bloque si_no de afuera"
+        mensaje "Condicional - Condicional anidado no conseguido :("
     }
 
+    repetir 5 {
+        Personaje1: "Hola"
+        Personaje2: "Hello"
+
+        mensaje "prueba 1"
+
+        mensaje "prueba 2"
+
+        mensaje "Bucle - Bucle anidado conseguido !!! :)"
+
+        anidamiento = 1
+
+        repetir 7{
+
+            si (anidamiento == 1) {
+                mensaje "Bucle - Condicional anidado conseguido!!! :)"
+            }
+            si_no {
+                mensaje "Bucle - Condicional anidado no conseguido :("
+            }
+        }
+
+    }
 
     mensaje "hola$"
 
@@ -58,16 +96,18 @@ repetir 4 {
 
     pausa 1.5
 
-    repetir 5 {
-        Personaje1: "Hola"
-        Personaje2: "Hello"
-
-        mensaje "prueba 1"
-
-        mensaje "prueba 2"
-    }
-
-
 }
+
+    anidamiento = 0
+
+    si (anidamiento == 1) {
+        mensaje "Condicional - Bucle anidado no conseguido :("
+    }
+    si_no {
+        
+        repetir 3{
+            mensaje "Condicional - Bucle anidado conseguido!!! :)"
+        }
+    }
 
 FINESCENA

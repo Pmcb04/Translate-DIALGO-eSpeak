@@ -40,8 +40,8 @@ repetir 5 {
 }
 
 repetir 5 {
-    Personaje1: "Hola"
-    Personaje2: "Hello"
+    Personaje2: "Hola"
+    Personaje1: "Hello"
 
     mensaje "prueba 1"
 

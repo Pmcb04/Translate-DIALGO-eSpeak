@@ -20,6 +20,7 @@ const int numWidth      = 25;
 Table::Table(){
 	this->num_rows = 0;	
 	this->repeats = 1;
+	this->father = NULL;
 }
 
 Table::Table(int repeats){
@@ -36,11 +37,22 @@ void Table::get(int line, Row &row){
 	row = table[line];
 }
 
+void Table::setFather(Table *&father){
+	this->father = father;
+}
+
+void Table::getFather(Table *&father){
+	father = this->father;
+}
+
+
 void Table::run(ofstream &salida){
 
-	for (int i = 0; i < repeats; i++)
+	for (int i = 0; i < repeats; i++){
 		for (int j = 0; j < num_rows; j++)
 			runRow(j, salida);
+	}
+
 }
 
 void Table::runRow(int index, ofstream &salida){
@@ -82,7 +94,7 @@ void Table::runRow(int index, ofstream &salida){
 			break;
 
 		case TIPO_ROW::T_BUCLE:
-			salida << "bucle" << endl;
+			row.data.data_table->run(salida);
 			break;
 
 		default:
@@ -164,7 +176,7 @@ void Table::printTable(ofstream &salida){
 
 		case TIPO_ROW::T_BUCLE: 
 			printElement("bucle", numWidth, salida);
-			printElement("table", numWidth, salida);			
+			printElement(table[i].data.data_table, numWidth, salida);			
 			salida << endl;
 			break;
 
@@ -251,7 +263,7 @@ void Table::printTable(){
 
 		case TIPO_ROW::T_BUCLE: 
 			printElement("bucle", numWidth);
-			printElement("table", numWidth);			
+			printElement(table[i].data.data_table, numWidth);			
 			cout << endl;
 			break;
 

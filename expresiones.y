@@ -34,24 +34,25 @@ void yyerror(const char* s){         /*    llamada por cada error sintactico de 
 
 //Zona de definiciones
 
-ofstream salida;
-int n_loop;
-int n_escena;
+ofstream salida;              // flujo de datos hacia el fichero de salida
+int n_escena;                 // contador que indica el numero de escena que nos encontramos
+int n_condicional;            // contador que indica el numero de condicionales anidados, en cual nos encontramos
+
+bool esBucle;                 // indica si estamos dentro de un bucle
+bool ejecutar[100];           // vector de banderas que indican el bloque que se debe ejecutar del condicional
+bool esCondicional[100];      // vector de banderas que indican si estamos dentro de un condicional
+bool errorVariable;           // bandera que indica si existe un error relacionado con el tipo de variable
+bool errorSemantico;          // bandera que indica si se ha producido un error semantico
+
 string str;
 tipo_cadena tc;
-
-bool ejecutar = false;
-bool esBucle = false;
-bool esCondicional = false;
-bool errorVariable = false;
-bool errorSemantico = false; 
-
 
 Character ch;
 Characters chs;  
 
 Loops ls;
 Table *table;
+Table *father;
 
 Identifiers ids;
 Identifier ident;
@@ -314,7 +315,7 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena                        { cout << "------
                                                                         strcpy(tc, str.c_str());
                                                                         strcat(tc, $3);
                                                                         
-                                                                        if(!esCondicional || esCondicional && ejecutar){
+                                                                        if(!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional]){
                                                                               if(esBucle)
                                                                                     (*table).add(Row(tc, TIPO_ROW::T_FRASE));
                                                                               else
@@ -334,7 +335,7 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena                        { cout << "------
                                                                         strcpy(tc, str.c_str());
                                                                         strcat(tc, $5);
 
-                                                                        if(!esCondicional || esCondicional && ejecutar){
+                                                                        if(!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional]){
                                                                               if(esBucle)
                                                                                     (*table).add(Row(tc, TIPO_ROW::T_FRASE));
                                                                               else
@@ -356,7 +357,7 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena                        { cout << "------
                                                                         strcat(tc, $6);
 
 
-                                                                        if(!esCondicional || esCondicional && ejecutar){
+                                                                        if(!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional]){
                                                                            if(esBucle)
                                                                               (*table).add(Row(tc, TIPO_ROW::T_FRASE));
                                                                            else
@@ -373,9 +374,11 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena                        { cout << "------
                                                                   strcpy(tc, $2);
                                                                   cout << "-------- mensaje " << $2 << endl; 
                                                                   
-                                                                  if(!esCondicional || esCondicional && ejecutar){
-                                                                     if(esBucle) 
+                                                                  if(!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional]){
+                                                                     if(esBucle){
                                                                         (*table).add(Row(tc, TIPO_ROW::T_MENSAJE)); 
+                                                                        cout << ">>> Añadido mensaje " << $2 << " a la table " << table << endl;
+                                                                     } 
                                                                      else
                                                                         salida << "echo " << tc << endl;
                                                                   }
@@ -385,7 +388,7 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena                        { cout << "------
       | PAUSA expr_arit                                        { 
                                                                   cout << "-------- pausa " << $2.valor << endl; 
                                                                   
-                                                                  if(!esCondicional || esCondicional && ejecutar){
+                                                                  if(!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional]){
                                                                         if(esBucle)
                                                                               (*table).add(Row($2.valor, TIPO_ROW::T_PAUSA)); 
                                                                         else
@@ -395,20 +398,69 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena                        { cout << "------
                                                                } salto
       | identificador
       | condicional      
-      | bucle
+      | bucle                                               
       ;
 
 /* para bucles anidados añadir una variable para indicar en que nivel de profundidad de bucles nos encontramos */
-bucle: REPETIR expr_arit '{' salto {table = new Table($2.valor); esBucle = true; cout << "+++ repetir " << $2.valor <<  "(n_loop=" << n_loop <<  ") " << endl; n_loop++;}  secBloqueEscena '}' salto  {esBucle = false; ls.add((*table)); table->run(salida); cout << "+++ fin repetir " << $2.valor << endl; }
+bucle: REPETIR expr_arit '{' salto {
 
-condicional: parteSi parteSiNo            {esCondicional = false;}
+                                          cout << ">>> nuevo bucle" << endl; 
+
+                                          if(esBucle){ 
+                                                cout << "añadimos referencia a tabla" << endl;    
+                                                father = table;
+                                                cout << ">>> cambiamos padre" << endl;        
+                                                cout << ">>> table " << "( " <<  table << " )" << " && father " << "( " << father <<  " )" << endl;
+                                          }
+
+                                          esBucle = true; 
+                                          ls.add(table, $2.valor); 
+                                          if(father != NULL) (*father).add(Row(table, TIPO_ROW::T_BUCLE));
+                                          table->setFather(father);
+                                          cout << ">>> table " << "( " <<  table << " )" << " && father " << "( " << father <<  " )" << endl;
+
+                                          cout << "+++ repetir " << $2.valor << endl; 
+      }  secBloqueEscena '}' salto  {
+                                          cout << "+++ fin repetir " << $2.valor << endl;
+                                          
+                                          if(father == NULL){
+                                                table->run(salida); 
+                                                esBucle = false;  // cuando llegemos al padre de todos los bucles anidados acabamos el bloque de bucles 
+                                          }
+                                          table->getFather(table);
+                                          cout << ">>> obtenemos padre table " << "(" << table << ")" << endl;
+                                          if(table != NULL){
+                                                table->getFather(father);
+                                                cout << ">>> obtenemos padre de padre de table " "(" << father <<  ")" << endl;
+                                          }
+                                    }
+
+condicional: parteSi parteSiNo 
       ;
 
-parteSi: SI '(' expr_log ')' salto_opc  '{' salto {esCondicional = true; ejecutar=$3; cout << "+++ inicio bloque si ( condicion=" << $3 <<  ")" << endl;} secBloqueEscena '}' salto        {cout << "+++ fin bloque si ( condicion=" << $3 <<  ")" << endl;} 
+parteSi: SI '(' expr_log ')' salto_opc  '{' salto { 
+                                                if(esCondicional[n_condicional]) n_condicional++; 
+                                                esCondicional[n_condicional] = true; 
+                                                ejecutar[n_condicional]=$3; 
+                                                cout << ">>> entramos en bloque si del condicional (n_condicional = " << n_condicional << ") && esCondicional[" << n_condicional << "] = " << esCondicional[n_condicional] << " && ejecutar[" << n_condicional <<  "] = " << ejecutar[n_condicional] << endl;
+                                                cout << "+++ inicio bloque si ( condicion=" << $3 <<  ")" << endl;
+                                          } secBloqueEscena '}' salto  {
+                                                cout << "+++ fin bloque si ( condicion=" << $3 <<  ")" << endl;
+                                                cout << ">>> salimos en bloque si del condicional (n_condicional = " << n_condicional << ") && esCondicional[" << n_condicional << "] = " << esCondicional[n_condicional] << " && ejecutar[" << n_condicional <<  "] = " << ejecutar[n_condicional] << endl;
+                                          } 
       ;
 
 parteSiNo: %prec SI
-      | SI_NO  '{' salto {ejecutar = !ejecutar; cout << "+++ inicio bloque sino " << endl;} secBloqueEscena '}' salto              {cout << "+++ fin bloque sino " << endl;}
+      | SI_NO  '{' salto {
+                        ejecutar[n_condicional] = !ejecutar[n_condicional]; 
+                        cout << ">>> entramos en bloque si_no del condicional (n_condicional = " << n_condicional << ") && esCondicional[" << n_condicional << "] = " << esCondicional[n_condicional] << " && !ejecutar[" << n_condicional <<  "] = " << ejecutar[n_condicional] << endl;
+                        cout << "+++ inicio bloque sino " << endl;
+                  } secBloqueEscena '}' salto {
+                        cout << "+++ fin bloque sino " << endl;
+                        cout << ">>> salimos en bloque si_no del condicional (n_condicional = " << n_condicional << ") && esCondicional[" << n_condicional << "] = " << esCondicional[n_condicional] << " && !ejecutar[" << n_condicional <<  "] = " << ejecutar[n_condicional] << endl;
+                        esCondicional[n_condicional] = false; 
+                        if(n_condicional > 0) n_condicional--; 
+                  }
       ;
 
 /*------------------------------------------------ entonacion ------------------------------------------------*/ 
@@ -538,6 +590,9 @@ expr_arit: NUMERO			                {$$.esReal = false; $$.valor = $1; }
 %%
 
 int main(int argc, char *argv[]){
+
+      // TODO añadir opcion debug (-d) para que salga todos los mensajes por fichero
+      // TODO añadir opcion screen (-s) para que salga todos los mensajes por pantalla
      
       if(argc >= 2){
             if(strlen(argv[1]) > 5){
@@ -551,8 +606,17 @@ int main(int argc, char *argv[]){
                         return -1;
                   }else{
                         n_lineas = 1;  
-                        n_escena = 0;   
-                        n_loop = 0;
+                        n_escena = 0; 
+                        n_condicional = 0;
+
+                        esBucle = false;
+                        errorVariable = false;
+                        errorSemantico = false; 
+                        ejecutar[n_condicional] = false;
+                        esCondicional[n_condicional] = false;
+
+                        table = NULL;
+                        father = NULL;
                         
                         yyin = fopen(argv[1], "rt");
                         salida.open(outfileName + ".sh");
@@ -562,8 +626,8 @@ int main(int argc, char *argv[]){
                         salida.close();
 
                         ids.printIdentifiers(); // mostramos los identificadores declarados
-                        chs.printCharacters(); // mostramos los personajes declarados
-                        ls.printLoops(); // mostramos los bucles declarados
+                        chs.printCharacters();  // mostramos los personajes declarados
+                        ls.printLoops();        // mostramos los bucles declarados
 
                         return 0; 
                   }
