@@ -14,7 +14,7 @@
 using namespace std;
 
 const int MAX_INFO_LOOPS = 100;
-typedef Table loops[MAX_INFO_LOOPS];
+typedef Table* loops[MAX_INFO_LOOPS];
 
 
 class Loops {
@@ -35,13 +35,13 @@ class Loops {
 		* Si existe ya en la estructura -> No hace nada
 		* Si no existe en la estructura -> Añade la tabla a la estructura
 		*/
-		void add(Table table);
+		void add(Table *&table, int repeats);
 
 		/*
 		* Metodo que busca una tabla en la estructura y lo devuelve
 		* PRE{el tabla debe existir en la estructura}
 		*/
-		void get(int index, Table &table);
+		void get(int index, Table *&table);
 
 		/*
 		* Metodo que se encarga de imprimir toda la estructura con información en el fichero de salida "salida"

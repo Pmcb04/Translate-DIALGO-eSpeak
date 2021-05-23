@@ -12,18 +12,20 @@
 #include <string>
 using namespace std;
 
-
 enum TIPO_ROW{
 	T_ASIGN_CAD, T_ASIGN_ENT, T_ASIGN_REAL, T_ASIGN_LOG, T_FRASE, T_PAUSA, T_MENSAJE, T_BUCLE, T_CONDICIONAL
 };
 
 typedef char tipo_cadena[255];
 
+class Table;
+
 union tipo_data{
 	int data_entero;
 	float data_real;
 	bool data_bool;
 	tipo_cadena data_cadena;
+	Table *data_table;
 };
 
 struct Row {
@@ -41,7 +43,8 @@ struct Row {
 
 	Row(float data, TIPO_ROW tipo){
 		this->data.data_real = data;
-		this->tipo = tipo;
+		this->tipo = tipo;	
+
 	}
 
 	Row(bool data, TIPO_ROW tipo){
@@ -53,6 +56,13 @@ struct Row {
 		strcpy(this->data.data_cadena, data);
 		this->tipo = tipo;
 	}
+
+	Row(Table *&data, TIPO_ROW tipo){
+		this->data.data_table = data;
+		this->tipo = tipo;
+	}
+
+
 };
 
 const int MAX_INFO_TABLES = 100;
@@ -61,6 +71,7 @@ typedef Row rows[MAX_INFO_TABLES];
 
 class Table {
 	private: 
+		Table *father;
 		rows table;
 		int num_rows;
 		int repeats;
@@ -89,6 +100,19 @@ class Table {
 		*/
 		void get(int line, Row &row);
 
+
+		/*
+		* Metodo que asigna la table padre de la tabla objeto tratado
+		*/
+		void setFather(Table *&father);
+
+
+		/*
+		* Metodo que devuelve la table padre de la tabla objeto tratado
+		*/
+		void getFather(Table *&father);
+
+
 		/*
 		* Metodo que procesa la tabla, repeats veces las instrucciones que tenga y las suelta en salida
 		*/
@@ -115,5 +139,9 @@ class Table {
 		~Table();
 
 };
+
+
+
+
 
 #endif /* TABLES_H */

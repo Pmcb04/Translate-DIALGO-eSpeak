@@ -20,29 +20,31 @@ Loops::Loops(){
 	this->num_loops = 0;
 }
 
-void Loops::add(Table table){
-		ls[num_loops] = table;
+void Loops::add(Table *&table, int repeats){
+		ls[num_loops] = new Table(repeats); 
+		cout << ">>> asignamos nueva tabla ( " << ls[num_loops] << " )" << endl;
+		table = ls[num_loops];
 		num_loops++;
 }
 
-void Loops::get(int index, Table &table){
+void Loops::get(int index, Table *&table){
 	table = ls[index];
 }
 
 void Loops::printLoops(ofstream &salida){
 
 	for (int i = 0; i < num_loops; i++){
-		ls[i].printTable(salida);
+		ls[i]->printTable(salida);
 	}
 		
-	cout << endl;
+	salida << endl;
 
 }
 
 void Loops::printLoops(){
 
 	for (int i = 0; i < num_loops; i++){
-		ls[i].printTable();
+		ls[i]->printTable();
 	}
 		
 	cout << endl;
