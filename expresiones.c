@@ -76,8 +76,6 @@
  *	Autor : Pedro Miguel Carmona Broncano && Rubén Marín Lucas
  */
 
- //       | error salto  {yyerrok; errorSemantico = false; errorVariable = false;}	
-
 
 #include <string>
 #include <fstream>
@@ -99,12 +97,13 @@ extern int num_women;
 
 //definición de procedimientos auxiliares
 void yyerror(const char* s){         /*    llamada por cada error sintactico de yacc */
-	cout << "Error sintáctico en la línea "<< n_lineas << " : "  << s <<endl;	
+	cout << "***** Error sintáctico en la línea "<< n_lineas << " : "  << s <<endl;	
 }
 
 //Zona de definiciones
 
 ofstream salida;              // flujo de datos hacia el fichero de salida
+ofstream debug;              // flujo de datos hacia el fichero de debug
 int n_escena;                 // contador que indica el numero de escena que nos encontramos
 int n_condicional;            // contador que indica el numero de condicionales anidados, en cual nos encontramos
 
@@ -112,6 +111,7 @@ bool esBucle;                 // indica si estamos dentro de un bucle
 bool ejecutar[100];           // vector de banderas que indican el bloque que se debe ejecutar del condicional
 bool esCondicional[100];      // vector de banderas que indican si estamos dentro de un condicional
 bool errorVariable;           // bandera que indica si existe un error relacionado con el tipo de variable
+bool errorEscena;             // bandera que indica si se ha producido un error en una escena
 bool errorSemantico;          // bandera que indica si se ha producido un error semantico
 
 string str;
@@ -219,32 +219,23 @@ enum yysymbol_kind_t
   YYSYMBOL_secBloqueDefiniciones = 59,     /* secBloqueDefiniciones  */
   YYSYMBOL_identificador = 60,             /* identificador  */
   YYSYMBOL_identificadorGeneral = 61,      /* identificadorGeneral  */
-  YYSYMBOL_62_3 = 62,                      /* $@3  */
-  YYSYMBOL_63_4 = 63,                      /* $@4  */
-  YYSYMBOL_identificadorCadena = 64,       /* identificadorCadena  */
-  YYSYMBOL_65_5 = 65,                      /* $@5  */
-  YYSYMBOL_secEscena = 66,                 /* secEscena  */
-  YYSYMBOL_escena = 67,                    /* escena  */
-  YYSYMBOL_68_6 = 68,                      /* $@6  */
-  YYSYMBOL_69_7 = 69,                      /* $@7  */
-  YYSYMBOL_secBloqueEscena = 70,           /* secBloqueEscena  */
-  YYSYMBOL_bloqueEscena = 71,              /* bloqueEscena  */
-  YYSYMBOL_72_8 = 72,                      /* $@8  */
-  YYSYMBOL_73_9 = 73,                      /* $@9  */
-  YYSYMBOL_74_10 = 74,                     /* $@10  */
-  YYSYMBOL_75_11 = 75,                     /* $@11  */
-  YYSYMBOL_76_12 = 76,                     /* $@12  */
-  YYSYMBOL_bucle = 77,                     /* bucle  */
-  YYSYMBOL_78_13 = 78,                     /* $@13  */
-  YYSYMBOL_condicional = 79,               /* condicional  */
-  YYSYMBOL_parteSi = 80,                   /* parteSi  */
-  YYSYMBOL_81_14 = 81,                     /* $@14  */
-  YYSYMBOL_parteSiNo = 82,                 /* parteSiNo  */
-  YYSYMBOL_83_15 = 83,                     /* $@15  */
-  YYSYMBOL_entonacion = 84,                /* entonacion  */
-  YYSYMBOL_expr_cadena = 85,               /* expr_cadena  */
-  YYSYMBOL_expr_log = 86,                  /* expr_log  */
-  YYSYMBOL_expr_arit = 87                  /* expr_arit  */
+  YYSYMBOL_identificadorCadena = 62,       /* identificadorCadena  */
+  YYSYMBOL_secEscena = 63,                 /* secEscena  */
+  YYSYMBOL_escena = 64,                    /* escena  */
+  YYSYMBOL_65_3 = 65,                      /* $@3  */
+  YYSYMBOL_secBloqueEscena = 66,           /* secBloqueEscena  */
+  YYSYMBOL_bloqueEscena = 67,              /* bloqueEscena  */
+  YYSYMBOL_bucle = 68,                     /* bucle  */
+  YYSYMBOL_69_4 = 69,                      /* $@4  */
+  YYSYMBOL_condicional = 70,               /* condicional  */
+  YYSYMBOL_parteSi = 71,                   /* parteSi  */
+  YYSYMBOL_72_5 = 72,                      /* $@5  */
+  YYSYMBOL_parteSiNo = 73,                 /* parteSiNo  */
+  YYSYMBOL_74_6 = 74,                      /* $@6  */
+  YYSYMBOL_entonacion = 75,                /* entonacion  */
+  YYSYMBOL_expr_cadena = 76,               /* expr_cadena  */
+  YYSYMBOL_expr_log = 77,                  /* expr_log  */
+  YYSYMBOL_expr_arit = 78                  /* expr_arit  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -566,16 +557,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  6
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   268
+#define YYLAST   301
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  49
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  39
+#define YYNNTS  30
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  82
+#define YYNRULES  77
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  169
+#define YYNSTATES  168
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   287
@@ -628,14 +619,13 @@ static const yytype_int8 yytranslate[] =
 static const yytype_int16 yyrline[] =
 {
        0,   122,   122,   123,   126,   127,   131,   136,   136,   139,
-     140,   143,   148,   149,   149,   152,   153,   156,   157,   160,
-     160,   206,   206,   242,   242,   279,   280,   283,   297,   283,
-     304,   305,   308,   308,   328,   328,   347,   347,   372,   372,
-     388,   388,   399,   400,   401,   405,   405,   438,   441,   441,
-     453,   454,   454,   468,   469,   474,   475,   492,   505,   519,
-     520,   521,   522,   523,   524,   525,   526,   527,   528,   529,
-     530,   531,   532,   535,   536,   537,   560,   561,   562,   564,
-     573,   587,   588
+     140,   143,   144,   149,   150,   150,   153,   154,   157,   158,
+     159,   163,   209,   246,   283,   284,   287,   287,   316,   317,
+     320,   345,   368,   397,   417,   432,   433,   434,   435,   436,
+     440,   440,   473,   476,   476,   488,   489,   489,   503,   504,
+     509,   510,   528,   543,   566,   567,   568,   569,   570,   571,
+     572,   573,   574,   575,   576,   577,   578,   579,   582,   583,
+     584,   607,   608,   609,   611,   620,   634,   635
 };
 #endif
 
@@ -661,10 +651,9 @@ static const char *const yytname[] =
   "salto", "salto_opc", "programa", "bloquePersonajes", "$@1",
   "secBloquePersonajes", "asignacionPersonaje", "bloqueDefiniciones",
   "$@2", "secBloqueDefiniciones", "identificador", "identificadorGeneral",
-  "$@3", "$@4", "identificadorCadena", "$@5", "secEscena", "escena", "$@6",
-  "$@7", "secBloqueEscena", "bloqueEscena", "$@8", "$@9", "$@10", "$@11",
-  "$@12", "bucle", "$@13", "condicional", "parteSi", "$@14", "parteSiNo",
-  "$@15", "entonacion", "expr_cadena", "expr_log", "expr_arit", YY_NULLPTR
+  "identificadorCadena", "secEscena", "escena", "$@3", "secBloqueEscena",
+  "bloqueEscena", "bucle", "$@4", "condicional", "parteSi", "$@5",
+  "parteSiNo", "$@6", "entonacion", "expr_cadena", "expr_log", "expr_arit", YY_NULLPTR
 };
 
 static const char *
@@ -687,12 +676,12 @@ static const yytype_int16 yytoknum[] =
 };
 #endif
 
-#define YYPACT_NINF (-89)
+#define YYPACT_NINF (-109)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
 
-#define YYTABLE_NINF (-1)
+#define YYTABLE_NINF (-16)
 
 #define yytable_value_is_error(Yyn) \
   0
@@ -701,23 +690,23 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-     -89,     0,    14,   -89,   -89,    -6,   -89,    -2,   -89,    40,
-     -89,    -4,    -2,     3,    40,   -89,    11,   -89,    20,   -89,
-       2,   -89,   -89,   -89,     3,     3,   133,   -89,    30,   -89,
-      82,   101,    81,   -89,   -89,   -89,   -89,    24,     3,     3,
-       3,     3,     3,   -89,    45,     9,    71,   -89,   -89,   -89,
-      -3,    -3,   -89,   -89,    -2,    84,     9,   -89,   -89,     9,
-     165,   151,   -89,   -89,   115,    78,   210,   120,   -89,   151,
-     144,    96,     9,     9,     9,     9,    -2,     3,     3,     3,
-       3,     3,     3,    -2,    71,    -2,    34,     3,    71,   107,
-       3,   -89,   224,   -89,   -89,   -89,   131,   140,   -89,    90,
-      85,   -89,   -89,   127,    78,    78,    78,    78,    78,    78,
-     127,   -89,   127,    71,    10,    78,   115,     9,   100,   -89,
-     -89,   129,   -89,    -2,   115,   -89,   134,    52,    -2,    -2,
-     146,    -2,    -2,    -2,   127,    -2,    71,   154,   135,   127,
-     127,   -89,   127,   127,   127,   127,   115,   -89,    71,   -36,
-     237,   237,    -2,   115,    -2,   176,   181,   127,    -2,   127,
-      -2,    -2,   127,   237,   127,   127,   194,    -2,   127
+    -109,    -1,    15,  -109,  -109,    46,  -109,    27,  -109,    77,
+    -109,     9,    27,     2,    77,  -109,    27,    32,  -109,   257,
+    -109,    12,  -109,  -109,  -109,     2,     2,   182,  -109,    57,
+      90,  -109,    27,    84,    95,   224,  -109,  -109,  -109,  -109,
+     167,     2,     2,     2,     2,     2,    27,   119,    57,   117,
+     159,  -109,  -109,  -109,    55,    55,  -109,  -109,    57,   105,
+     117,  -109,  -109,   117,   207,   217,  -109,  -109,   -21,    68,
+     270,   118,  -109,   250,   175,   163,   117,   117,   117,   117,
+      57,     2,     2,     2,     2,     2,     2,    57,   159,    57,
+      27,     3,     2,   159,   102,     2,  -109,  -109,   247,  -109,
+    -109,  -109,   120,   123,  -109,   104,   100,  -109,  -109,    68,
+      68,    68,    68,    68,    68,  -109,    57,   159,   -25,   200,
+     -21,   117,    64,    27,  -109,  -109,  -109,    27,   -21,  -109,
+     111,    13,    57,    57,   179,    27,    57,     5,    57,    57,
+     159,   139,   124,  -109,    57,    27,   -21,  -109,   159,    26,
+     270,    57,    57,   -21,    27,    66,   270,    57,    57,    27,
+     109,   270,    57,    27,   138,    57,    27,    57
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -725,106 +714,112 @@ static const yytype_int16 yypact[] =
      means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       4,     0,     0,     7,     5,    12,     1,     0,    13,     0,
-       2,     0,     0,     0,     6,    25,     0,     3,     8,     9,
-       0,    73,    74,    75,     0,     0,     0,    26,     0,    10,
-       0,     0,    14,    15,    18,    17,    81,     0,     0,     0,
-       0,     0,     0,    27,     0,     0,     0,    16,    82,    80,
-      76,    77,    78,    79,     0,     0,     0,    59,    60,     0,
-      21,    19,    56,    55,    23,    57,     0,     0,    63,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,    42,     0,    30,    44,    43,    50,     0,    64,    61,
-      62,    71,    72,    22,    66,    68,    69,    70,    67,    65,
-      20,    58,    24,     0,     0,    40,    38,     0,     0,    28,
-      31,     0,    47,     0,    32,    53,     0,     0,     0,     0,
-       0,     0,     0,     0,    11,     0,     0,     0,     0,    41,
-      39,     4,    45,    29,    51,    33,    34,    54,     0,     0,
-       0,     0,     0,    36,     0,     0,     0,    35,     0,    48,
-       0,     0,    37,     0,    46,    52,     0,     0,    49
+       4,     0,     0,     7,     5,    13,     1,     0,    14,     0,
+       2,     0,     0,     0,     6,    24,     0,     0,     3,     0,
+       9,     0,    68,    69,    70,     0,     0,     0,    25,    12,
+       0,    10,     0,     0,     0,     0,    16,    19,    18,    76,
+       0,     0,     0,     0,     0,     0,     0,     0,    20,     0,
+       0,    17,    77,    75,    71,    72,    73,    74,    26,     0,
+       0,    54,    55,     0,     0,     0,    51,    50,     0,    52,
+       0,     0,    58,     0,     0,     0,     0,     0,     0,     0,
+      22,     0,     0,     0,     0,     0,     0,    21,     0,    23,
+       0,     0,     0,     0,     0,     0,    36,    35,     0,    28,
+      38,    37,    45,     0,    59,    56,    57,    66,    67,    61,
+      63,    64,    65,    62,    60,    53,    39,     0,     0,     0,
+       0,     0,     0,     0,    29,     4,    42,     0,     0,    48,
+       0,     0,    34,    33,     0,     0,    27,     0,    11,    30,
+       0,     0,     0,     4,    40,     0,     0,    49,     0,     0,
+       0,    46,    31,     0,     0,     0,     0,    32,    43,     0,
+       0,     0,    41,     0,     0,    47,     0,    44
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
-     -89,   -12,    41,   -89,   -89,   -89,   -89,   163,   -89,   -89,
-     -89,    23,   -89,   -89,   -89,   -89,   -89,   -89,   175,   -89,
-     -89,   -24,   -88,   -89,   -89,   -89,   -89,   -89,   -89,   -89,
-     -89,   -89,   -89,   -89,   -89,   -89,   -83,   -48,     7
+    -109,   -12,  -108,  -109,  -109,  -109,  -109,   151,  -109,  -109,
+    -109,   136,    -5,     1,  -109,   165,  -109,   -13,   -96,  -109,
+    -109,  -109,  -109,  -109,  -109,  -109,  -109,   -85,   -51,    -2
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_uint8 yydefgoto[] =
 {
-       0,    11,     1,     2,     5,     7,    18,    19,     9,    12,
-      32,    91,    34,    83,    76,    35,    85,    14,    15,    54,
-     132,    92,    93,   135,   152,   158,   129,   128,    94,   150,
-      95,    96,   163,   122,   151,   127,    64,    60,    65
+       0,    11,     1,     2,     5,     7,    19,    20,     9,    12,
+      35,    36,    96,    97,    14,    15,    70,    98,    99,   100,
+     150,   101,   102,   161,   126,   156,   131,    68,    64,    69
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule whose
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
-static const yytype_uint8 yytable[] =
+static const yytype_int16 yytable[] =
 {
-      20,   111,    38,     4,   120,   116,    21,    22,    68,   154,
-       8,    70,    21,    22,     6,     3,    16,    56,    57,    58,
-      26,    30,    23,    31,    99,   100,   101,   102,    23,    38,
-     124,    36,    37,    41,    42,    17,   125,    10,    24,     4,
-      16,    17,    66,    33,    24,    49,    50,    51,    52,    53,
-      25,    28,    61,   146,   126,    47,    59,    13,    39,    40,
-      41,    42,    44,    69,   103,   153,    71,   120,   120,   130,
-      55,   110,    48,   112,    21,    22,   113,   114,   120,    69,
-      69,    69,    69,    38,   104,   105,   106,   107,   108,   109,
-      23,    72,    62,   137,   115,    63,   138,   118,    74,    75,
-      30,    38,    31,    74,    75,    38,    24,    77,    78,    79,
-      80,   134,    39,    40,    41,    42,   139,   140,    25,   142,
-     143,   144,    45,   145,    69,    67,   155,   156,    81,    82,
-      39,    40,    41,    42,    39,    40,    41,    42,    38,   166,
-     157,    46,   159,    84,    48,   131,   162,    97,   164,   165,
-      72,    73,    72,    73,   117,   168,    38,    74,    75,    74,
-      75,   121,    77,    78,    79,    80,    17,    39,    40,    41,
-      42,    72,    73,   123,   133,    43,   136,   148,    74,    75,
-     147,    29,   149,    81,    82,    39,    40,    41,    42,    27,
-       0,     0,    98,     0,   141,    30,    86,    31,    87,    88,
-      30,    86,    31,    87,    88,    89,     0,    90,     0,     0,
-      89,     0,    90,    30,    86,    31,    87,    88,     0,     0,
-       0,     0,   160,    89,     0,    90,     0,   161,     0,    30,
-      86,    31,    87,    88,     0,     0,     0,     0,     0,    89,
-     167,    90,   119,    30,    86,    31,    87,    88,     0,    17,
-       0,     0,     0,    89,     0,    90,    30,    86,    31,    87,
-      88,     0,     0,     0,     0,     0,    89,     0,    90
+      21,   129,   124,   115,    29,    22,    23,    88,   120,    72,
+      16,    27,    74,    32,     3,     6,    37,   137,    10,   130,
+      48,    24,    38,    39,    40,   105,   106,   107,   108,    17,
+      37,    33,   128,    34,    58,   149,    38,    25,     4,    53,
+      54,    55,    56,    57,     4,   117,   118,    65,    18,    26,
+     145,    18,    80,    87,   141,   146,    89,   142,    73,   124,
+      41,    75,     8,   153,   124,     4,    10,    90,   124,    41,
+     134,   154,    30,    41,    73,    73,    73,    73,   116,   109,
+     110,   111,   112,   113,   114,    33,    91,    34,    92,    93,
+     119,    44,    45,   122,    13,    94,    18,    95,    42,    43,
+      44,    45,    42,    43,    44,    45,    76,   132,   133,   135,
+      90,   136,   159,    78,    79,   138,   139,    78,    79,    73,
+      22,    23,    47,   144,    49,    60,    61,    62,    33,    91,
+      34,    92,    93,   151,   152,    50,    24,   155,    94,    90,
+      95,   157,   158,   160,    59,   103,    71,   162,   164,   121,
+     125,   165,    25,   140,   167,   163,   127,    33,    91,    34,
+      92,    93,    22,    23,    63,   147,   148,    94,    41,    95,
+      31,    51,    41,     0,    81,    82,    83,    84,    24,    28,
+      66,    76,    77,    67,   166,    76,    77,    41,    78,    79,
+       0,     0,    78,    79,    25,    85,    86,    42,    43,    44,
+      45,    42,    43,    44,    45,    41,    26,     0,     0,     0,
+       0,    52,     0,    76,    77,    52,    42,    43,    44,    45,
+      78,    79,    41,   104,    46,    32,     0,   143,    81,    82,
+      83,    84,     0,     0,    42,    43,    44,    45,     0,    10,
+       0,   -15,     0,    33,     0,    34,    10,     0,    90,    85,
+      86,    42,    43,    44,    45,    41,    10,     0,    16,     0,
+       0,    81,    82,    83,    84,   123,    33,    91,    34,    92,
+      93,    90,     0,    -8,    -8,     0,    94,    17,    95,     0,
+       0,     0,    85,    86,    42,    43,    44,    45,     0,    33,
+      91,    34,    92,    93,     0,     0,     0,     0,     0,    94,
+       0,    95
 };
 
 static const yytype_int16 yycheck[] =
 {
-      12,    84,     5,    39,    92,    88,     3,     4,    56,    45,
-      16,    59,     3,     4,     0,    15,    20,     8,     9,    10,
-      13,    19,    19,    21,    72,    73,    74,    75,    19,     5,
-     113,    24,    25,    36,    37,    39,    26,    39,    35,    39,
-      20,    39,    54,    20,    35,    38,    39,    40,    41,    42,
-      47,    40,    45,   136,    44,    32,    47,    17,    34,    35,
-      36,    37,    32,    56,    76,   148,    59,   155,   156,   117,
-      25,    83,    48,    85,     3,     4,    42,    43,   166,    72,
-      73,    74,    75,     5,    77,    78,    79,    80,    81,    82,
-      19,     6,    21,    41,    87,    24,    44,    90,    13,    14,
-      19,     5,    21,    13,    14,     5,    35,    11,    12,    13,
-      14,   123,    34,    35,    36,    37,   128,   129,    47,   131,
-     132,   133,    40,   135,   117,    41,   150,   151,    32,    33,
-      34,    35,    36,    37,    34,    35,    36,    37,     5,   163,
-     152,    40,   154,    28,    48,    45,   158,    27,   160,   161,
-       6,     7,     6,     7,    47,   167,     5,    13,    14,    13,
-      14,    30,    11,    12,    13,    14,    39,    34,    35,    36,
-      37,     6,     7,    33,    45,    42,    42,    42,    13,    14,
-      26,    18,   141,    32,    33,    34,    35,    36,    37,    14,
-      -1,    -1,    48,    -1,    48,    19,    20,    21,    22,    23,
-      19,    20,    21,    22,    23,    29,    -1,    31,    -1,    -1,
-      29,    -1,    31,    19,    20,    21,    22,    23,    -1,    -1,
-      -1,    -1,    46,    29,    -1,    31,    -1,    46,    -1,    19,
+      12,    26,    98,    88,    16,     3,     4,    28,    93,    60,
+       1,    13,    63,     1,    15,     0,    21,   125,    39,    44,
+      32,    19,    21,    25,    26,    76,    77,    78,    79,    20,
+      35,    19,   117,    21,    46,   143,    35,    35,    39,    41,
+      42,    43,    44,    45,    39,    42,    43,    49,    39,    47,
+      45,    39,    64,    65,    41,   140,    68,    44,    60,   155,
+       5,    63,    16,   148,   160,    39,    39,     1,   164,     5,
+     121,    45,    40,     5,    76,    77,    78,    79,    90,    81,
+      82,    83,    84,    85,    86,    19,    20,    21,    22,    23,
+      92,    36,    37,    95,    17,    29,    39,    31,    34,    35,
+      36,    37,    34,    35,    36,    37,     6,   119,   120,    45,
+       1,   123,    46,    13,    14,   127,   128,    13,    14,   121,
+       3,     4,    32,   135,    40,     8,     9,    10,    19,    20,
+      21,    22,    23,   145,   146,    40,    19,   150,    29,     1,
+      31,   153,   154,   156,    25,    27,    41,   159,   161,    47,
+      30,   163,    35,    42,   166,    46,    33,    19,    20,    21,
+      22,    23,     3,     4,    47,    26,    42,    29,     5,    31,
+      19,    35,     5,    -1,    11,    12,    13,    14,    19,    14,
+      21,     6,     7,    24,    46,     6,     7,     5,    13,    14,
+      -1,    -1,    13,    14,    35,    32,    33,    34,    35,    36,
+      37,    34,    35,    36,    37,     5,    47,    -1,    -1,    -1,
+      -1,    48,    -1,     6,     7,    48,    34,    35,    36,    37,
+      13,    14,     5,    48,    42,     1,    -1,    48,    11,    12,
+      13,    14,    -1,    -1,    34,    35,    36,    37,    -1,    39,
+      -1,    17,    -1,    19,    -1,    21,    39,    -1,     1,    32,
+      33,    34,    35,    36,    37,     5,    39,    -1,     1,    -1,
+      -1,    11,    12,    13,    14,    18,    19,    20,    21,    22,
+      23,     1,    -1,    16,    17,    -1,    29,    20,    31,    -1,
+      -1,    -1,    32,    33,    34,    35,    36,    37,    -1,    19,
       20,    21,    22,    23,    -1,    -1,    -1,    -1,    -1,    29,
-      46,    31,    18,    19,    20,    21,    22,    23,    -1,    39,
-      -1,    -1,    -1,    29,    -1,    31,    19,    20,    21,    22,
-      23,    -1,    -1,    -1,    -1,    -1,    29,    -1,    31
+      -1,    31
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -832,50 +827,48 @@ static const yytype_int16 yycheck[] =
 static const yytype_int8 yystos[] =
 {
        0,    51,    52,    15,    39,    53,     0,    54,    16,    57,
-      39,    50,    58,    17,    66,    67,    20,    39,    55,    56,
-      50,     3,     4,    19,    35,    47,    87,    67,    40,    56,
-      19,    21,    59,    60,    61,    64,    87,    87,     5,    34,
-      35,    36,    37,    42,    32,    40,    40,    60,    48,    87,
-      87,    87,    87,    87,    68,    25,     8,     9,    10,    47,
-      86,    87,    21,    24,    85,    87,    50,    41,    86,    87,
-      86,    87,     6,     7,    13,    14,    63,    11,    12,    13,
-      14,    32,    33,    62,    28,    65,    20,    22,    23,    29,
-      31,    60,    70,    71,    77,    79,    80,    27,    48,    86,
-      86,    86,    86,    50,    87,    87,    87,    87,    87,    87,
-      50,    85,    50,    42,    43,    87,    85,    47,    87,    18,
-      71,    30,    82,    33,    85,    26,    44,    84,    76,    75,
-      86,    45,    69,    45,    50,    72,    42,    41,    44,    50,
-      50,    48,    50,    50,    50,    50,    85,    26,    42,    51,
-      78,    83,    73,    85,    45,    70,    70,    50,    74,    50,
-      46,    46,    50,    81,    50,    50,    70,    46,    50
+      39,    50,    58,    17,    63,    64,     1,    20,    39,    55,
+      56,    50,     3,     4,    19,    35,    47,    78,    64,    50,
+      40,    56,     1,    19,    21,    59,    60,    61,    62,    78,
+      78,     5,    34,    35,    36,    37,    42,    32,    50,    40,
+      40,    60,    48,    78,    78,    78,    78,    78,    50,    25,
+       8,     9,    10,    47,    77,    78,    21,    24,    76,    78,
+      65,    41,    77,    78,    77,    78,     6,     7,    13,    14,
+      50,    11,    12,    13,    14,    32,    33,    50,    28,    50,
+       1,    20,    22,    23,    29,    31,    61,    62,    66,    67,
+      68,    70,    71,    27,    48,    77,    77,    77,    77,    78,
+      78,    78,    78,    78,    78,    76,    50,    42,    43,    78,
+      76,    47,    78,    18,    67,    30,    73,    33,    76,    26,
+      44,    75,    50,    50,    77,    45,    50,    51,    50,    50,
+      42,    41,    44,    48,    50,    45,    76,    26,    42,    51,
+      69,    50,    50,    76,    45,    66,    74,    50,    50,    46,
+      66,    72,    50,    46,    66,    50,    46,    50
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
        0,    49,    50,    50,    51,    51,    52,    54,    53,    55,
-      55,    56,    57,    58,    57,    59,    59,    60,    60,    62,
-      61,    63,    61,    65,    64,    66,    66,    68,    69,    67,
-      70,    70,    72,    71,    73,    71,    74,    71,    75,    71,
-      76,    71,    71,    71,    71,    78,    77,    79,    81,    80,
-      82,    83,    82,    84,    84,    85,    85,    85,    85,    86,
-      86,    86,    86,    86,    86,    86,    86,    86,    86,    86,
-      86,    86,    86,    87,    87,    87,    87,    87,    87,    87,
-      87,    87,    87
+      55,    56,    56,    57,    58,    57,    59,    59,    60,    60,
+      60,    61,    61,    62,    63,    63,    65,    64,    66,    66,
+      67,    67,    67,    67,    67,    67,    67,    67,    67,    67,
+      69,    68,    70,    72,    71,    73,    74,    73,    75,    75,
+      76,    76,    76,    76,    77,    77,    77,    77,    77,    77,
+      77,    77,    77,    77,    77,    77,    77,    77,    78,    78,
+      78,    78,    78,    78,    78,    78,    78,    78
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     1,     2,     0,     2,     4,     0,     4,     1,
-       2,     8,     0,     0,     4,     1,     2,     1,     1,     0,
-       5,     0,     5,     0,     5,     1,     2,     0,     0,     9,
-       1,     2,     0,     5,     0,     7,     0,     8,     0,     4,
-       0,     4,     1,     1,     1,     0,     8,     2,     0,    11,
-       0,     0,     7,     1,     3,     1,     1,     1,     3,     1,
-       1,     3,     3,     2,     3,     3,     3,     3,     3,     3,
-       3,     3,     3,     1,     1,     1,     3,     3,     3,     3,
-       3,     2,     3
+       2,     8,     2,     0,     0,     4,     1,     2,     1,     1,
+       2,     4,     4,     4,     1,     2,     0,     8,     1,     2,
+       4,     6,     7,     3,     3,     1,     1,     1,     1,     2,
+       0,     8,     2,     0,    11,     0,     0,     8,     1,     3,
+       1,     1,     1,     3,     1,     1,     3,     3,     2,     3,
+       3,     3,     3,     3,     3,     3,     3,     3,     1,     1,
+       1,     3,     3,     3,     3,     3,     2,     3
 };
 
 
@@ -1345,66 +1338,78 @@ yyreduce:
   case 2: /* salto: '\n'  */
 #line 122 "expresiones.y"
                      {n_lineas++;}
-#line 1349 "expresiones.c"
+#line 1342 "expresiones.c"
     break;
 
   case 3: /* salto: salto '\n'  */
 #line 123 "expresiones.y"
                      {n_lineas++;}
-#line 1355 "expresiones.c"
+#line 1348 "expresiones.c"
     break;
 
   case 5: /* salto_opc: salto_opc '\n'  */
 #line 127 "expresiones.y"
                         {n_lineas++;}
-#line 1361 "expresiones.c"
+#line 1354 "expresiones.c"
     break;
 
   case 7: /* $@1: %empty  */
 #line 136 "expresiones.y"
-                             {cout << "+++ bloque personajes linea " << n_lineas << endl;}
-#line 1367 "expresiones.c"
+                             {debug << "+++ bloque personajes linea " << n_lineas << endl;}
+#line 1360 "expresiones.c"
     break;
 
   case 11: /* asignacionPersonaje: ID_NOMBRE '=' '<' IDIOMA ',' VOZ '>' salto  */
 #line 143 "expresiones.y"
-                                                                { cout << "-------- asignacion nombre " << (yyvsp[-7].c_identificador) << "," << (yyvsp[-4].c_cadena) << "," << (yyvsp[-2].c_cadena) <<  " linea " << n_lineas << endl; chs.add(Character((yyvsp[-7].c_identificador), n_lineas, (yyvsp[-4].c_cadena), (yyvsp[-2].c_cadena)));}
-#line 1373 "expresiones.c"
+                                                                { debug << "-------- asignacion nombre " << (yyvsp[-7].c_identificador) << "," << (yyvsp[-4].c_cadena) << "," << (yyvsp[-2].c_cadena) <<  " linea " << n_lineas << endl; chs.add(Character((yyvsp[-7].c_identificador), n_lineas, (yyvsp[-4].c_cadena), (yyvsp[-2].c_cadena)));}
+#line 1366 "expresiones.c"
     break;
 
-  case 13: /* $@2: %empty  */
-#line 149 "expresiones.y"
-                     {cout << "+++ bloque definiciones linea " << n_lineas << endl;}
-#line 1379 "expresiones.c"
+  case 12: /* asignacionPersonaje: error salto  */
+#line 144 "expresiones.y"
+                     {yyerrok; errorSemantico = false; errorVariable = false;}
+#line 1372 "expresiones.c"
     break;
 
-  case 19: /* $@3: %empty  */
-#line 160 "expresiones.y"
-                                                  {
+  case 14: /* $@2: %empty  */
+#line 150 "expresiones.y"
+                     {debug << "+++ bloque definiciones linea " << n_lineas << endl;}
+#line 1378 "expresiones.c"
+    break;
+
+  case 20: /* identificador: error salto  */
+#line 159 "expresiones.y"
+                     {yyerrok; errorSemantico = false; errorVariable = false;}
+#line 1384 "expresiones.c"
+    break;
+
+  case 21: /* identificadorGeneral: ID_GENERAL '=' expr_arit salto  */
+#line 163 "expresiones.y"
+                                                       {
                                           if(!errorVariable && !errorSemantico){
-                                                if(!ids.isExists((yyvsp[-2].c_identificador)))
-                                                      if((yyvsp[0].c_expresion_arit).esReal){
-                                                            ids.add(Identifier((yyvsp[-2].c_identificador), n_lineas, (yyvsp[0].c_expresion_arit).valor));
-                                                            cout << "-------- asignacion id_general real " << (yyvsp[-2].c_identificador) <<  ", " << (yyvsp[0].c_expresion_arit).valor << endl;     
+                                                if(!ids.isExists((yyvsp[-3].c_identificador)))
+                                                      if((yyvsp[-1].c_expresion_arit).esReal){
+                                                            ids.add(Identifier((yyvsp[-3].c_identificador), n_lineas, (yyvsp[-1].c_expresion_arit).valor));
+                                                            debug << "-------- asignacion id_general real " << (yyvsp[-3].c_identificador) <<  ", " << (yyvsp[-1].c_expresion_arit).valor << endl;     
                                                       } else{
-                                                            ids.add(Identifier((yyvsp[-2].c_identificador), n_lineas, (int)(yyvsp[0].c_expresion_arit).valor)); 
-                                                            cout << "-------- asignacion id_general entero " << (yyvsp[-2].c_identificador) <<  ", " << (yyvsp[0].c_expresion_arit).valor << endl;     
+                                                            ids.add(Identifier((yyvsp[-3].c_identificador), n_lineas, (int)(yyvsp[-1].c_expresion_arit).valor)); 
+                                                            debug << "-------- asignacion id_general entero " << (yyvsp[-3].c_identificador) <<  ", " << (yyvsp[-1].c_expresion_arit).valor << endl;     
                                                       } 
                                                             
-                                                else if((yyvsp[0].c_expresion_arit).esReal && ids.getTipo((yyvsp[-2].c_identificador)) == TIPO_IDENT::T_REAL){
-                                                      ids.setValor((yyvsp[-2].c_identificador), (yyvsp[0].c_expresion_arit).valor);
-                                                      cout << "-------- actualizacion valor asignacion id_general real" << (yyvsp[-2].c_identificador) <<  ", " << (yyvsp[0].c_expresion_arit).valor << endl;     
+                                                else if((yyvsp[-1].c_expresion_arit).esReal && ids.getTipo((yyvsp[-3].c_identificador)) == TIPO_IDENT::T_REAL){
+                                                      ids.setValor((yyvsp[-3].c_identificador), (yyvsp[-1].c_expresion_arit).valor);
+                                                      debug << "-------- actualizacion valor asignacion id_general real" << (yyvsp[-3].c_identificador) <<  ", " << (yyvsp[-1].c_expresion_arit).valor << endl;     
                                                 }
                                                 
-                                                else if(!(yyvsp[0].c_expresion_arit).esReal && ids.getTipo((yyvsp[-2].c_identificador)) == TIPO_IDENT::T_ENT){
-                                                      ids.setValor((yyvsp[-2].c_identificador), (int)(yyvsp[0].c_expresion_arit).valor);                                          
-                                                      cout << "-------- actualizacion valor asignacion id_general entero" << (yyvsp[-2].c_identificador) <<  ", " << (yyvsp[0].c_expresion_arit).valor << endl;     
+                                                else if(!(yyvsp[-1].c_expresion_arit).esReal && ids.getTipo((yyvsp[-3].c_identificador)) == TIPO_IDENT::T_ENT){
+                                                      ids.setValor((yyvsp[-3].c_identificador), (int)(yyvsp[-1].c_expresion_arit).valor);                                          
+                                                      debug << "-------- actualizacion valor asignacion id_general entero" << (yyvsp[-3].c_identificador) <<  ", " << (yyvsp[-1].c_expresion_arit).valor << endl;     
                                                 }
                                                 else{
 
-                                                      cout << "***** Error semantico en la linea " << n_lineas << ", la variable " << (yyvsp[-2].c_identificador) << " es de tipo ";
+                                                      cout << "***** Error semantico en la linea " << n_lineas << ", la variable " << (yyvsp[-3].c_identificador) << " es de tipo ";
                                                       
-                                                      tipo_ident = ids.getTipo((yyvsp[-2].c_identificador)); // averiguamos el tipo de $1, es decir de la variable
+                                                      tipo_ident = ids.getTipo((yyvsp[-3].c_identificador)); // averiguamos el tipo de $1, es decir de la variable
 
                                                       switch (tipo_ident) {
                                                       case T_ENT: cout << "entero "; break;
@@ -1416,7 +1421,7 @@ yyreduce:
 
                                                       cout << "y no se le puede asignar un valor ";
 
-                                                      if((yyvsp[0].c_expresion_arit).esReal) cout << "real" << endl;
+                                                      if((yyvsp[-1].c_expresion_arit).esReal) cout << "real" << endl;
                                                       else cout << "entero" << endl;
                                                 }
                                           }
@@ -1425,27 +1430,27 @@ yyreduce:
                                           errorVariable = false;
 
                                   }
-#line 1429 "expresiones.c"
+#line 1434 "expresiones.c"
     break;
 
-  case 21: /* $@4: %empty  */
-#line 206 "expresiones.y"
-                                     {
+  case 22: /* identificadorGeneral: ID_GENERAL '=' expr_log salto  */
+#line 209 "expresiones.y"
+                                        {
                                    
                                           if(!errorVariable && !errorSemantico){
-                                                if(!ids.isExists((yyvsp[-2].c_identificador))){
-                                                      ids.add(Identifier((yyvsp[-2].c_identificador), n_lineas, (yyvsp[0].c_bool)));
-                                                      cout << "-------- asignacion id_general logico" << (yyvsp[-2].c_identificador) <<  ", " << (yyvsp[0].c_bool) << endl;     
+                                                if(!ids.isExists((yyvsp[-3].c_identificador))){
+                                                      ids.add(Identifier((yyvsp[-3].c_identificador), n_lineas, (yyvsp[-1].c_bool)));
+                                                      debug << "-------- asignacion id_general logico" << (yyvsp[-3].c_identificador) <<  ", " << (yyvsp[-1].c_bool) << endl;     
                                                 }
-                                                else if(ids.getTipo((yyvsp[-2].c_identificador)) == TIPO_IDENT::T_BOOL){
-                                                      ids.setValor((yyvsp[-2].c_identificador), (yyvsp[0].c_bool));
-                                                      cout << "-------- actualizacion valor asignacion id_general logico" << (yyvsp[-2].c_identificador) <<  ", " << (yyvsp[0].c_bool) << endl;     
+                                                else if(ids.getTipo((yyvsp[-3].c_identificador)) == TIPO_IDENT::T_BOOL){
+                                                      ids.setValor((yyvsp[-3].c_identificador), (yyvsp[-1].c_bool));
+                                                      debug << "-------- actualizacion valor asignacion id_general logico" << (yyvsp[-3].c_identificador) <<  ", " << (yyvsp[-1].c_bool) << endl;     
                                                 }
                                                 else{
 
-                                                      cout << "***** Error semantico en la linea " << n_lineas << ", la variable " << (yyvsp[-2].c_identificador) << " es de tipo ";
+                                                      cout << "***** Error semantico en la linea " << n_lineas << ", la variable " << (yyvsp[-3].c_identificador) << " es de tipo ";
                                                       
-                                                      tipo_ident = ids.getTipo((yyvsp[-2].c_identificador)); // averiguamos el tipo de $1, es decir de la variable
+                                                      tipo_ident = ids.getTipo((yyvsp[-3].c_identificador)); // averiguamos el tipo de $1, es decir de la variable
 
                                                       switch (tipo_ident) {
                                                       case T_ENT: cout << "entero "; break;
@@ -1463,27 +1468,27 @@ yyreduce:
                                           errorVariable = false;
 
                                  }
-#line 1467 "expresiones.c"
+#line 1472 "expresiones.c"
     break;
 
-  case 23: /* $@5: %empty  */
-#line 242 "expresiones.y"
-                                                {
+  case 23: /* identificadorCadena: ID_CADENA '=' expr_cadena salto  */
+#line 246 "expresiones.y"
+                                                      {
             
                                           if(!errorVariable && !errorSemantico){
-                                                if(!ids.isExists((yyvsp[-2].c_identificador))){
-                                                      ids.add(Identifier((yyvsp[-2].c_identificador), n_lineas, (yyvsp[0].c_cadena)));
-                                                      cout << "-------- asignacion id_cadena " << (yyvsp[-2].c_identificador) <<  ", " << (yyvsp[0].c_cadena) << endl;     
+                                                if(!ids.isExists((yyvsp[-3].c_identificador))){
+                                                      ids.add(Identifier((yyvsp[-3].c_identificador), n_lineas, (yyvsp[-1].c_cadena)));
+                                                      debug << "-------- asignacion id_cadena " << (yyvsp[-3].c_identificador) <<  ", " << (yyvsp[-1].c_cadena) << endl;     
                                                 }
-                                                else if(ids.getTipo((yyvsp[-2].c_identificador)) == TIPO_IDENT::T_CADENA){
-                                                      ids.setValor((yyvsp[-2].c_identificador), (yyvsp[0].c_cadena));
-                                                      cout << "-------- actualizacion valor asignacion id_cadena " << (yyvsp[-2].c_identificador) <<  ", " << (yyvsp[0].c_cadena) << endl;     
+                                                else if(ids.getTipo((yyvsp[-3].c_identificador)) == TIPO_IDENT::T_CADENA){
+                                                      ids.setValor((yyvsp[-3].c_identificador), (yyvsp[-1].c_cadena));
+                                                      debug << "-------- actualizacion valor asignacion id_cadena " << (yyvsp[-3].c_identificador) <<  ", " << (yyvsp[-1].c_cadena) << endl;     
                                                 }
                                                 else{
 
-                                                      cout << "***** Error semantico en la linea " << n_lineas << ", la variable " << (yyvsp[-2].c_identificador) << " es de tipo ";
+                                                      cout << "***** Error semantico en la linea " << n_lineas << ", la variable " << (yyvsp[-3].c_identificador) << " es de tipo ";
                                                       
-                                                      tipo_ident = ids.getTipo((yyvsp[-2].c_identificador)); // averiguamos el tipo de $1, es decir de la variable
+                                                      tipo_ident = ids.getTipo((yyvsp[-3].c_identificador)); // averiguamos el tipo de $1, es decir de la variable
 
                                                       switch (tipo_ident) {
                                                       case T_ENT: cout << "entero "; break;
@@ -1501,92 +1506,80 @@ yyreduce:
                                           errorVariable = false;
       
                                     }
-#line 1505 "expresiones.c"
+#line 1510 "expresiones.c"
     break;
 
-  case 27: /* $@6: %empty  */
-#line 283 "expresiones.y"
-                            {
-                                    if(!(yyvsp[-1].c_expresion_arit).esReal){
-                                          if((yyvsp[-1].c_expresion_arit).valor > n_escena){
-                                                cout << "+++ Inicio de la escena " << (yyvsp[-1].c_expresion_arit).valor << endl;
-                                                salida << "echo Inicio de la escena " << (yyvsp[-1].c_expresion_arit).valor << endl;
-                                                n_escena = (yyvsp[-1].c_expresion_arit).valor;
+  case 26: /* $@3: %empty  */
+#line 287 "expresiones.y"
+                                  {
+                                    if(!(yyvsp[-2].c_expresion_arit).esReal){
+                                          if((yyvsp[-2].c_expresion_arit).valor > n_escena){
+                                                debug << "+++ Inicio de la escena " << (yyvsp[-2].c_expresion_arit).valor << endl;
+                                                salida << "echo Inicio de la escena " << (yyvsp[-2].c_expresion_arit).valor << endl;
+                                                n_escena = (yyvsp[-2].c_expresion_arit).valor;
                                           }
-                                          else
-                                                cout << "***** Error semantico en la linea " << n_lineas << ", la escena " << (yyvsp[-1].c_expresion_arit).valor << " no puede ser procesada" <<  endl;
+                                          else{
+                                                cout << "***** Error semantico en la linea " << n_lineas << ", el numero de la escena " << (yyvsp[-2].c_expresion_arit).valor << " debe ser superior al de la escena anterior" <<  endl;
+                                                errorEscena = true;
+                                          }
+                                               
                                     }
-                                    else
+                                    else{
                                           cout << "***** Error semantico en la linea " << n_lineas << ", el número de escena debe ser de tipo ENTERO" << endl;
+                                          errorSemantico = true;
+                                    }
       
       
-                              }
-#line 1525 "expresiones.c"
-    break;
-
-  case 28: /* $@7: %empty  */
-#line 297 "expresiones.y"
-                                                                {
-                                          cout << "+++ Fin de la escena " << n_escena << endl; 
-                                          salida << "echo Fin de la escena " << n_escena << endl; 
-                              
                               }
 #line 1535 "expresiones.c"
     break;
 
-  case 32: /* $@8: %empty  */
-#line 308 "expresiones.y"
-                                                               { cout << "-------- personaje " << " [" << (yyvsp[-2].c_identificador) << "] "  << " en linea " << n_lineas << " dice : " << (yyvsp[0].c_cadena) << endl; 
+  case 27: /* escena: ESCENA expr_arit ':' salto $@3 secBloqueEscena FINESCENA salto  */
+#line 306 "expresiones.y"
+                                                               {
+                                          if(!errorEscena){
+                                                debug << "+++ Fin de la escena " << n_escena << endl; 
+                                                salida << "echo Fin de la escena " << n_escena << endl; 
+                                          }
+
+                                          errorEscena = false;
+                              }
+#line 1548 "expresiones.c"
+    break;
+
+  case 30: /* bloqueEscena: ID_NOMBRE ':' expr_cadena salto  */
+#line 320 "expresiones.y"
+                                                                  { debug << "-------- personaje " << " [" << (yyvsp[-3].c_identificador) << "] "  << " en linea " << n_lineas << " dice : " << (yyvsp[-1].c_cadena) << endl; 
+                                                            
                                                                   
-                                                                  if(chs.isExists((yyvsp[-2].c_identificador))){
-                                                                        chs.get((yyvsp[-2].c_identificador), ch);
+                                                                  if(chs.isExists((yyvsp[-3].c_identificador))){
+                                                                        chs.get((yyvsp[-3].c_identificador), ch);
                                                                         str = ch.languaje + "+";
                                                                         str += ch.gender;
                                                                         str += to_string(ch.numCharacter) + " ";
                                                                         strcpy(tc, str.c_str());
-                                                                        strcat(tc, (yyvsp[0].c_cadena));
+                                                                        strcat(tc, (yyvsp[-1].c_cadena));
                                                                         
-                                                                        if(!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional]){
+                                                                        if(!errorSemantico && !errorVariable && !errorEscena && (!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional])){
+                                                                              
                                                                               if(esBucle)
                                                                                     (*table).add(Row(tc, TIPO_ROW::T_FRASE));
                                                                               else
                                                                                     salida << "espeak -v " << tc << endl;
                                                                         }
 
+                                                                        errorSemantico = false;
+                                                                        errorVariable = false;
+
                                                                   }
 
                                                                }
-#line 1560 "expresiones.c"
+#line 1578 "expresiones.c"
     break;
 
-  case 34: /* $@9: %empty  */
-#line 328 "expresiones.y"
-                                                               { cout << "-------- personaje " << " [" << (yyvsp[-4].c_identificador) << "] "  << " en linea " << n_lineas << " dice : " << (yyvsp[0].c_cadena) << endl; 
-                                                                  
-                                                                  if(chs.isExists((yyvsp[-4].c_identificador))){
-                                                                        chs.get((yyvsp[-4].c_identificador), ch);
-                                                                        str = ch.languaje + "+";
-                                                                        str += ch.gender;
-                                                                        str += to_string(ch.numCharacter) + " ";
-                                                                        strcpy(tc, str.c_str());
-                                                                        strcat(tc, (yyvsp[0].c_cadena));
-
-                                                                        if(!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional]){
-                                                                              if(esBucle)
-                                                                                    (*table).add(Row(tc, TIPO_ROW::T_FRASE));
-                                                                              else
-                                                                                    salida << "espeak -v " << tc << endl;
-                                                                        }
-                                                                  }
-
-                                                               }
-#line 1584 "expresiones.c"
-    break;
-
-  case 36: /* $@10: %empty  */
-#line 347 "expresiones.y"
-                                                               { 
-                                                                  cout << "-------- personaje " << " [" << (yyvsp[-5].c_identificador) << "] " << " en linea " << n_lineas << " dice : " << (yyvsp[0].c_cadena) << " con entonación " << (yyvsp[-3].c_cadena) << endl; 
+  case 31: /* bloqueEscena: ID_NOMBRE '[' ']' ':' expr_cadena salto  */
+#line 345 "expresiones.y"
+                                                               { debug << "-------- personaje " << " [" << (yyvsp[-5].c_identificador) << "] "  << " en linea " << n_lineas << " dice : " << (yyvsp[-1].c_cadena) << endl; 
                                                                   
                                                                   if(chs.isExists((yyvsp[-5].c_identificador))){
                                                                         chs.get((yyvsp[-5].c_identificador), ch);
@@ -1594,165 +1587,212 @@ yyreduce:
                                                                         str += ch.gender;
                                                                         str += to_string(ch.numCharacter) + " ";
                                                                         strcpy(tc, str.c_str());
-                                                                        strcat(tc, (yyvsp[-3].c_cadena));
-                                                                        strcat(tc, (yyvsp[0].c_cadena));
+                                                                        strcat(tc, (yyvsp[-1].c_cadena));
+
+                                                                        if(!errorSemantico && !errorVariable && !errorEscena && (!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional])){
+
+                                                                              if(esBucle)
+                                                                                    (*table).add(Row(tc, TIPO_ROW::T_FRASE));
+                                                                              else
+                                                                                    salida << "espeak -v " << tc << endl;
+                                                                        }
+
+                                                                        errorSemantico = false;
+                                                                        errorVariable = false;
+                                                                  }
+
+                                                               }
+#line 1606 "expresiones.c"
+    break;
+
+  case 32: /* bloqueEscena: ID_NOMBRE '[' entonacion ']' ':' expr_cadena salto  */
+#line 368 "expresiones.y"
+                                                               { 
+                                                                  debug << "-------- personaje " << " [" << (yyvsp[-6].c_identificador) << "] " << " en linea " << n_lineas << " dice : " << (yyvsp[-1].c_cadena) << " con entonación " << (yyvsp[-4].c_cadena) << endl; 
+                                                                  
+                                                                  if(chs.isExists((yyvsp[-6].c_identificador))){
+                                                                        chs.get((yyvsp[-6].c_identificador), ch);
+                                                                        str = ch.languaje + "+";
+                                                                        str += ch.gender;
+                                                                        str += to_string(ch.numCharacter) + " ";
+                                                                        strcpy(tc, str.c_str());
+                                                                        strcat(tc, (yyvsp[-4].c_cadena));
+                                                                        strcat(tc, (yyvsp[-1].c_cadena));
 
 
-                                                                        if(!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional]){
+                                                                        if(!errorSemantico && !errorVariable && !errorEscena && (!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional])){
+
                                                                            if(esBucle)
                                                                               (*table).add(Row(tc, TIPO_ROW::T_FRASE));
                                                                            else
                                                                               salida << "espeak -v " << tc << endl;  
                                                                         }
+
+                                                                        errorSemantico = false;
+                                                                        errorVariable = false;
                                                                   } 
 
 
                                                                
                                                                }
-#line 1613 "expresiones.c"
+#line 1639 "expresiones.c"
     break;
 
-  case 38: /* $@11: %empty  */
-#line 372 "expresiones.y"
+  case 33: /* bloqueEscena: MENSAJE expr_cadena salto  */
+#line 397 "expresiones.y"
                                                                { 
 
-                                                                  strcpy(tc, (yyvsp[0].c_cadena));
-                                                                  cout << "-------- mensaje " << (yyvsp[0].c_cadena) << endl; 
+                                                                  strcpy(tc, (yyvsp[-1].c_cadena));
+                                                                  debug << "-------- mensaje " << (yyvsp[-1].c_cadena) << endl; 
                                                                   
-                                                                  if(!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional]){
+                                                                  if(!errorSemantico && !errorVariable && !errorEscena && (!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional])){
+
                                                                      if(esBucle){
                                                                         (*table).add(Row(tc, TIPO_ROW::T_MENSAJE)); 
-                                                                        cout << ">>> Añadido mensaje " << (yyvsp[0].c_cadena) << " a la table " << table << endl;
+                                                                        debug << ">>> Añadido mensaje " << (yyvsp[-1].c_cadena) << " a la table " << table << endl;
                                                                      } 
                                                                      else
                                                                         salida << "echo " << tc << endl;
                                                                   }
 
+                                                                  errorSemantico = false;
+                                                                  errorVariable = false;
+
                                                                }
-#line 1633 "expresiones.c"
+#line 1663 "expresiones.c"
     break;
 
-  case 40: /* $@12: %empty  */
-#line 388 "expresiones.y"
+  case 34: /* bloqueEscena: PAUSA expr_arit salto  */
+#line 417 "expresiones.y"
                                                                { 
-                                                                  cout << "-------- pausa " << (yyvsp[0].c_expresion_arit).valor << endl; 
+                                                                  debug << "-------- pausa " << (yyvsp[-1].c_expresion_arit).valor << endl; 
                                                                   
-                                                                  if(!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional]){
+                                                                  if(!errorSemantico && !errorVariable && !errorEscena && (!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional])){
+                                                                        
                                                                         if(esBucle)
-                                                                              (*table).add(Row((yyvsp[0].c_expresion_arit).valor, TIPO_ROW::T_PAUSA)); 
+                                                                              (*table).add(Row((yyvsp[-1].c_expresion_arit).valor, TIPO_ROW::T_PAUSA)); 
                                                                         else
-                                                                              salida << "sleep " << (yyvsp[0].c_expresion_arit).valor << endl;
+                                                                              salida << "sleep " << (yyvsp[-1].c_expresion_arit).valor << endl;
                                                                   }  
+
+                                                                  errorSemantico = false;
+                                                                  errorVariable = false;
                                                                   
                                                                }
-#line 1649 "expresiones.c"
+#line 1683 "expresiones.c"
     break;
 
-  case 45: /* $@13: %empty  */
-#line 405 "expresiones.y"
+  case 39: /* bloqueEscena: error salto  */
+#line 436 "expresiones.y"
+                     {yyerrok; errorSemantico = false; errorVariable = false;}
+#line 1689 "expresiones.c"
+    break;
+
+  case 40: /* $@4: %empty  */
+#line 440 "expresiones.y"
                                    {
 
-                                          cout << ">>> nuevo bucle" << endl; 
+                                          debug << ">>> nuevo bucle" << endl; 
 
                                           if(esBucle){ 
-                                                cout << "añadimos referencia a tabla" << endl;    
+                                                debug << "añadimos referencia a tabla" << endl;    
                                                 father = table;
-                                                cout << ">>> cambiamos padre" << endl;        
-                                                cout << ">>> table " << "( " <<  table << " )" << " && father " << "( " << father <<  " )" << endl;
+                                                debug << ">>> cambiamos padre" << endl;        
+                                                debug << ">>> table " << "( " <<  table << " )" << " && father " << "( " << father <<  " )" << endl;
                                           }
 
                                           esBucle = true; 
                                           ls.add(table, (yyvsp[-2].c_expresion_arit).valor); 
                                           if(father != NULL) (*father).add(Row(table, TIPO_ROW::T_BUCLE));
                                           table->setFather(father);
-                                          cout << ">>> table " << "( " <<  table << " )" << " && father " << "( " << father <<  " )" << endl;
+                                          debug << ">>> table " << "( " <<  table << " )" << " && father " << "( " << father <<  " )" << endl;
 
-                                          cout << "+++ repetir " << (yyvsp[-2].c_expresion_arit).valor << endl; 
+                                          debug << "+++ repetir " << (yyvsp[-2].c_expresion_arit).valor << endl; 
       }
-#line 1673 "expresiones.c"
+#line 1713 "expresiones.c"
     break;
 
-  case 46: /* bucle: REPETIR expr_arit '{' salto $@13 secBloqueEscena '}' salto  */
-#line 423 "expresiones.y"
+  case 41: /* bucle: REPETIR expr_arit '{' salto $@4 secBloqueEscena '}' salto  */
+#line 458 "expresiones.y"
                                     {
-                                          cout << "+++ fin repetir " << (yyvsp[-6].c_expresion_arit).valor << endl;
+                                          debug << "+++ fin repetir " << (yyvsp[-6].c_expresion_arit).valor << endl;
                                           
                                           if(father == NULL){
                                                 table->run(salida); 
                                                 esBucle = false;  // cuando llegemos al padre de todos los bucles anidados acabamos el bloque de bucles 
                                           }
                                           table->getFather(table);
-                                          cout << ">>> obtenemos padre table " << "(" << table << ")" << endl;
+                                          debug << ">>> obtenemos padre table " << "(" << table << ")" << endl;
                                           if(table != NULL){
                                                 table->getFather(father);
-                                                cout << ">>> obtenemos padre de padre de table " "(" << father <<  ")" << endl;
+                                                debug << ">>> obtenemos padre de padre de table " "(" << father <<  ")" << endl;
                                           }
                                     }
-#line 1692 "expresiones.c"
+#line 1732 "expresiones.c"
     break;
 
-  case 48: /* $@14: %empty  */
-#line 441 "expresiones.y"
+  case 43: /* $@5: %empty  */
+#line 476 "expresiones.y"
                                                   { 
                                                 if(esCondicional[n_condicional]) n_condicional++; 
                                                 esCondicional[n_condicional] = true; 
                                                 ejecutar[n_condicional]=(yyvsp[-4].c_bool); 
-                                                cout << ">>> entramos en bloque si del condicional (n_condicional = " << n_condicional << ") && esCondicional[" << n_condicional << "] = " << esCondicional[n_condicional] << " && ejecutar[" << n_condicional <<  "] = " << ejecutar[n_condicional] << endl;
-                                                cout << "+++ inicio bloque si ( condicion=" << (yyvsp[-4].c_bool) <<  ")" << endl;
+                                                debug << ">>> entramos en bloque si del condicional (n_condicional = " << n_condicional << ") && esCondicional[" << n_condicional << "] = " << esCondicional[n_condicional] << " && ejecutar[" << n_condicional <<  "] = " << ejecutar[n_condicional] << endl;
+                                                debug << "+++ inicio bloque si ( condicion=" << (yyvsp[-4].c_bool) <<  ")" << endl;
                                           }
-#line 1704 "expresiones.c"
+#line 1744 "expresiones.c"
     break;
 
-  case 49: /* parteSi: SI '(' expr_log ')' salto_opc '{' salto $@14 secBloqueEscena '}' salto  */
-#line 447 "expresiones.y"
+  case 44: /* parteSi: SI '(' expr_log ')' salto_opc '{' salto $@5 secBloqueEscena '}' salto  */
+#line 482 "expresiones.y"
                                                                        {
-                                                cout << "+++ fin bloque si ( condicion=" << (yyvsp[-8].c_bool) <<  ")" << endl;
-                                                cout << ">>> salimos en bloque si del condicional (n_condicional = " << n_condicional << ") && esCondicional[" << n_condicional << "] = " << esCondicional[n_condicional] << " && ejecutar[" << n_condicional <<  "] = " << ejecutar[n_condicional] << endl;
+                                                debug << "+++ fin bloque si ( condicion=" << (yyvsp[-8].c_bool) <<  ")" << endl;
+                                                debug << ">>> salimos en bloque si del condicional (n_condicional = " << n_condicional << ") && esCondicional[" << n_condicional << "] = " << esCondicional[n_condicional] << " && ejecutar[" << n_condicional <<  "] = " << ejecutar[n_condicional] << endl;
                                           }
-#line 1713 "expresiones.c"
+#line 1753 "expresiones.c"
     break;
 
-  case 51: /* $@15: %empty  */
-#line 454 "expresiones.y"
-                         {
+  case 46: /* $@6: %empty  */
+#line 489 "expresiones.y"
+                                   {
                         ejecutar[n_condicional] = !ejecutar[n_condicional]; 
-                        cout << ">>> entramos en bloque si_no del condicional (n_condicional = " << n_condicional << ") && esCondicional[" << n_condicional << "] = " << esCondicional[n_condicional] << " && !ejecutar[" << n_condicional <<  "] = " << ejecutar[n_condicional] << endl;
-                        cout << "+++ inicio bloque sino " << endl;
+                        debug << ">>> entramos en bloque si_no del condicional (n_condicional = " << n_condicional << ") && esCondicional[" << n_condicional << "] = " << esCondicional[n_condicional] << " && !ejecutar[" << n_condicional <<  "] = " << ejecutar[n_condicional] << endl;
+                        debug << "+++ inicio bloque sino " << endl;
                   }
-#line 1723 "expresiones.c"
+#line 1763 "expresiones.c"
     break;
 
-  case 52: /* parteSiNo: SI_NO '{' salto $@15 secBloqueEscena '}' salto  */
-#line 458 "expresiones.y"
+  case 47: /* parteSiNo: SI_NO salto_opc '{' salto $@6 secBloqueEscena '}' salto  */
+#line 493 "expresiones.y"
                                               {
-                        cout << "+++ fin bloque sino " << endl;
-                        cout << ">>> salimos en bloque si_no del condicional (n_condicional = " << n_condicional << ") && esCondicional[" << n_condicional << "] = " << esCondicional[n_condicional] << " && !ejecutar[" << n_condicional <<  "] = " << ejecutar[n_condicional] << endl;
+                        debug << "+++ fin bloque sino " << endl;
                         esCondicional[n_condicional] = false; 
+                        debug << ">>> salimos en bloque si_no del condicional (n_condicional = " << n_condicional << ") && esCondicional[" << n_condicional << "] = " << esCondicional[n_condicional] << " && !ejecutar[" << n_condicional <<  "] = " << ejecutar[n_condicional] << endl;
                         if(n_condicional > 0) n_condicional--; 
                   }
-#line 1734 "expresiones.c"
+#line 1774 "expresiones.c"
     break;
 
-  case 53: /* entonacion: TONO  */
-#line 468 "expresiones.y"
+  case 48: /* entonacion: TONO  */
+#line 503 "expresiones.y"
                                     {strcpy((yyval.c_cadena), (yyvsp[0].c_cadena));}
-#line 1740 "expresiones.c"
+#line 1780 "expresiones.c"
     break;
 
-  case 54: /* entonacion: entonacion ',' TONO  */
-#line 469 "expresiones.y"
+  case 49: /* entonacion: entonacion ',' TONO  */
+#line 504 "expresiones.y"
                                     {strcpy((yyval.c_cadena), (yyvsp[-2].c_cadena)); strcat((yyval.c_cadena), (yyvsp[0].c_cadena));}
-#line 1746 "expresiones.c"
+#line 1786 "expresiones.c"
     break;
 
-  case 55: /* expr_cadena: CADENA  */
-#line 474 "expresiones.y"
+  case 50: /* expr_cadena: CADENA  */
+#line 509 "expresiones.y"
                                                {strcpy((yyval.c_cadena), (yyvsp[0].c_cadena));}
-#line 1752 "expresiones.c"
+#line 1792 "expresiones.c"
     break;
 
-  case 56: /* expr_cadena: ID_CADENA  */
-#line 475 "expresiones.y"
+  case 51: /* expr_cadena: ID_CADENA  */
+#line 510 "expresiones.y"
                                                {
                                                 if(ids.isExists((yyvsp[0].c_identificador))){
                                                       if(ids.getTipo((yyvsp[0].c_identificador)) == TIPO_IDENT::T_CADENA){
@@ -1770,12 +1810,13 @@ yyreduce:
                                                       
                                                 }
                                                }
-#line 1774 "expresiones.c"
+#line 1814 "expresiones.c"
     break;
 
-  case 57: /* expr_cadena: expr_arit  */
-#line 492 "expresiones.y"
+  case 52: /* expr_cadena: expr_arit  */
+#line 528 "expresiones.y"
                                                {
+
                                                       string str = to_string((yyvsp[0].c_expresion_arit).valor);
 
                                                       if((yyvsp[0].c_expresion_arit).esReal)
@@ -1785,126 +1826,136 @@ yyreduce:
 
                                                       str = '"' + str  + '"';
 
-                                                      strcpy((yyval.c_cadena), str.c_str());
+                                                      strcpy((yyval.c_cadena), str.c_str());  
+
                                                }
-#line 1791 "expresiones.c"
+#line 1833 "expresiones.c"
     break;
 
-  case 58: /* expr_cadena: expr_cadena CONCATENACION expr_cadena  */
-#line 505 "expresiones.y"
-                                               {cout << "-------- concatenacion cadena (" << (yyvsp[-2].c_cadena) << ") cadena(" << (yyvsp[0].c_cadena) <<  ")" << endl; 
-                                                string str1((yyvsp[-2].c_cadena));  
-                                                string str2((yyvsp[0].c_cadena));  
+  case 53: /* expr_cadena: expr_cadena CONCATENACION expr_cadena  */
+#line 543 "expresiones.y"
+                                               {debug << "-------- concatenacion cadena (" << (yyvsp[-2].c_cadena) << ") cadena(" << (yyvsp[0].c_cadena) <<  ")" << endl; 
+                                               
+                                                if(!errorVariable){
+                                                      string str1((yyvsp[-2].c_cadena));  
+                                                      string str2((yyvsp[0].c_cadena));  
 
-                                                str1 = str1.replace(0, 1, "");
-                                                str1 = str1.replace(str1.length()-1, 1, "");
+                                                      str1 = str1.replace(0, 1, "");
+                                                      str1 = str1.replace(str1.length()-1, 1, "");
 
-                                                str2 = str2.replace(0, 1, "");
-                                                str2 = str2.replace(str2.length()-1, 1, "");
+                                                      str2 = str2.replace(0, 1, "");
+                                                      str2 = str2.replace(str2.length()-1, 1, "");
 
-                                                str1 = '"' + str1 + str2 + '"';
-                                                strcpy((yyval.c_cadena), str1.c_str());}
-#line 1808 "expresiones.c"
+                                                      str1 = '"' + str1 + str2 + '"';
+                                                      strcpy((yyval.c_cadena), str1.c_str());
+                                                }else{
+                                                      cout << "***** Error en la linea " << n_lineas << ", no se ha podido producir la operacion de la concatenacion, no se ha podido obtener el valor de la variable" << endl;
+                                                      errorVariable = true;
+                                                
+                                                }
+                                               
+                                             }
+#line 1859 "expresiones.c"
     break;
 
-  case 59: /* expr_log: TRUE  */
-#line 519 "expresiones.y"
+  case 54: /* expr_log: TRUE  */
+#line 566 "expresiones.y"
                                               {(yyval.c_bool) = true; }
-#line 1814 "expresiones.c"
+#line 1865 "expresiones.c"
     break;
 
-  case 60: /* expr_log: FALSE  */
-#line 520 "expresiones.y"
+  case 55: /* expr_log: FALSE  */
+#line 567 "expresiones.y"
                                               {(yyval.c_bool) = false; }
-#line 1820 "expresiones.c"
+#line 1871 "expresiones.c"
     break;
 
-  case 61: /* expr_log: expr_log AND expr_log  */
-#line 521 "expresiones.y"
+  case 56: /* expr_log: expr_log AND expr_log  */
+#line 568 "expresiones.y"
                                               {(yyval.c_bool) = (yyvsp[-2].c_bool) and (yyvsp[0].c_bool); }
-#line 1826 "expresiones.c"
+#line 1877 "expresiones.c"
     break;
 
-  case 62: /* expr_log: expr_log OR expr_log  */
-#line 522 "expresiones.y"
+  case 57: /* expr_log: expr_log OR expr_log  */
+#line 569 "expresiones.y"
                                               {(yyval.c_bool) = (yyvsp[-2].c_bool) or (yyvsp[0].c_bool); }
-#line 1832 "expresiones.c"
+#line 1883 "expresiones.c"
     break;
 
-  case 63: /* expr_log: NOT expr_log  */
-#line 523 "expresiones.y"
+  case 58: /* expr_log: NOT expr_log  */
+#line 570 "expresiones.y"
                                               {(yyval.c_bool) = (not (yyvsp[0].c_bool)); }
-#line 1838 "expresiones.c"
+#line 1889 "expresiones.c"
     break;
 
-  case 64: /* expr_log: '(' expr_log ')'  */
-#line 524 "expresiones.y"
+  case 59: /* expr_log: '(' expr_log ')'  */
+#line 571 "expresiones.y"
                                                   {(yyval.c_bool) =     (yyvsp[-1].c_bool); }
-#line 1844 "expresiones.c"
+#line 1895 "expresiones.c"
     break;
 
-  case 65: /* expr_log: expr_arit '>' expr_arit  */
-#line 525 "expresiones.y"
+  case 60: /* expr_log: expr_arit '>' expr_arit  */
+#line 572 "expresiones.y"
                                               {(yyval.c_bool) = ((yyvsp[-2].c_expresion_arit).valor > (yyvsp[0].c_expresion_arit).valor)  ? true : false; }
-#line 1850 "expresiones.c"
+#line 1901 "expresiones.c"
     break;
 
-  case 66: /* expr_log: expr_arit MAYORIGUAL expr_arit  */
-#line 526 "expresiones.y"
+  case 61: /* expr_log: expr_arit MAYORIGUAL expr_arit  */
+#line 573 "expresiones.y"
                                               {(yyval.c_bool) = ((yyvsp[-2].c_expresion_arit).valor >= (yyvsp[0].c_expresion_arit).valor) ? true : false; }
-#line 1856 "expresiones.c"
+#line 1907 "expresiones.c"
     break;
 
-  case 67: /* expr_log: expr_arit '<' expr_arit  */
-#line 527 "expresiones.y"
+  case 62: /* expr_log: expr_arit '<' expr_arit  */
+#line 574 "expresiones.y"
                                               {(yyval.c_bool) = ((yyvsp[-2].c_expresion_arit).valor < (yyvsp[0].c_expresion_arit).valor)  ? true : false; }
-#line 1862 "expresiones.c"
+#line 1913 "expresiones.c"
     break;
 
-  case 68: /* expr_log: expr_arit MENORIGUAL expr_arit  */
-#line 528 "expresiones.y"
+  case 63: /* expr_log: expr_arit MENORIGUAL expr_arit  */
+#line 575 "expresiones.y"
                                               {(yyval.c_bool) = ((yyvsp[-2].c_expresion_arit).valor <= (yyvsp[0].c_expresion_arit).valor) ? true : false; }
-#line 1868 "expresiones.c"
+#line 1919 "expresiones.c"
     break;
 
-  case 69: /* expr_log: expr_arit IGUAL2 expr_arit  */
-#line 529 "expresiones.y"
+  case 64: /* expr_log: expr_arit IGUAL2 expr_arit  */
+#line 576 "expresiones.y"
                                               {(yyval.c_bool) = ((yyvsp[-2].c_expresion_arit).valor == (yyvsp[0].c_expresion_arit).valor) ? true : false; }
-#line 1874 "expresiones.c"
+#line 1925 "expresiones.c"
     break;
 
-  case 70: /* expr_log: expr_arit DISTINTO expr_arit  */
-#line 530 "expresiones.y"
+  case 65: /* expr_log: expr_arit DISTINTO expr_arit  */
+#line 577 "expresiones.y"
                                               {(yyval.c_bool) = ((yyvsp[-2].c_expresion_arit).valor != (yyvsp[0].c_expresion_arit).valor) ? true : false; }
-#line 1880 "expresiones.c"
+#line 1931 "expresiones.c"
     break;
 
-  case 71: /* expr_log: expr_log IGUAL2 expr_log  */
-#line 531 "expresiones.y"
+  case 66: /* expr_log: expr_log IGUAL2 expr_log  */
+#line 578 "expresiones.y"
                                               {(yyval.c_bool) = ((yyvsp[-2].c_bool) == (yyvsp[0].c_bool)) ? true : false; }
-#line 1886 "expresiones.c"
+#line 1937 "expresiones.c"
     break;
 
-  case 72: /* expr_log: expr_log DISTINTO expr_log  */
-#line 532 "expresiones.y"
+  case 67: /* expr_log: expr_log DISTINTO expr_log  */
+#line 579 "expresiones.y"
                                               {(yyval.c_bool) = ((yyvsp[-2].c_bool) != (yyvsp[0].c_bool)) ? true : false; }
-#line 1892 "expresiones.c"
+#line 1943 "expresiones.c"
     break;
 
-  case 73: /* expr_arit: NUMERO  */
-#line 535 "expresiones.y"
+  case 68: /* expr_arit: NUMERO  */
+#line 582 "expresiones.y"
                                                         {(yyval.c_expresion_arit).esReal = false; (yyval.c_expresion_arit).valor = (yyvsp[0].c_entero); }
-#line 1898 "expresiones.c"
+#line 1949 "expresiones.c"
     break;
 
-  case 74: /* expr_arit: REAL  */
-#line 536 "expresiones.y"
+  case 69: /* expr_arit: REAL  */
+#line 583 "expresiones.y"
                                               {(yyval.c_expresion_arit).esReal = true;  (yyval.c_expresion_arit).valor = (yyvsp[0].c_real); }
-#line 1904 "expresiones.c"
+#line 1955 "expresiones.c"
     break;
 
-  case 75: /* expr_arit: ID_GENERAL  */
-#line 537 "expresiones.y"
+  case 70: /* expr_arit: ID_GENERAL  */
+#line 584 "expresiones.y"
                                               {
                                                 if(ids.isExists((yyvsp[0].c_identificador))){
                                                       if(ids.getTipo((yyvsp[0].c_identificador)) == TIPO_IDENT::T_ENT){
@@ -1928,72 +1979,72 @@ yyreduce:
                                                       
                                                 }
                                               }
-#line 1932 "expresiones.c"
+#line 1983 "expresiones.c"
     break;
 
-  case 76: /* expr_arit: expr_arit '+' expr_arit  */
-#line 560 "expresiones.y"
+  case 71: /* expr_arit: expr_arit '+' expr_arit  */
+#line 607 "expresiones.y"
                                               {(yyval.c_expresion_arit).esReal = (yyvsp[-2].c_expresion_arit).esReal || (yyvsp[0].c_expresion_arit).esReal; (yyval.c_expresion_arit).valor = ((yyval.c_expresion_arit).esReal) ? (yyvsp[-2].c_expresion_arit).valor + (yyvsp[0].c_expresion_arit).valor : int((yyvsp[-2].c_expresion_arit).valor) + int((yyvsp[0].c_expresion_arit).valor); }
-#line 1938 "expresiones.c"
+#line 1989 "expresiones.c"
     break;
 
-  case 77: /* expr_arit: expr_arit '-' expr_arit  */
-#line 561 "expresiones.y"
+  case 72: /* expr_arit: expr_arit '-' expr_arit  */
+#line 608 "expresiones.y"
                                               {(yyval.c_expresion_arit).esReal = (yyvsp[-2].c_expresion_arit).esReal || (yyvsp[0].c_expresion_arit).esReal; (yyval.c_expresion_arit).valor = ((yyval.c_expresion_arit).esReal) ? (yyvsp[-2].c_expresion_arit).valor - (yyvsp[0].c_expresion_arit).valor : int((yyvsp[-2].c_expresion_arit).valor) - int((yyvsp[0].c_expresion_arit).valor); }
-#line 1944 "expresiones.c"
+#line 1995 "expresiones.c"
     break;
 
-  case 78: /* expr_arit: expr_arit '*' expr_arit  */
-#line 562 "expresiones.y"
+  case 73: /* expr_arit: expr_arit '*' expr_arit  */
+#line 609 "expresiones.y"
                                               {(yyval.c_expresion_arit).esReal = (yyvsp[-2].c_expresion_arit).esReal || (yyvsp[0].c_expresion_arit).esReal; (yyval.c_expresion_arit).valor = ((yyval.c_expresion_arit).esReal) ? (yyvsp[-2].c_expresion_arit).valor * (yyvsp[0].c_expresion_arit).valor : int((yyvsp[-2].c_expresion_arit).valor) * int((yyvsp[0].c_expresion_arit).valor); }
-#line 1950 "expresiones.c"
+#line 2001 "expresiones.c"
     break;
 
-  case 79: /* expr_arit: expr_arit '/' expr_arit  */
-#line 564 "expresiones.y"
+  case 74: /* expr_arit: expr_arit '/' expr_arit  */
+#line 611 "expresiones.y"
                                               {(yyval.c_expresion_arit).esReal = true; 
                                                 if((yyvsp[0].c_expresion_arit).valor == 0){ 
                                                       errorSemantico = true; 
-                                                      cout << "Error semantico en la linea " << n_lineas << ", se ha detectado una división entre el número 0" << endl;
+                                                      cout << "***** Error semantico en la linea " << n_lineas << ", se ha detectado una división entre el número 0" << endl;
                                                 } 
                                                 else 
                                                       (yyval.c_expresion_arit).valor = (yyvsp[-2].c_expresion_arit).valor / (yyvsp[0].c_expresion_arit).valor;
                                               }
-#line 1963 "expresiones.c"
+#line 2014 "expresiones.c"
     break;
 
-  case 80: /* expr_arit: expr_arit DIV expr_arit  */
-#line 573 "expresiones.y"
+  case 75: /* expr_arit: expr_arit DIV expr_arit  */
+#line 620 "expresiones.y"
                                               {(yyval.c_expresion_arit).esReal = (yyvsp[-2].c_expresion_arit).esReal || (yyvsp[0].c_expresion_arit).esReal; 
                                                 if((yyvsp[0].c_expresion_arit).valor == 0){ 
                                                       errorSemantico = true;
-                                                      cout << "Error semantico en la linea " << n_lineas << ", se ha detectado una divisón entre el número 0" << endl;
+                                                      cout << "***** Error semantico en la linea " << n_lineas << ", se ha detectado una divisón entre el número 0" << endl;
                                                 }else {
                                                       if((yyval.c_expresion_arit).esReal){ 
                                                             errorSemantico = true; 
-                                                           cout << "Error semantico en la linea " << n_lineas << ", el operador div no se puede usar con datos de tipo real " << endl;
+                                                           cout << "***** Error semantico en la linea " << n_lineas << ", el operador div no se puede usar con datos de tipo real " << endl;
                                                       } 
                                                       else 
                                                             (yyval.c_expresion_arit).valor = int((yyvsp[-2].c_expresion_arit).valor) / int((yyvsp[0].c_expresion_arit).valor);
                                                 }
                                                }
-#line 1981 "expresiones.c"
+#line 2032 "expresiones.c"
     break;
 
-  case 81: /* expr_arit: '-' expr_arit  */
-#line 587 "expresiones.y"
+  case 76: /* expr_arit: '-' expr_arit  */
+#line 634 "expresiones.y"
                                               {(yyval.c_expresion_arit).esReal = (yyvsp[0].c_expresion_arit).esReal ; (yyval.c_expresion_arit).valor = ((yyvsp[0].c_expresion_arit).esReal) ? -(yyvsp[0].c_expresion_arit).valor : int(-(yyvsp[0].c_expresion_arit).valor); }
-#line 1987 "expresiones.c"
+#line 2038 "expresiones.c"
     break;
 
-  case 82: /* expr_arit: '(' expr_arit ')'  */
-#line 588 "expresiones.y"
+  case 77: /* expr_arit: '(' expr_arit ')'  */
+#line 635 "expresiones.y"
                                                   {(yyval.c_expresion_arit).esReal = (yyvsp[-1].c_expresion_arit).esReal ; (yyval.c_expresion_arit).valor = ((yyvsp[-1].c_expresion_arit).esReal) ?  (yyvsp[-1].c_expresion_arit).valor : int( (yyvsp[-1].c_expresion_arit).valor); }
-#line 1993 "expresiones.c"
+#line 2044 "expresiones.c"
     break;
 
 
-#line 1997 "expresiones.c"
+#line 2048 "expresiones.c"
 
       default: break;
     }
@@ -2187,20 +2238,25 @@ yyreturn:
   return yyresult;
 }
 
-#line 590 "expresiones.y"
+#line 637 "expresiones.y"
 
 
 int main(int argc, char *argv[]){
-
-      // TODO añadir opcion debug (-d) para que salga todos los mensajes por fichero
-      // TODO añadir opcion screen (-s) para que salga todos los mensajes por pantalla
      
       if(argc >= 2){
             if(strlen(argv[1]) > 5){
 
-                  string outfile = argv[1];
-                  string outfileExtension = outfile.substr(outfile.length()-3, outfile.length());
-                  string outfileName = outfile.substr(0, outfile.length()-4);
+                  string outfile, outfileExtension, outfileName, debugOp;
+                  bool debugOpcion = false;
+
+                  outfile = argv[1];
+                  outfileExtension = outfile.substr(outfile.length()-3, outfile.length());
+                  outfileName = outfile.substr(0, outfile.length()-4);
+
+                  if(argc >= 3){
+                        debugOp = argv[2];
+                        debugOpcion = debugOp.compare("-d") == 0;
+                  }
 
                   if(outfileExtension.compare("dia") != 0){
                         cout << argv[1] << ": La extensión del archivo de entrada no es el correcto " << endl;
@@ -2212,6 +2268,7 @@ int main(int argc, char *argv[]){
 
                         esBucle = false;
                         errorVariable = false;
+                        errorEscena = false;
                         errorSemantico = false; 
                         ejecutar[n_condicional] = false;
                         esCondicional[n_condicional] = false;
@@ -2221,10 +2278,12 @@ int main(int argc, char *argv[]){
                         
                         yyin = fopen(argv[1], "rt");
                         salida.open(outfileName + ".sh");
+                        if(debugOpcion) debug.open(outfileName + ".debug");
                   
                         yyparse(); //llamada al analizador semantico
                   
                         salida.close();
+                        if(debugOpcion) debug.close();
 
                         ids.printIdentifiers(); // mostramos los identificadores declarados
                         chs.printCharacters();  // mostramos los personajes declarados

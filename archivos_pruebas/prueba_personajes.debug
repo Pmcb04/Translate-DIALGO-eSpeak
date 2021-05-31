@@ -1,0 +1,14 @@
++++ bloque personajes linea 1
+-------- asignacion nombre Profesor,es,m linea 9
+-------- asignacion nombre Mary,en,f linea 11
+-------- asignacion nombre John,en-us,m linea 13
+-------- asignacion nombre Paola,en-us,f linea 15
+-------- asignacion nombre Paola,es,f linea 17
+-------- asignacion nombre Paola,fr,f linea 19
+-------- asignacion nombre John,en,f linea 21
+-------- asignacion nombre John,en-us,m linea 23
+-------- asignacion nombre John,es,m linea 25
+-------- asignacion nombre John,fr,m linea 28
++++ Inicio de la escena 1
+-------- mensaje "prueba"
++++ Fin de la escena 1

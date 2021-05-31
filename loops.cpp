@@ -22,7 +22,6 @@ Loops::Loops(){
 
 void Loops::add(Table *&table, int repeats){
 		ls[num_loops] = new Table(repeats); 
-		cout << ">>> asignamos nueva tabla ( " << ls[num_loops] << " )" << endl;
 		table = ls[num_loops];
 		num_loops++;
 }
@@ -46,6 +45,8 @@ void Loops::printLoops(){
 	for (int i = 0; i < num_loops; i++){
 		ls[i]->printTable();
 	}
+
+	cout << "Me quedan en la estructura " << num_loops << " bucles" << endl;
 		
 	cout << endl;
 }

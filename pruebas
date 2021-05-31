@@ -21,7 +21,7 @@ while true; do
 
     if (( num_archivos >= opcion ));then
          echo "----------------------------------- INICIO PRUEBA ${newmap[((opcion - 1))]} -----------------------------------"
-        ./dialgo ${newmap[((opcion - 1))]}
+        ./dialgo ${newmap[((opcion - 1))]} -d
     else
         exit 1
     fi

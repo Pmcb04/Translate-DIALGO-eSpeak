@@ -1,0 +1,103 @@
+PERSONAJES
+# Ejemplo de clase de idiomas ampliada, sin errores
+Profesor = <es, m>
+
+Mary = <en, f>
+
+John = <en-us, m>
+
+Paola = <it, f>
+DEFINICIONES
+edad = 18 + 3
+_nombre = "Alan "++"Turing"
+maximo = 6*4 + 2*4
+ok = (edad > 18) and (edad <= maximo)
+nota_maxima = 10
+ESCENA 5 div 3 : # Esta es la primera escena
+mensaje "Esto es un ejemplo de dialogo en inglés"   # Esto es un mensaje
+
+Mary: "Hello, my name is Mary"  # Esta es la primera frase
+
+John: "Hi, Mary. I am John"
+
+Mary: "It's nice to meet you"
+
+John: "Pleased to meet you."
+
+Mary: "How old are you?"
+
+John: "I'm "++edad++" years old. "++"How old are you, Mary?"
+
+Mary: maximo
+
+# Se acaba la escena primera
+FINESCENA
+
+
+ESCENA 7-6+1:
+mensaje "Esto es un ejercicio para la persona que sigue nuestra clase"
+Profesor: "Por favor, "++_nombre++", repite la frase de cada personaje"
+Mary [despacio, despacio, deprisa, gritando, voz baja]: "Hello, my name is Mary"
+pausa 1.5
+John [voz baja, despacio]: "Hi, Mary. I am John"
+pausa 3/2
+Mary [deprisa, gritando]: "It's nice to meet you."
+pausa 1.
+John [voz baja]: "Pleased to meet you."
+pausa 1
+Profesor: "Muy bien, "++_nombre++ ". Buen trabajo. Te mereces un "++ nota_maxima*2
+FINESCENA
+
+ESCENA nota_maxima - 7: 
+Profesor: 4-(2+1)
+Mary: 3 div 3
+Paola: 1
+
+Profesor: 2
+Mary: 1+1+0
+Paola: 6 div 3
+
+tres = 3
+
+Profesor: "3"
+Mary: tres
+Paola: 300 + 2 - 3 * 100 + 1
+	
+FINESCENA
+
+ESCENA tres+2: 
+
+mensaje "Si pones el valor de la bandera inglesoitaliano a 1, las frases se dirán en inglés. "
+mensaje "Si le pones otro valor distinto, se dirán en italiano"
+
+inglesoitaliano = 2
+    
+si (inglesoitaliano == 1) 
+{
+     Profesor [despacio] : "Escucha la siguiente presentación en inglés"
+}
+si_no {
+      Profesor [despacio] : "Escucha la siguiente presentación en italiano"
+}
+    
+mensaje "Escucha atentamente"
+    
+si  (inglesoitaliano == 1) {
+	# Conversación en inglés
+	Mary: "Hello, my name is Mary"
+	John: "Hi, Mary. I am John"
+
+	tiempo = 0.5
+	pausa tiempo
+	Mary: "Bye"
+}
+si_no
+{   # Conversación en italiano
+	Paola: "Ciao. Mi chiamo Paola"
+	John: "Ciao, Paola. Il mio nome è John"	
+	_nombre = "John"
+	pausa 1/2
+	Paola: "Arrivederci, "++_nombre
+}
+Profesor: "Fin de la lección"
+FINESCENA

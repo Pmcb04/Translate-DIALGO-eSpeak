@@ -1,0 +1,20 @@
++++ bloque personajes linea 1
+-------- asignacion nombre Profesor,es,m linea 9
+-------- asignacion nombre Mary,en,f linea 11
+-------- asignacion nombre John,en-us,m linea 13
+-------- asignacion nombre Paola,it,f linea 16
++++ Inicio de la escena 1
+-------- mensaje "prueba 1"
+-------- mensaje "prueba 2"
+-------- mensaje "hola$"
+-------- mensaje "adios@"
+-------- concatenacion cadena ("prueba") cadena("3")
+-------- mensaje "prueba3"
+-------- concatenacion cadena ("4") cadena("prueba")
+-------- mensaje "4prueba"
+-------- concatenacion cadena ("prueba") cadena("5.1")
+-------- mensaje "prueba5.1"
+-------- concatenacion cadena ("prueba") cadena("otra prueba")
+-------- concatenacion cadena ("pruebaotra prueba") cadena("5.2")
+-------- mensaje "pruebaotra prueba5.2"
++++ Fin de la escena 1

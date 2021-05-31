@@ -1,0 +1,119 @@
+# Ejemplo de clase de idiomas con errores sintácticos o semánticos
+
+PERSONAJES
+Profesor = <es, m>
+Mary = <en, f>
+# Error en la siguiente línea: no debería haber asignaciones aquí
+x = 3
+John = <en-us, m>
+Paola = <it, f>
+
+DEFINICIONES
+edad = 21
+_nombre = "Alan Turing"
+# Error en la siguiente línea: división por cero
+x = 4 / (3 - 2 - 1)
+# Error en la siguiente línea: no existe variable z
+y = z + 1
+# Error en la siguiente línea: no existe variable _nom
+_otro = _nom ++ "Dijkstra"
+Paola = <it, f>
+
+ESCENA 1: 
+
+mensaje "Esto es un ejemplo de dialogo en inglés"
+
+Mary: "Hello, my name is Mary"
+
+John: "Hi, Mary. I am John"
+
+Mary: "It's nice to meet you"
+
+John: "Pleased to meet you."
+
+Mary: "How old are you?"
+
+# Error en la siguiente línea: no existe variable mi_edad
+John: "I'm "++mi_edad++" years old"
+
+# Error en la siguiente línea: division por 0
+John: "I'm "++18/0++" years old"
+
+John: edad
+
+FINESCENA
+
+
+ESCENA 3:
+mensaje "Esto es un ejercicio para la persona que sigue nuestra clase"
+Profesor: "Por favor, "++_nombre++", repite la frase de cada personaje"
+Mary [despacio]: "Hello, my name is Mary"
+pausa 1
+John [voz baja, despacio]: "Hi, Mary. I am John"
+pausa 1
+Mary [gritando, deprisa]: "It's nice to meet you."
+pausa 1
+John [voz baja]: "Pleased to meet you."
+pausa 1
+# Error o no en la siguiente línea: si se ponen corchetes, la secuencia de modos de 
+# entonación podría ser vacía o no. Las dos posibilidades son correctas.
+Profesor [ ]: "Muy bien, "++_nombre++ ". Buen trabajo. Te mereces un "++10
+
+# Error en la siguiente línea: Al final de cada instrucción debe haber un salto de línea
+Profesor: 2     Mary: 2      Paola: 2
+
+FINESCENA
+
+# Error en la siguiente línea: el número de escena debe ser superior al de la escena anterior
+ESCENA 2: 
+Profesor: 1
+Mary: 1
+Paola: 1
+
+# Error en la siguiente línea: Al final de cada instrucción debe haber un salto de línea
+Profesor: 2     Mary: 2      Paola: 2
+
+Profesor: 3
+Mary: 3
+Paola: 3
+	
+FINESCENA
+
+ESCENA 6: 
+
+mensaje "Si pones el valor de la bandera inglesoitaliano a 1, las frases se dirán en inglés. "
+mensaje "Si le pones otro valor distinto, se dirán en italiano"
+
+inglesoitaliano = 2
+    
+si (inglesoitaliano == 1) 
+{
+     Profesor [despacio] : "Escucha la siguiente presentación en inglés"
+# Error en la siguiente línea: después de } tiene que haber un salto de línea
+} si_no {
+    Profesor [despacio] : "Escucha la siguiente presentación en italiano"
+}
+    
+# Error en la siguiente línea: faltan las comillas de la cadena
+mensaje Escucha atentamente
+    
+si  (inglesoitaliano == 1) {
+	
+	Mary: "Hello, my name is Mary"
+	John: "Hi, Mary. I am John"
+}
+si_no 
+{
+	Paola: "Ciao. Mi chiamo Paola"
+	John: "Ciao, Paola. Il mio nome è John"	
+}
+
+# Error en la siguiente instrucción: el bloque no se cierra
+si (inglesoitaliano == 1) {
+	Mary: "Goodbye"
+FINESCENA
+
+# Error o no en la siguiente escena: la secuencia de instrucciones de una escena
+# podría ser vacía o no. Las dos posibilidades son correctas.
+ESCENA 10*2:
+FINESCENA

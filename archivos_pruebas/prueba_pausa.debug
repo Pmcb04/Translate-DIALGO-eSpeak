@@ -1,0 +1,12 @@
++++ bloque personajes linea 1
+-------- asignacion nombre Profesor,es,m linea 9
+-------- asignacion nombre Mary,en,f linea 11
+-------- asignacion nombre John,en-us,m linea 13
+-------- asignacion nombre Paola,it,f linea 16
++++ Inicio de la escena 1
+-------- pausa 1
+-------- pausa 3
+-------- pausa 4.5
+-------- pausa 9
+-------- pausa 2
++++ Fin de la escena 1

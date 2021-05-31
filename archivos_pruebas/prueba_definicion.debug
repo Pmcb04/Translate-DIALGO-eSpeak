@@ -1,0 +1,11 @@
++++ bloque personajes linea 4
+-------- asignacion nombre Profesor,es,m linea 12
+-------- asignacion nombre Mary,en,f linea 14
+-------- asignacion nombre John,en-us,m linea 16
+-------- asignacion nombre Paola,it,f linea 18
++++ bloque definiciones linea 18
+-------- asignacion id_general entero edad, 21
+-------- asignacion id_cadena _nombre, "Alan Turing"
++++ Inicio de la escena 1
+-------- mensaje "prueba"
++++ Fin de la escena 1

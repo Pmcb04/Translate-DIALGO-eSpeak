@@ -1,0 +1,125 @@
++++ bloque personajes linea 2
+-------- asignacion nombre Profesor,es,m linea 10
+-------- asignacion nombre Luis,pt,m linea 12
+-------- asignacion nombre Personaje1,it,f linea 14
+-------- asignacion nombre Personaje2,fr,m linea 16
+-------- asignacion nombre Mary,en,f linea 18
+-------- asignacion nombre John,es-la,m linea 20
+-------- asignacion nombre Paola,en-us,f linea 22
++++ Inicio de la escena 1
+-------- asignacion id_general entero inglesoitaliano, 1
+>>> nuevo bucle
+>>> table ( 0x55f93dbbb590 ) && father ( 0 )
++++ repetir 4
+-------- personaje  [Personaje1]  en linea 27 dice : "Hola"
+>>> entramos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 1
++++ inicio bloque si ( condicion=1)
+-------- mensaje "Dentro del bloque si de afuera"
+>>> Añadido mensaje "Dentro del bloque si de afuera" a la table 0x55f93dbbb590
+>>> entramos en bloque si del condicional (n_condicional = 1) && esCondicional[1] = 1 && ejecutar[1] = 1
++++ inicio bloque si ( condicion=1)
+-------- mensaje "Dentro del bloque si del medio"
+>>> Añadido mensaje "Dentro del bloque si del medio" a la table 0x55f93dbbb590
+-------- mensaje "Condicional - Condicional anidado conseguido!!! :)"
+>>> Añadido mensaje "Condicional - Condicional anidado conseguido!!! :)" a la table 0x55f93dbbb590
+>>> entramos en bloque si del condicional (n_condicional = 2) && esCondicional[2] = 1 && ejecutar[2] = 1
++++ inicio bloque si ( condicion=1)
+-------- mensaje "Dentro del bloque si de adentro"
+>>> Añadido mensaje "Dentro del bloque si de adentro" a la table 0x55f93dbbb590
+-------- mensaje "Condicional - Condicional anidado conseguido!!! :)"
+>>> Añadido mensaje "Condicional - Condicional anidado conseguido!!! :)" a la table 0x55f93dbbb590
+-------- personaje  [John]  en linea 42 dice : "Hi, Mary. I am John" con entonación -a 30 -s 300 
+-------- pausa 1
+-------- asignacion id_general entero asignacion1, 1
+-------- personaje  [John]  en linea 45 dice : "Hi, Mary. I am John" con entonación -a 30 -s 80 
+-------- asignacion id_general entero asignacion2, 2
+-------- pausa 2.5
+-------- personaje  [John]  en linea 48 dice : "Hi, Mary. I am John" con entonación -a 30 -a 200 
++++ fin bloque si ( condicion=1)
+>>> salimos en bloque si del condicional (n_condicional = 2) && esCondicional[2] = 1 && ejecutar[2] = 1
+>>> entramos en bloque si_no del condicional (n_condicional = 2) && esCondicional[2] = 1 && !ejecutar[2] = 0
++++ inicio bloque sino 
+-------- mensaje "Dentro del bloque si_no de adentro"
+-------- mensaje "Condicional - Condicional anidado no conseguido :("
++++ fin bloque sino 
+>>> salimos en bloque si_no del condicional (n_condicional = 2) && esCondicional[2] = 0 && !ejecutar[2] = 0
++++ fin bloque si ( condicion=1)
+>>> salimos en bloque si del condicional (n_condicional = 1) && esCondicional[1] = 1 && ejecutar[1] = 1
+>>> entramos en bloque si_no del condicional (n_condicional = 1) && esCondicional[1] = 1 && !ejecutar[1] = 0
++++ inicio bloque sino 
+-------- mensaje "Dentro del bloque si_no del medio"
+-------- mensaje "Condicional - Condicional anidado no conseguido :("
++++ fin bloque sino 
+>>> salimos en bloque si_no del condicional (n_condicional = 1) && esCondicional[1] = 0 && !ejecutar[1] = 0
++++ fin bloque si ( condicion=1)
+>>> salimos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 1
+>>> entramos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 1 && !ejecutar[0] = 0
++++ inicio bloque sino 
+-------- mensaje "Dentro del bloque si_no de afuera"
+-------- mensaje "Condicional - Condicional anidado no conseguido :("
++++ fin bloque sino 
+>>> salimos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 0 && !ejecutar[0] = 0
+>>> nuevo bucle
+añadimos referencia a tabla
+>>> cambiamos padre
+>>> table ( 0x55f93dbbb590 ) && father ( 0x55f93dbbb590 )
+>>> table ( 0x55f93dbc1cd0 ) && father ( 0x55f93dbbb590 )
++++ repetir 5
+-------- personaje  [Personaje1]  en linea 68 dice : "Hola"
+-------- personaje  [Personaje2]  en linea 69 dice : "Hello"
+-------- mensaje "prueba 1"
+>>> Añadido mensaje "prueba 1" a la table 0x55f93dbc1cd0
+-------- mensaje "prueba 2"
+>>> Añadido mensaje "prueba 2" a la table 0x55f93dbc1cd0
+-------- mensaje "Bucle - Bucle anidado conseguido !!! :)"
+>>> Añadido mensaje "Bucle - Bucle anidado conseguido !!! :)" a la table 0x55f93dbc1cd0
+-------- asignacion id_general entero anidamiento, 1
+>>> nuevo bucle
+añadimos referencia a tabla
+>>> cambiamos padre
+>>> table ( 0x55f93dbc1cd0 ) && father ( 0x55f93dbc1cd0 )
+>>> table ( 0x55f93dbc8410 ) && father ( 0x55f93dbc1cd0 )
++++ repetir 7
+>>> entramos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 1
++++ inicio bloque si ( condicion=1)
+-------- mensaje "Bucle - Condicional anidado conseguido!!! :)"
+>>> Añadido mensaje "Bucle - Condicional anidado conseguido!!! :)" a la table 0x55f93dbc8410
++++ fin bloque si ( condicion=1)
+>>> salimos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 1
+>>> entramos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 1 && !ejecutar[0] = 0
++++ inicio bloque sino 
+-------- mensaje "Bucle - Condicional anidado no conseguido :("
++++ fin bloque sino 
+>>> salimos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 0 && !ejecutar[0] = 0
++++ fin repetir 7
+>>> obtenemos padre table (0x55f93dbc1cd0)
+>>> obtenemos padre de padre de table (0x55f93dbbb590)
++++ fin repetir 5
+>>> obtenemos padre table (0x55f93dbbb590)
+>>> obtenemos padre de padre de table (0)
+-------- mensaje "hola$"
+>>> Añadido mensaje "hola$" a la table 0x55f93dbbb590
+-------- mensaje "adios@"
+>>> Añadido mensaje "adios@" a la table 0x55f93dbbb590
+-------- pausa 4
+-------- pausa 1.5
++++ fin repetir 4
+>>> obtenemos padre table (0)
+-------- actualizacion valor asignacion id_general enteroanidamiento, 0
+>>> entramos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 0
++++ inicio bloque si ( condicion=0)
+-------- mensaje "Condicional - Bucle anidado no conseguido :("
++++ fin bloque si ( condicion=0)
+>>> salimos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 0
+>>> entramos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 1 && !ejecutar[0] = 1
++++ inicio bloque sino 
+>>> nuevo bucle
+>>> table ( 0x55f93dbcef60 ) && father ( 0 )
++++ repetir 3
+-------- mensaje "Condicional - Bucle anidado conseguido!!! :)"
+>>> Añadido mensaje "Condicional - Bucle anidado conseguido!!! :)" a la table 0x55f93dbcef60
++++ fin repetir 3
+>>> obtenemos padre table (0)
++++ fin bloque sino 
+>>> salimos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 0 && !ejecutar[0] = 1
++++ Fin de la escena 1

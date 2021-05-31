@@ -84,7 +84,7 @@ void Characters::printCharacters(ofstream &salida){
 			printElement("GENDER", numWidth, salida);
 			printElement("NUM CHARACTER", numWidth, salida);
 			printElement("LINE DECLARATION", numWidth, salida);
-			salida << endl << "-------------------------------------------------------------------------------------------------------" << endl << endl;
+			salida << endl << "---------------------------------------------------------------------------------------------------------------------------" << endl << endl;
 
 
 	for (int i = 0; i < num_characters; i++){
@@ -117,7 +117,7 @@ void Characters::printCharacters(){
 			printElement("GENDER", numWidth);
 			printElement("NUM CHARACTER", numWidth);
 			printElement("LINE DECLARATION", numWidth);
-			cout << endl << "-------------------------------------------------------------------------------------------------------" << endl << endl;
+			cout << endl << "---------------------------------------------------------------------------------------------------------------------------" << endl << endl;
 
 	for (int i = 0; i < num_characters; i++){
 		

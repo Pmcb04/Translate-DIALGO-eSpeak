@@ -53,6 +53,7 @@ void Table::run(ofstream &salida){
 			runRow(j, salida);
 	}
 
+	cout << "----- Acabamos de procesar " << this << endl;
 }
 
 void Table::runRow(int index, ofstream &salida){

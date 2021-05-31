@@ -1,0 +1,50 @@
++++ bloque personajes linea 2
+-------- asignacion nombre Profesor,es,m linea 10
+-------- asignacion nombre Luis,pt,m linea 12
+-------- asignacion nombre Personaje1,it,f linea 14
+-------- asignacion nombre Personaje2,fr,m linea 16
+-------- asignacion nombre Mary,en,f linea 18
+-------- asignacion nombre John,es-la,m linea 20
+-------- asignacion nombre Paola,en-us,f linea 22
++++ Inicio de la escena 1
+-------- asignacion id_general entero inglesoitaliano, 1
+-------- personaje  [Personaje2]  en linea 26 dice : "Hello"
+>>> nuevo bucle
+>>> table ( 0x55cb9ddf8590 ) && father ( 0 )
++++ repetir 4
+-------- personaje  [Mary]  en linea 29 dice : "Hola"
+-------- personaje  [Paola]  en linea 30 dice : "Hello"
++++ fin repetir 4
+>>> obtenemos padre table (0)
+>>> nuevo bucle
+>>> table ( 0x55cb9ddff0e0 ) && father ( 0 )
++++ repetir 5
+-------- personaje  [Personaje1]  en linea 34 dice : "Hola"
+-------- personaje  [Personaje2]  en linea 35 dice : "Hello"
+-------- mensaje "prueba 1"
+>>> Añadido mensaje "prueba 1" a la table 0x55cb9ddff0e0
+-------- mensaje "prueba 2"
+>>> Añadido mensaje "prueba 2" a la table 0x55cb9ddff0e0
++++ fin repetir 5
+>>> obtenemos padre table (0)
+>>> nuevo bucle
+>>> table ( 0x55cb9de05820 ) && father ( 0 )
++++ repetir 5
+-------- personaje  [Personaje2]  en linea 43 dice : "Hola"
+-------- personaje  [Personaje1]  en linea 44 dice : "Hello"
+-------- mensaje "prueba 1"
+>>> Añadido mensaje "prueba 1" a la table 0x55cb9de05820
+-------- mensaje "prueba 2"
+>>> Añadido mensaje "prueba 2" a la table 0x55cb9de05820
++++ fin repetir 5
+>>> obtenemos padre table (0)
+>>> nuevo bucle
+>>> table ( 0x55cb9de0bf60 ) && father ( 0 )
++++ repetir 4.5
+-------- personaje  [Personaje1]  en linea 54 dice : "Hola"
+-------- pausa 9
+-------- personaje  [Personaje2]  en linea 56 dice : "Hello"
+-------- pausa 1.45
++++ fin repetir 4.5
+>>> obtenemos padre table (0)
++++ Fin de la escena 1

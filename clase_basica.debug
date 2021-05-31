@@ -1,0 +1,76 @@
++++ bloque personajes linea 2
+-------- asignacion nombre Profesor,es,m linea 10
+-------- asignacion nombre Mary,en,f linea 12
+-------- asignacion nombre John,en-us,m linea 14
+-------- asignacion nombre Paola,it,f linea 16
++++ bloque definiciones linea 16
+-------- asignacion id_general entero edad, 21
+-------- asignacion id_cadena _nombre, "Alan Turing"
++++ Inicio de la escena 1
+-------- mensaje "Esto es un ejemplo de dialogo en inglés"
+-------- personaje  [Mary]  en linea 28 dice : "Hello, my name is Mary"
+-------- personaje  [John]  en linea 30 dice : "Hi, Mary. I am John"
+-------- personaje  [Mary]  en linea 32 dice : "It's nice to meet you"
+-------- personaje  [John]  en linea 34 dice : "Pleased to meet you."
+-------- personaje  [Mary]  en linea 36 dice : "How old are you?"
+-------- concatenacion cadena ("I'm") cadena("21")
+-------- concatenacion cadena ("I'm21") cadena("years old")
+-------- personaje  [John]  en linea 38 dice : "I'm21years old"
++++ Fin de la escena 1
++++ Inicio de la escena 2
+-------- mensaje "Esto es un ejercicio para la persona que sigue nuestra clase"
+-------- concatenacion cadena ("Por favor,") cadena("Alan Turing")
+-------- concatenacion cadena ("Por favor,Alan Turing") cadena(", repite la frase de cada personaje")
+-------- personaje  [Profesor]  en linea 45 dice : "Por favor,Alan Turing, repite la frase de cada personaje"
+-------- personaje  [Mary]  en linea 46 dice : "Hello, my name is Mary" con entonación -s 80 
+-------- pausa 1
+-------- personaje  [John]  en linea 48 dice : "Hi, Mary. I am John" con entonación -a 30 -s 80 
+-------- pausa 1
+-------- personaje  [Mary]  en linea 50 dice : "It's nice to meet you." con entonación -a 200 -s 300 
+-------- pausa 1
+-------- personaje  [John]  en linea 52 dice : "Pleased to meet you." con entonación -a 30 
+-------- pausa 1
+-------- concatenacion cadena ("Muy bien, ") cadena("Alan Turing")
+-------- concatenacion cadena ("Muy bien, Alan Turing") cadena(". Buen trabajo. Te mereces un ")
+-------- concatenacion cadena ("Muy bien, Alan Turing. Buen trabajo. Te mereces un ") cadena("10")
+-------- personaje  [Profesor]  en linea 54 dice : "Muy bien, Alan Turing. Buen trabajo. Te mereces un 10"
++++ Fin de la escena 2
++++ Inicio de la escena 3
+-------- personaje  [Profesor]  en linea 58 dice : "1"
+-------- personaje  [Mary]  en linea 59 dice : "1"
+-------- personaje  [Paola]  en linea 60 dice : "1"
+-------- personaje  [Profesor]  en linea 62 dice : "2"
+-------- personaje  [Mary]  en linea 63 dice : "2"
+-------- personaje  [Paola]  en linea 64 dice : "2"
+-------- personaje  [Profesor]  en linea 66 dice : "3"
+-------- personaje  [Mary]  en linea 67 dice : "3"
+-------- personaje  [Paola]  en linea 68 dice : "3"
++++ Fin de la escena 3
++++ Inicio de la escena 4
+-------- mensaje "Si pones el valor de la bandera inglesoitaliano a 1, las frases se dirán en inglés. "
+-------- mensaje "Si le pones otro valor distinto, se dirán en italiano"
+-------- asignacion id_general entero inglesoitaliano, 1
+>>> entramos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 1
++++ inicio bloque si ( condicion=1)
+-------- personaje  [Profesor]  en linea 81 dice : "Escucha la siguiente presentación en inglés" con entonación -s 80 
++++ fin bloque si ( condicion=1)
+>>> salimos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 1
+>>> entramos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 1 && !ejecutar[0] = 0
++++ inicio bloque sino 
+-------- personaje  [Profesor]  en linea 84 dice : "Escucha la siguiente presentación en italiano" con entonación -s 80 
++++ fin bloque sino 
+>>> salimos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 1 && !ejecutar[0] = 0
+-------- mensaje "Escucha atentamente"
+>>> entramos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 1
++++ inicio bloque si ( condicion=1)
+-------- personaje  [Mary]  en linea 91 dice : "Hello, my name is Mary"
+-------- personaje  [John]  en linea 92 dice : "Hi, Mary. I am John"
++++ fin bloque si ( condicion=1)
+>>> salimos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 1
+>>> entramos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 1 && !ejecutar[0] = 0
++++ inicio bloque sino 
+-------- personaje  [Paola]  en linea 95 dice : "Ciao. Mi chiamo Paola"
+-------- personaje  [John]  en linea 96 dice : "Ciao, Paola. Il mio nome è John"
++++ fin bloque sino 
+>>> salimos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 1 && !ejecutar[0] = 0
++++ Fin de la escena 4
