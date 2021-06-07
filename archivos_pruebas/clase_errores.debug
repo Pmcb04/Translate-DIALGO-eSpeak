@@ -54,20 +54,55 @@
 +++ inicio bloque si ( condicion=0)
 -------- personaje  [Profesor]  en linea 93 dice : "Escucha la siguiente presentación en inglés" con entonación -s 80 
 -------- personaje  [Profesor]  en linea 95 dice : "Escucha la siguiente presentación en italiano" con entonación -s 80 
-+++ fin bloque si ( condicion=0)
->>> salimos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 0
->>> entramos en bloque si del condicional (n_condicional = 1) && esCondicional[1] = 1 && ejecutar[1] = 0
+>>> entramos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 0
 +++ inicio bloque si ( condicion=0)
 -------- personaje  [Mary]  en linea 103 dice : "Hello, my name is Mary"
 -------- personaje  [John]  en linea 104 dice : "Hi, Mary. I am John"
 +++ fin bloque si ( condicion=0)
->>> salimos en bloque si del condicional (n_condicional = 1) && esCondicional[1] = 1 && ejecutar[1] = 0
->>> entramos en bloque si_no del condicional (n_condicional = 1) && esCondicional[1] = 1 && !ejecutar[1] = 1
+>>> salimos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 0
+>>> entramos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 1 && !ejecutar[0] = 1
 +++ inicio bloque sino 
 -------- personaje  [Paola]  en linea 108 dice : "Ciao. Mi chiamo Paola"
 -------- personaje  [John]  en linea 109 dice : "Ciao, Paola. Il mio nome è John"
 +++ fin bloque sino 
->>> salimos en bloque si_no del condicional (n_condicional = 1) && esCondicional[1] = 0 && !ejecutar[1] = 1
->>> entramos en bloque si del condicional (n_condicional = 1) && esCondicional[1] = 1 && ejecutar[1] = 0
+>>> salimos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 0 && !ejecutar[0] = 1
+>>> nuevo bucle
+añadimos referencia a tabla
+>>> cambiamos padre
+>>> table ( 0 ) && father ( 0 )
+>>> table ( 0x560a0a708b70 ) && father ( 0 )
++++ repetir 5
+-------- personaje  [Personaje1]  en linea 113 dice : "Hola"
+-------- personaje  [Personaje2]  en linea 115 dice : "Hello"
+-------- mensaje "prueba 1"
+>>> Añadido mensaje "prueba 1" a la table 0x560a0a708b70
+-------- mensaje "prueba 2"
+>>> Añadido mensaje "prueba 2" a la table 0x560a0a708b70
++++ fin repetir 5
+>>> obtenemos padre table (0)
+-------- mensaje "tampoco se tiene que ejecutar"
+-------- mensaje "esto si se ejecuta"
+-------- actualizacion valor asignacion id_general enteroinglesoitaliano, 2
+>>> entramos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 0
 +++ inicio bloque si ( condicion=0)
--------- personaje  [Mary]  en linea 114 dice : "Goodbye"
+-------- personaje  [Mary]  en linea 131 dice : "Goodbye"
+-------- mensaje "prueba"
+
+Lista de identificadores:
+
+ID                       TIPO                     LAST VALOR               LINE DECLARATION         
+-------------------------------------------------------------------------------------------------------
+
+edad                     entero                   21                       13                       
+_nombre                  cadena                   "Alan Turing"            15                       
+inglesoitaliano          entero                   2                        89                       
+
+Lista de personajes:
+
+ID                       LANGUAJE                 GENDER                   NUM CHARACTER            LINE DECLARATION         
+---------------------------------------------------------------------------------------------------------------------------
+
+Profesor                 es                       m                        1                        5                        
+Mary                     en                       f                        1                        7                        
+John                     en-us                    m                        2                        9                        
+Paola                    it                       f                        2                        11                       

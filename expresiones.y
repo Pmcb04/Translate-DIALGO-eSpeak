@@ -25,24 +25,43 @@ extern FILE* yyin;
 extern int num_men;
 extern int num_women;
 
-//definición de procedimientos auxiliares
-void yyerror(const char* s){         /*    llamada por cada error sintactico de yacc */
-	cout << "***** Error sintáctico en la línea "<< n_lineas << " : "  << s <<endl;	
-}
 
-//Zona de definiciones
-
-ofstream salida;              // flujo de datos hacia el fichero de salida
-ofstream debug;              // flujo de datos hacia el fichero de debug
-int n_escena;                 // contador que indica el numero de escena que nos encontramos
-int n_condicional;            // contador que indica el numero de condicionales anidados, en cual nos encontramos
-
+// banderas definidas para la utilizacion de bucles, condicionales y detenciones de errores
+bool errorBucle;              // bandera que indica si se ha producido un error en un bucle
 bool esBucle;                 // indica si estamos dentro de un bucle
+
+bool errorCondicional;       // bandera que indica si se ha producido un error en un condicional 
 bool ejecutar[100];           // vector de banderas que indican el bloque que se debe ejecutar del condicional
 bool esCondicional[100];      // vector de banderas que indican si estamos dentro de un condicional
+
 bool errorVariable;           // bandera que indica si existe un error relacionado con el tipo de variable
 bool errorEscena;             // bandera que indica si se ha producido un error en una escena
 bool errorSemantico;          // bandera que indica si se ha producido un error semantico
+
+ofstream salida;              // flujo de datos hacia el fichero de salida
+ofstream debug;              // flujo de datos hacia el fichero de debug
+
+int n_escena;                 // contador que indica el numero de escena que nos encontramos
+int n_condicional;            // contador que indica el numero de condicionales anidados, en cual nos encontramos
+
+//definición de procedimientos auxiliares
+void yyerror(const char* s){         /*    llamada por cada error sintactico de yacc */
+	cout << "***** Error sintáctico en la línea "<< n_lineas << " : "  << s <<endl;	
+      if(esCondicional[n_condicional]){
+            ejecutar[n_condicional] = false;
+            esCondicional[n_condicional] = false;
+            n_condicional = 0;
+            errorCondicional = true;
+      }else errorCondicional = false;
+
+      if(esBucle){
+            errorBucle = true;
+            esBucle = false;
+      }
+      else errorBucle = false;
+}
+
+//Zona de definiciones
 
 string str;
 tipo_cadena tc;
@@ -141,7 +160,7 @@ secBloquePersonajes :  asignacionPersonaje
       ;
 
 asignacionPersonaje: ID_NOMBRE '=' '<' IDIOMA ',' VOZ '>' salto { debug << "-------- asignacion nombre " << $1 << "," << $4 << "," << $6 <<  " linea " << n_lineas << endl; chs.add(Character($1, n_lineas, $4, $6));} 
-      | error salto  {yyerrok; errorSemantico = false; errorVariable = false;}	
+      | error salto                             {yyerrok; errorSemantico = false; errorVariable = false;}	
       ;
 
 /*------------------------------------------------ definiciones ------------------------------------------------*/ 
@@ -152,11 +171,11 @@ bloqueDefiniciones:
 
 secBloqueDefiniciones: identificador
       | secBloqueDefiniciones identificador
+      | secBloqueDefiniciones error salto       {yyerrok; errorSemantico = false; errorVariable = false;}
       ;
 
 identificador:identificadorCadena
       | identificadorGeneral
-      | error salto  {yyerrok; errorSemantico = false; errorVariable = false;}	
       ;
 
 
@@ -314,12 +333,18 @@ escena:ESCENA expr_arit ':' salto {
       ; 
 
 secBloqueEscena: bloqueEscena      
-      | secBloqueEscena bloqueEscena      
+      | secBloqueEscena bloqueEscena
       ;
 
-bloqueEscena: ID_NOMBRE ':' expr_cadena salto                     { debug << "-------- personaje " << " [" << $1 << "] "  << " en linea " << n_lineas << " dice : " << $3 << endl; 
+bloqueEscena: lineaEscena
+      | identificador         
+      | {esBucle = true;} bucle                                 
+      | condicional
+      | error salto                            {yyerrok; errorSemantico = false; errorVariable = false; }
+      ;
+
+lineaEscena: ID_NOMBRE ':' expr_cadena salto                     { debug << "-------- personaje " << " [" << $1 << "] "  << " en linea " << n_lineas << " dice : " << $3 << endl; 
                                                             
-                                                                  
                                                                   if(chs.isExists($1)){
                                                                         chs.get($1, ch);
                                                                         str = ch.languaje + "+";
@@ -327,11 +352,13 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena salto                     { debug << "--
                                                                         str += to_string(ch.numCharacter) + " ";
                                                                         strcpy(tc, str.c_str());
                                                                         strcat(tc, $3);
-                                                                        
-                                                                        if(!errorSemantico && !errorVariable && !errorEscena && (!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional])){
-                                                                              
-                                                                              if(esBucle)
-                                                                                    (*table).add(Row(tc, TIPO_ROW::T_FRASE));
+
+                                                                        if(!errorSemantico && !errorVariable && !errorEscena && !errorBucle && !errorCondicional && (!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional])){
+
+                                                                              if(esBucle){
+                                                                                    (*table).add(new Row(tc, TIPO_ROW::T_FRASE));
+                                                                                    debug << ">>> Añadido mensaje de personaje " << " [" << $1 << "] "  << " en linea " << n_lineas << " dice : " << $3 << " a la table " << table << endl;
+                                                                              }
                                                                               else
                                                                                     salida << "espeak -v " << tc << endl;
                                                                         }
@@ -339,11 +366,14 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena salto                     { debug << "--
                                                                         errorSemantico = false;
                                                                         errorVariable = false;
 
+                                                                  }else{
+                                                                        cout << "***** Error semantico, el personaje " << $1 << " no esta definido" << endl;
                                                                   }
 
                                                                } 
       | ID_NOMBRE  '[' ']' ':' expr_cadena salto               { debug << "-------- personaje " << " [" << $1 << "] "  << " en linea " << n_lineas << " dice : " << $5 << endl; 
                                                                   
+
                                                                   if(chs.isExists($1)){
                                                                         chs.get($1, ch);
                                                                         str = ch.languaje + "+";
@@ -352,22 +382,27 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena salto                     { debug << "--
                                                                         strcpy(tc, str.c_str());
                                                                         strcat(tc, $5);
 
-                                                                        if(!errorSemantico && !errorVariable && !errorEscena && (!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional])){
+                                                                        if(!errorSemantico && !errorVariable && !errorEscena && !errorBucle && !errorCondicional && (!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional])){
 
-                                                                              if(esBucle)
-                                                                                    (*table).add(Row(tc, TIPO_ROW::T_FRASE));
+                                                                              if(esBucle){
+                                                                                    (*table).add(new Row(tc, TIPO_ROW::T_FRASE));
+                                                                                    debug << ">>> Añadido mensaje de personaje " << " [" << $1 << "] "  << " en linea " << n_lineas << " dice : " << $5 << " a la table " << table << endl;
+                                                                              }
                                                                               else
                                                                                     salida << "espeak -v " << tc << endl;
                                                                         }
 
                                                                         errorSemantico = false;
                                                                         errorVariable = false;
+                                                                  }else{
+                                                                        cout << "***** Error semantico, el personaje " << $1 << " no esta definido" << endl;
                                                                   }
 
                                                                } 
       | ID_NOMBRE  '[' entonacion ']' ':' expr_cadena salto    { 
                                                                   debug << "-------- personaje " << " [" << $1 << "] " << " en linea " << n_lineas << " dice : " << $6 << " con entonación " << $3 << endl; 
                                                                   
+
                                                                   if(chs.isExists($1)){
                                                                         chs.get($1, ch);
                                                                         str = ch.languaje + "+";
@@ -377,37 +412,39 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena salto                     { debug << "--
                                                                         strcat(tc, $3);
                                                                         strcat(tc, $6);
 
+                                                                        if(!errorSemantico && !errorVariable && !errorEscena && !errorBucle && !errorCondicional && (!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional])){
 
-                                                                        if(!errorSemantico && !errorVariable && !errorEscena && (!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional])){
-
-                                                                           if(esBucle)
-                                                                              (*table).add(Row(tc, TIPO_ROW::T_FRASE));
+                                                                           if(esBucle){
+                                                                              (*table).add(new Row(tc, TIPO_ROW::T_FRASE));
+                                                                               debug << ">>> Añadido mensaje de personaje " << " [" << $1 << "] " << " en linea " << n_lineas << " dice : " << $6 << " con entonación " << $3 << " a la table " << table << endl;
+                                                                           }
                                                                            else
                                                                               salida << "espeak -v " << tc << endl;  
                                                                         }
 
                                                                         errorSemantico = false;
                                                                         errorVariable = false;
-                                                                  } 
+                                                                  }else{
+                                                                        cout << "***** Error semantico, el personaje " << $1 << " no esta definido" << endl;
+                                                                  }
 
-
-                                                               
                                                                } 
 
       | MENSAJE expr_cadena salto                              { 
 
                                                                   strcpy(tc, $2);
                                                                   debug << "-------- mensaje " << $2 << endl; 
-                                                                  
-                                                                  if(!errorSemantico && !errorVariable && !errorEscena && (!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional])){
+                                                            
+                                                                  if(!errorSemantico && !errorVariable && !errorEscena && !errorBucle && !errorCondicional && (!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional])){
 
                                                                      if(esBucle){
-                                                                        (*table).add(Row(tc, TIPO_ROW::T_MENSAJE)); 
+                                                                        (*table).add(new Row(tc, TIPO_ROW::T_MENSAJE)); 
                                                                         debug << ">>> Añadido mensaje " << $2 << " a la table " << table << endl;
                                                                      } 
                                                                      else
                                                                         salida << "echo " << tc << endl;
                                                                   }
+                                                                  
 
                                                                   errorSemantico = false;
                                                                   errorVariable = false;
@@ -417,84 +454,132 @@ bloqueEscena: ID_NOMBRE ':' expr_cadena salto                     { debug << "--
       | PAUSA expr_arit salto                                  { 
                                                                   debug << "-------- pausa " << $2.valor << endl; 
                                                                   
-                                                                  if(!errorSemantico && !errorVariable && !errorEscena && (!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional])){
+                                                                  if(!errorSemantico && !errorVariable && !errorEscena && !errorBucle && !errorCondicional && (!esCondicional[n_condicional] || esCondicional[n_condicional] && ejecutar[n_condicional])){
                                                                         
-                                                                        if(esBucle)
-                                                                              (*table).add(Row($2.valor, TIPO_ROW::T_PAUSA)); 
+                                                                        if(esBucle){
+                                                                              (*table).add(new Row($2.valor, TIPO_ROW::T_PAUSA)); 
+                                                                              debug << ">>> Añadido pausa " << $2.valor << " a la table " << table << endl;
+                                                                        }
                                                                         else
                                                                               salida << "sleep " << $2.valor << endl;
-                                                                  }  
+                                                                  }
 
                                                                   errorSemantico = false;
                                                                   errorVariable = false;
                                                                   
                                                                } 
-      | identificadorCadena
-      | identificadorGeneral
-      | condicional      
-      | bucle   
-      | error salto  {yyerrok; errorSemantico = false; errorVariable = false;}	
+
+
+                          
       ;
 
-/* para bucles anidados añadir una variable para indicar en que nivel de profundidad de bucles nos encontramos */
-bucle: REPETIR expr_arit '{' salto {
+/*------------------------------------------------ bucle ------------------------------------------------*/ 
 
-                                          debug << ">>> nuevo bucle" << endl; 
+bucle: REPETIR expr_arit  '{' salto {
 
-                                          if(esBucle){ 
-                                                debug << "añadimos referencia a tabla" << endl;    
-                                                father = table;
-                                                debug << ">>> cambiamos padre" << endl;        
-                                                debug << ">>> table " << "( " <<  table << " )" << " && father " << "( " << father <<  " )" << endl;
-                                          }
-
-                                          esBucle = true; 
-                                          ls.add(table, $2.valor); 
-                                          if(father != NULL) (*father).add(Row(table, TIPO_ROW::T_BUCLE));
-                                          table->setFather(father);
-                                          debug << ">>> table " << "( " <<  table << " )" << " && father " << "( " << father <<  " )" << endl;
-
-                                          debug << "+++ repetir " << $2.valor << endl; 
-      }  secBloqueEscena '}' salto  {
-                                          debug << "+++ fin repetir " << $2.valor << endl;
+                                          if(!errorBucle){
                                           
-                                          if(father == NULL){
-                                                table->run(salida); 
-                                                esBucle = false;  // cuando llegemos al padre de todos los bucles anidados acabamos el bloque de bucles 
+                                                if(!$2.esReal){
+                                                      
+                                                      debug << ">>> nuevo bucle" << endl; 
+
+                                                      if(esBucle){ 
+                                                            debug << "añadimos referencia a tabla" << endl;    
+                                                            father = table;
+                                                            debug << ">>> cambiamos padre" << endl;        
+                                                            debug << ">>> table " << "( " <<  table << " )" << " && father " << "( " << father <<  " )" << endl;
+                                                      }
+                                                      esBucle = true; 
+                                                      ls.add(table, $2.valor); 
+                                                      if(father != NULL) (*father).add(new Row(table, TIPO_ROW::T_BUCLE));
+                                                      table->setFather(father);
+                                                      debug << ">>> table " << "( " <<  table << " )" << " && father " << "( " << father <<  " )" <<  endl;
+
+                                                      debug << "+++ repetir " << $2.valor << endl; 
+                                                
+                                                }
+                                                else{
+                                                      cout << "***** Error semantico en la linea " << n_lineas << ", el número de repeticiones debe ser de tipo ENTERO" << endl;
+                                                      errorSemantico = true;
+                                                      errorBucle = true;
+                                                }
+
                                           }
-                                          table->getFather(table);
-                                          debug << ">>> obtenemos padre table " << "(" << table << ")" << endl;
-                                          if(table != NULL){
-                                                table->getFather(father);
-                                                debug << ">>> obtenemos padre de padre de table " "(" << father <<  ")" << endl;
+
+
+      }  secBloqueEscena  '}' salto {
+
+                                    if(!errorBucle){
+
+                                          if(!$2.esReal){
+                                                debug << "+++ fin repetir " << $2.valor << endl;
+                                                
+                                                if(father == NULL){
+                                                      table->run(salida); // ejecutamos el bucle padre del bloque de bucles
+                                                      ls.clear(); // limpiamos la estructura de bucles
+                                                      esBucle = false;  // cuando llegemos al padre de todos los bucles anidados acabamos el bloque de bucles 
+                                                      
+                                                }
+                                                table->getFather(table);
+                                                debug << ">>> obtenemos padre table " << "(" << table << ")" << endl;
+                                                if(table != NULL){
+                                                      table->getFather(father);
+                                                      debug << ">>> obtenemos padre de padre de table " "(" << father <<  ")" << endl;
+                                                }
+
                                           }
+
                                     }
 
-condicional: parteSi parteSiNo 
+                              }	
+      ;
+
+/*------------------------------------------------ condicional ------------------------------------------------*/ 
+
+condicional: parteSi parteSiNo 	
       ;
 
 parteSi: SI '(' expr_log ')' salto_opc  '{' salto { 
-                                                if(esCondicional[n_condicional]) n_condicional++; 
-                                                esCondicional[n_condicional] = true; 
-                                                ejecutar[n_condicional]=$3; 
-                                                debug << ">>> entramos en bloque si del condicional (n_condicional = " << n_condicional << ") && esCondicional[" << n_condicional << "] = " << esCondicional[n_condicional] << " && ejecutar[" << n_condicional <<  "] = " << ejecutar[n_condicional] << endl;
-                                                debug << "+++ inicio bloque si ( condicion=" << $3 <<  ")" << endl;
+
+                                                if(!errorCondicional){
+                                                      if(esCondicional[n_condicional]) n_condicional++; 
+                                                      esCondicional[n_condicional] = true; 
+                                                      ejecutar[n_condicional]=$3; 
+                                                      debug << ">>> entramos en bloque si del condicional (n_condicional = " << n_condicional << ") && esCondicional[" << n_condicional << "] = " << esCondicional[n_condicional] << " && ejecutar[" << n_condicional <<  "] = " << ejecutar[n_condicional] << endl;
+                                                      debug << "+++ inicio bloque si ( condicion=" << $3 <<  ")" << endl;
+                                                }
+                                               
                                           } secBloqueEscena '}' salto  {
-                                                debug << "+++ fin bloque si ( condicion=" << $3 <<  ")" << endl;
-                                                debug << ">>> salimos en bloque si del condicional (n_condicional = " << n_condicional << ") && esCondicional[" << n_condicional << "] = " << esCondicional[n_condicional] << " && ejecutar[" << n_condicional <<  "] = " << ejecutar[n_condicional] << endl;
+
+                                                if(!errorCondicional){
+
+                                                      debug << "+++ fin bloque si ( condicion=" << $3 <<  ")" << endl;
+                                                      debug << ">>> salimos en bloque si del condicional (n_condicional = " << n_condicional << ") && esCondicional[" << n_condicional << "] = " << esCondicional[n_condicional] << " && ejecutar[" << n_condicional <<  "] = " << ejecutar[n_condicional] << endl;
+                                                }
                                           } 
+                                          
       ;
 
 parteSiNo: %prec SI
       | SI_NO  salto_opc '{' salto {
-                        ejecutar[n_condicional] = !ejecutar[n_condicional]; 
-                        debug << ">>> entramos en bloque si_no del condicional (n_condicional = " << n_condicional << ") && esCondicional[" << n_condicional << "] = " << esCondicional[n_condicional] << " && !ejecutar[" << n_condicional <<  "] = " << ejecutar[n_condicional] << endl;
-                        debug << "+++ inicio bloque sino " << endl;
+
+                        if(!errorCondicional){
+
+                              ejecutar[n_condicional] = !ejecutar[n_condicional]; 
+                              debug << ">>> entramos en bloque si_no del condicional (n_condicional = " << n_condicional << ") && esCondicional[" << n_condicional << "] = " << esCondicional[n_condicional] << " && !ejecutar[" << n_condicional <<  "] = " << ejecutar[n_condicional] << endl;
+                              debug << "+++ inicio bloque sino " << endl;
+                        } 
+
                   } secBloqueEscena '}' salto {
-                        debug << "+++ fin bloque sino " << endl;
-                        esCondicional[n_condicional] = false; 
-                        debug << ">>> salimos en bloque si_no del condicional (n_condicional = " << n_condicional << ") && esCondicional[" << n_condicional << "] = " << esCondicional[n_condicional] << " && !ejecutar[" << n_condicional <<  "] = " << ejecutar[n_condicional] << endl;
-                        if(n_condicional > 0) n_condicional--; 
+
+                        if(!errorCondicional){
+                              debug << "+++ fin bloque sino " << endl;
+                              esCondicional[n_condicional] = false; 
+                              debug << ">>> salimos en bloque si_no del condicional (n_condicional = " << n_condicional << ") && esCondicional[" << n_condicional << "] = " << esCondicional[n_condicional] << " && !ejecutar[" << n_condicional <<  "] = " << ejecutar[n_condicional] << endl;
+                              if(n_condicional > 0) n_condicional--; 
+                        }
+
+                        errorCondicional = false;
                   }
       ;
 
@@ -664,6 +749,8 @@ int main(int argc, char *argv[]){
                         esBucle = false;
                         errorVariable = false;
                         errorEscena = false;
+                        errorBucle = false;
+                        errorCondicional = false;
                         errorSemantico = false; 
                         ejecutar[n_condicional] = false;
                         esCondicional[n_condicional] = false;
@@ -678,12 +765,14 @@ int main(int argc, char *argv[]){
                         yyparse(); //llamada al analizador semantico
                   
                         salida.close();
+
+                        ids.printIdentifiers(debug); // mostramos los identificadores declarados
+                        chs.printCharacters(debug);  // mostramos los personajes declarados
+
+
                         if(debugOpcion) debug.close();
 
-                        ids.printIdentifiers(); // mostramos los identificadores declarados
-                        chs.printCharacters();  // mostramos los personajes declarados
-                        ls.printLoops();        // mostramos los bucles declarados
-
+                       
                         return 0; 
                   }
                   	

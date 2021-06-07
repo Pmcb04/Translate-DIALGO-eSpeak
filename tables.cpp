@@ -28,12 +28,12 @@ Table::Table(int repeats){
 	this->repeats = repeats;
 }
 
-void Table::add(Row row){
+void Table::add(Row *row){
 		table[num_rows] = row;
 		num_rows++;
 }
 
-void Table::get(int line, Row &row){
+void Table::get(int line, Row *&row){
 	row = table[line];
 }
 
@@ -52,15 +52,13 @@ void Table::run(ofstream &salida){
 		for (int j = 0; j < num_rows; j++)
 			runRow(j, salida);
 	}
-
-	cout << "----- Acabamos de procesar " << this << endl;
 }
 
 void Table::runRow(int index, ofstream &salida){
 
-	Row row = table[index];
+	Row *row = table[index];
 
-	switch (row.tipo)
+	switch (row->tipo)
 	{
 	case TIPO_ROW::T_ASIGN_CAD:
 			salida << "asignacion cadena" << endl;
@@ -79,15 +77,15 @@ void Table::runRow(int index, ofstream &salida){
 			break;
 
         case TIPO_ROW::T_FRASE: 
-			salida << "espeak -v " << row.data.data_cadena << endl; 
+			salida << "espeak -v " << row->data.data_cadena << endl; 
 			break;
 
         case TIPO_ROW::T_MENSAJE: 
-			salida << "echo " << row.data.data_cadena << endl;
+			salida << "echo " << row->data.data_cadena << endl;
 			break;
 
         case TIPO_ROW::T_PAUSA: 
-			salida << "sleep " << row.data.data_real << endl;
+			salida << "sleep " << row->data.data_real << endl;
 			break;
 	
 		case TIPO_ROW::T_CONDICIONAL:
@@ -95,7 +93,7 @@ void Table::runRow(int index, ofstream &salida){
 			break;
 
 		case TIPO_ROW::T_BUCLE:
-			row.data.data_table->run(salida);
+			row->data.data_table->run(salida);
 			break;
 
 		default:
@@ -123,24 +121,24 @@ void Table::printTable(ofstream &salida){
 
 	for (int i = 0; i < num_rows; i++){
 		
-        string print = (table[i].data.data_bool)? "true" : "false" ;
-		switch (table[i].tipo)
+        string print = (table[i]->data.data_bool)? "true" : "false" ;
+		switch (table[i]->tipo)
 		{
 		case TIPO_ROW::T_ASIGN_CAD:
 			printElement("asignación cadena", numWidth, salida);
-			printElement(table[i].data.data_cadena, numWidth, salida);
+			printElement(table[i]->data.data_cadena, numWidth, salida);
 			salida << endl;
 			break;
 
 		case TIPO_ROW::T_ASIGN_ENT:
 			printElement("asignación entera", numWidth, salida);
-			printElement(table[i].data.data_entero, numWidth, salida);
+			printElement(table[i]->data.data_entero, numWidth, salida);
 			salida << endl;
 			break;	
 
 		case TIPO_ROW::T_ASIGN_REAL: 
 			printElement("asignación real", numWidth, salida);
-			printElement(table[i].data.data_real, numWidth, salida);
+			printElement(table[i]->data.data_real, numWidth, salida);
 			salida << endl;
 			break;	
 
@@ -153,19 +151,19 @@ void Table::printTable(ofstream &salida){
         case TIPO_ROW::T_FRASE: 
 			cout << "frase" << endl;
 			printElement("frase", numWidth, salida);
-			printElement(table[i].data.data_cadena, numWidth, salida);			
+			printElement(table[i]->data.data_cadena, numWidth, salida);			
             salida << endl;
 			break;
 
         case TIPO_ROW::T_MENSAJE: 
 			printElement("mensaje", numWidth, salida);
-			printElement(table[i].data.data_cadena, numWidth, salida);			
+			printElement(table[i]->data.data_cadena, numWidth, salida);			
             salida << endl;
 			break;
 
         case TIPO_ROW::T_PAUSA: 
 			printElement("pausa", numWidth, salida);
-			printElement(table[i].data.data_real, numWidth, salida);			
+			printElement(table[i]->data.data_real, numWidth, salida);			
             salida << endl;
 			break;
 	
@@ -177,7 +175,7 @@ void Table::printTable(ofstream &salida){
 
 		case TIPO_ROW::T_BUCLE: 
 			printElement("bucle", numWidth, salida);
-			printElement(table[i].data.data_table, numWidth, salida);			
+			printElement(table[i]->data.data_table, numWidth, salida);			
 			salida << endl;
 			break;
 
@@ -211,24 +209,24 @@ void Table::printTable(){
 
 	for (int i = 0; i < num_rows; i++){
 		
-        string print = (table[i].data.data_bool)? "true" : "false" ;
-		switch (table[i].tipo)
+        string print = (table[i]->data.data_bool)? "true" : "false" ;
+		switch (table[i]->tipo)
 		{
 		case TIPO_ROW::T_ASIGN_CAD:
 			printElement("asignación cadena", numWidth);
-			printElement(table[i].data.data_cadena, numWidth);
+			printElement(table[i]->data.data_cadena, numWidth);
 			cout << endl;
 			break;
 
 		case TIPO_ROW::T_ASIGN_ENT:
 			printElement("asignación entera", numWidth);
-			printElement(table[i].data.data_entero, numWidth);
+			printElement(table[i]->data.data_entero, numWidth);
 			cout << endl;
 			break;	
 
 		case TIPO_ROW::T_ASIGN_REAL: 
 			printElement("asignación real", numWidth);
-			printElement(table[i].data.data_real, numWidth);
+			printElement(table[i]->data.data_real, numWidth);
 			cout << endl;
 			break;	
 
@@ -240,19 +238,19 @@ void Table::printTable(){
 
         case TIPO_ROW::T_FRASE: 
 			printElement("frase", numWidth);
-			printElement(table[i].data.data_cadena, numWidth);			
+			printElement(table[i]->data.data_cadena, numWidth);			
             cout << endl;
 			break;
 
         case TIPO_ROW::T_MENSAJE: 
 			printElement("mensaje", numWidth);
-			printElement(table[i].data.data_cadena, numWidth);			
+			printElement(table[i]->data.data_cadena, numWidth);			
             cout << endl;
 			break;
 
         case TIPO_ROW::T_PAUSA: 
 			printElement("pausa", numWidth);
-			printElement(table[i].data.data_real, numWidth);			
+			printElement(table[i]->data.data_real, numWidth);			
             cout << endl;
 			break;
 	
@@ -264,7 +262,7 @@ void Table::printTable(){
 
 		case TIPO_ROW::T_BUCLE: 
 			printElement("bucle", numWidth);
-			printElement(table[i].data.data_table, numWidth);			
+			printElement(table[i]->data.data_table, numWidth);			
 			cout << endl;
 			break;
 
@@ -280,4 +278,8 @@ void Table::printTable(){
 }
 
 Table::~Table(){
+
+	for (int i = 0; i < num_rows; i++){
+		delete table[i];
+	}
 }

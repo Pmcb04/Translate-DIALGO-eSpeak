@@ -10,3 +10,19 @@
 -------- pausa 9
 -------- pausa 2
 +++ Fin de la escena 1
+
+Lista de identificadores:
+
+ID                       TIPO                     LAST VALOR               LINE DECLARATION         
+-------------------------------------------------------------------------------------------------------
+
+
+Lista de personajes:
+
+ID                       LANGUAJE                 GENDER                   NUM CHARACTER            LINE DECLARATION         
+---------------------------------------------------------------------------------------------------------------------------
+
+Profesor                 es                       m                        1                        9                        
+Mary                     en                       f                        1                        11                       
+John                     en-us                    m                        2                        13                       
+Paola                    it                       f                        2                        16                       

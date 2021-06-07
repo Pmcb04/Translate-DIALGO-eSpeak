@@ -9,32 +9,38 @@
 +++ Inicio de la escena 1
 -------- asignacion id_general entero inglesoitaliano, 1
 >>> nuevo bucle
->>> table ( 0x55f93dbbb590 ) && father ( 0 )
+>>> table ( 0x55941264d590 ) && father ( 0 )
 +++ repetir 4
--------- personaje  [Personaje1]  en linea 27 dice : "Hola"
+-------- personaje  [Personaje1]  en linea 28 dice : "Hola"
+>>> Añadido mensaje de personaje  [Personaje1]  en linea 28 dice : "Hola" a la table 0x55941264d590
 >>> entramos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 1
 +++ inicio bloque si ( condicion=1)
 -------- mensaje "Dentro del bloque si de afuera"
->>> Añadido mensaje "Dentro del bloque si de afuera" a la table 0x55f93dbbb590
+>>> Añadido mensaje "Dentro del bloque si de afuera" a la table 0x55941264d590
 >>> entramos en bloque si del condicional (n_condicional = 1) && esCondicional[1] = 1 && ejecutar[1] = 1
 +++ inicio bloque si ( condicion=1)
 -------- mensaje "Dentro del bloque si del medio"
->>> Añadido mensaje "Dentro del bloque si del medio" a la table 0x55f93dbbb590
+>>> Añadido mensaje "Dentro del bloque si del medio" a la table 0x55941264d590
 -------- mensaje "Condicional - Condicional anidado conseguido!!! :)"
->>> Añadido mensaje "Condicional - Condicional anidado conseguido!!! :)" a la table 0x55f93dbbb590
+>>> Añadido mensaje "Condicional - Condicional anidado conseguido!!! :)" a la table 0x55941264d590
 >>> entramos en bloque si del condicional (n_condicional = 2) && esCondicional[2] = 1 && ejecutar[2] = 1
 +++ inicio bloque si ( condicion=1)
 -------- mensaje "Dentro del bloque si de adentro"
->>> Añadido mensaje "Dentro del bloque si de adentro" a la table 0x55f93dbbb590
+>>> Añadido mensaje "Dentro del bloque si de adentro" a la table 0x55941264d590
 -------- mensaje "Condicional - Condicional anidado conseguido!!! :)"
->>> Añadido mensaje "Condicional - Condicional anidado conseguido!!! :)" a la table 0x55f93dbbb590
--------- personaje  [John]  en linea 42 dice : "Hi, Mary. I am John" con entonación -a 30 -s 300 
+>>> Añadido mensaje "Condicional - Condicional anidado conseguido!!! :)" a la table 0x55941264d590
+-------- personaje  [John]  en linea 43 dice : "Hi, Mary. I am John" con entonación -a 30 -s 300 
+>>> Añadido mensaje de personaje  [John]  en linea 43 dice : "Hi, Mary. I am John" con entonación -a 30 -s 300  a la table 0x55941264d590
 -------- pausa 1
+>>> Añadido pausa 1 a la table 0x55941264d590
 -------- asignacion id_general entero asignacion1, 1
--------- personaje  [John]  en linea 45 dice : "Hi, Mary. I am John" con entonación -a 30 -s 80 
+-------- personaje  [John]  en linea 46 dice : "Hi, Mary. I am John" con entonación -a 30 -s 80 
+>>> Añadido mensaje de personaje  [John]  en linea 46 dice : "Hi, Mary. I am John" con entonación -a 30 -s 80  a la table 0x55941264d590
 -------- asignacion id_general entero asignacion2, 2
 -------- pausa 2.5
--------- personaje  [John]  en linea 48 dice : "Hi, Mary. I am John" con entonación -a 30 -a 200 
+>>> Añadido pausa 2.5 a la table 0x55941264d590
+-------- personaje  [John]  en linea 49 dice : "Hi, Mary. I am John" con entonación -a 30 -a 200 
+>>> Añadido mensaje de personaje  [John]  en linea 49 dice : "Hi, Mary. I am John" con entonación -a 30 -a 200  a la table 0x55941264d590
 +++ fin bloque si ( condicion=1)
 >>> salimos en bloque si del condicional (n_condicional = 2) && esCondicional[2] = 1 && ejecutar[2] = 1
 >>> entramos en bloque si_no del condicional (n_condicional = 2) && esCondicional[2] = 1 && !ejecutar[2] = 0
@@ -62,28 +68,30 @@
 >>> nuevo bucle
 añadimos referencia a tabla
 >>> cambiamos padre
->>> table ( 0x55f93dbbb590 ) && father ( 0x55f93dbbb590 )
->>> table ( 0x55f93dbc1cd0 ) && father ( 0x55f93dbbb590 )
+>>> table ( 0x55941264d590 ) && father ( 0x55941264d590 )
+>>> table ( 0x55941264e480 ) && father ( 0x55941264d590 )
 +++ repetir 5
--------- personaje  [Personaje1]  en linea 68 dice : "Hola"
--------- personaje  [Personaje2]  en linea 69 dice : "Hello"
+-------- personaje  [Personaje1]  en linea 69 dice : "Hola"
+>>> Añadido mensaje de personaje  [Personaje1]  en linea 69 dice : "Hola" a la table 0x55941264e480
+-------- personaje  [Personaje2]  en linea 71 dice : "Hello"
+>>> Añadido mensaje de personaje  [Personaje2]  en linea 71 dice : "Hello" a la table 0x55941264e480
 -------- mensaje "prueba 1"
->>> Añadido mensaje "prueba 1" a la table 0x55f93dbc1cd0
+>>> Añadido mensaje "prueba 1" a la table 0x55941264e480
 -------- mensaje "prueba 2"
->>> Añadido mensaje "prueba 2" a la table 0x55f93dbc1cd0
+>>> Añadido mensaje "prueba 2" a la table 0x55941264e480
 -------- mensaje "Bucle - Bucle anidado conseguido !!! :)"
->>> Añadido mensaje "Bucle - Bucle anidado conseguido !!! :)" a la table 0x55f93dbc1cd0
+>>> Añadido mensaje "Bucle - Bucle anidado conseguido !!! :)" a la table 0x55941264e480
 -------- asignacion id_general entero anidamiento, 1
 >>> nuevo bucle
 añadimos referencia a tabla
 >>> cambiamos padre
->>> table ( 0x55f93dbc1cd0 ) && father ( 0x55f93dbc1cd0 )
->>> table ( 0x55f93dbc8410 ) && father ( 0x55f93dbc1cd0 )
+>>> table ( 0x55941264e480 ) && father ( 0x55941264e480 )
+>>> table ( 0x55941264ee20 ) && father ( 0x55941264e480 )
 +++ repetir 7
 >>> entramos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 1
 +++ inicio bloque si ( condicion=1)
 -------- mensaje "Bucle - Condicional anidado conseguido!!! :)"
->>> Añadido mensaje "Bucle - Condicional anidado conseguido!!! :)" a la table 0x55f93dbc8410
+>>> Añadido mensaje "Bucle - Condicional anidado conseguido!!! :)" a la table 0x55941264ee20
 +++ fin bloque si ( condicion=1)
 >>> salimos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 1
 >>> entramos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 1 && !ejecutar[0] = 0
@@ -92,17 +100,19 @@ añadimos referencia a tabla
 +++ fin bloque sino 
 >>> salimos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 0 && !ejecutar[0] = 0
 +++ fin repetir 7
->>> obtenemos padre table (0x55f93dbc1cd0)
->>> obtenemos padre de padre de table (0x55f93dbbb590)
+>>> obtenemos padre table (0x55941264e480)
+>>> obtenemos padre de padre de table (0x55941264d590)
 +++ fin repetir 5
->>> obtenemos padre table (0x55f93dbbb590)
+>>> obtenemos padre table (0x55941264d590)
 >>> obtenemos padre de padre de table (0)
 -------- mensaje "hola$"
->>> Añadido mensaje "hola$" a la table 0x55f93dbbb590
+>>> Añadido mensaje "hola$" a la table 0x55941264d590
 -------- mensaje "adios@"
->>> Añadido mensaje "adios@" a la table 0x55f93dbbb590
+>>> Añadido mensaje "adios@" a la table 0x55941264d590
 -------- pausa 4
+>>> Añadido pausa 4 a la table 0x55941264d590
 -------- pausa 1.5
+>>> Añadido pausa 1.5 a la table 0x55941264d590
 +++ fin repetir 4
 >>> obtenemos padre table (0)
 -------- actualizacion valor asignacion id_general enteroanidamiento, 0
@@ -114,12 +124,36 @@ añadimos referencia a tabla
 >>> entramos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 1 && !ejecutar[0] = 1
 +++ inicio bloque sino 
 >>> nuevo bucle
->>> table ( 0x55f93dbcef60 ) && father ( 0 )
+>>> table ( 0x55941264ee20 ) && father ( 0 )
 +++ repetir 3
 -------- mensaje "Condicional - Bucle anidado conseguido!!! :)"
->>> Añadido mensaje "Condicional - Bucle anidado conseguido!!! :)" a la table 0x55f93dbcef60
+>>> Añadido mensaje "Condicional - Bucle anidado conseguido!!! :)" a la table 0x55941264ee20
 +++ fin repetir 3
->>> obtenemos padre table (0)
+>>> obtenemos padre table (0x55941264e480)
+>>> obtenemos padre de padre de table (0x55941264d590)
 +++ fin bloque sino 
 >>> salimos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 0 && !ejecutar[0] = 1
 +++ Fin de la escena 1
+
+Lista de identificadores:
+
+ID                       TIPO                     LAST VALOR               LINE DECLARATION         
+-------------------------------------------------------------------------------------------------------
+
+inglesoitaliano          entero                   1                        26                       
+asignacion1              entero                   1                        45                       
+asignacion2              entero                   2                        47                       
+anidamiento              entero                   0                        79                       
+
+Lista de personajes:
+
+ID                       LANGUAJE                 GENDER                   NUM CHARACTER            LINE DECLARATION         
+---------------------------------------------------------------------------------------------------------------------------
+
+Profesor                 es                       m                        1                        10                       
+Luis                     pt                       m                        2                        12                       
+Personaje1               it                       f                        1                        14                       
+Personaje2               fr                       m                        3                        16                       
+Mary                     en                       f                        2                        18                       
+John                     es-la                    m                        4                        20                       
+Paola                    en-us                    f                        3                        22                       

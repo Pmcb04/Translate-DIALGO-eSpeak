@@ -54,6 +54,11 @@ class Loops {
 		void printLoops();
 
 		/*
+		* Metodo que elimina todos los bucles que se encuentren en la estructura
+		*/
+		void clear();
+
+		/*
 		* Destructor por defecto de la clase Loops
 		*/
 		~Loops();

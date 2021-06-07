@@ -108,6 +108,23 @@ si_no
 	John: "Ciao, Paola. Il mio nome è John"	
 }
 
+repetir 5 {
+    Personaje1: "Hola"
+    Personaje2: "Hello"
+
+    mensaje "prueba 1"
+
+    mensaje "prueba 2"
+}
+
+repetir 5 { mensaje "no ejecutar"
+    mensaje "tampoco se tiene que ejecutar"
+}
+
+mensaje "esto si se ejecuta"
+
+inglesoitaliano = 2
+
 # Error en la siguiente instrucción: el bloque no se cierra
 si (inglesoitaliano == 1) {
 	Mary: "Goodbye"
@@ -116,4 +133,7 @@ FINESCENA
 # Error o no en la siguiente escena: la secuencia de instrucciones de una escena
 # podría ser vacía o no. Las dos posibilidades son correctas.
 ESCENA 10*2:
+
+mensaje "prueba"
+
 FINESCENA

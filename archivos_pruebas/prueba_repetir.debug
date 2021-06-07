@@ -8,43 +8,64 @@
 -------- asignacion nombre Paola,en-us,f linea 22
 +++ Inicio de la escena 1
 -------- asignacion id_general entero inglesoitaliano, 1
--------- personaje  [Personaje2]  en linea 26 dice : "Hello"
+-------- personaje  [Personaje2]  en linea 28 dice : "Hello"
 >>> nuevo bucle
->>> table ( 0x55cb9ddf8590 ) && father ( 0 )
+>>> table ( 0x563e86f7c590 ) && father ( 0 )
 +++ repetir 4
--------- personaje  [Mary]  en linea 29 dice : "Hola"
--------- personaje  [Paola]  en linea 30 dice : "Hello"
+-------- personaje  [Mary]  en linea 30 dice : "Hola"
+>>> Añadido mensaje de personaje  [Mary]  en linea 30 dice : "Hola" a la table 0x563e86f7c590
+-------- personaje  [Paola]  en linea 31 dice : "Hello"
+>>> Añadido mensaje de personaje  [Paola]  en linea 31 dice : "Hello" a la table 0x563e86f7c590
 +++ fin repetir 4
 >>> obtenemos padre table (0)
 >>> nuevo bucle
->>> table ( 0x55cb9ddff0e0 ) && father ( 0 )
+>>> table ( 0x563e86f7c590 ) && father ( 0 )
 +++ repetir 5
--------- personaje  [Personaje1]  en linea 34 dice : "Hola"
--------- personaje  [Personaje2]  en linea 35 dice : "Hello"
+-------- personaje  [Personaje1]  en linea 35 dice : "Hola"
+>>> Añadido mensaje de personaje  [Personaje1]  en linea 35 dice : "Hola" a la table 0x563e86f7c590
+-------- personaje  [Personaje2]  en linea 37 dice : "Hello"
+>>> Añadido mensaje de personaje  [Personaje2]  en linea 37 dice : "Hello" a la table 0x563e86f7c590
 -------- mensaje "prueba 1"
->>> Añadido mensaje "prueba 1" a la table 0x55cb9ddff0e0
+>>> Añadido mensaje "prueba 1" a la table 0x563e86f7c590
 -------- mensaje "prueba 2"
->>> Añadido mensaje "prueba 2" a la table 0x55cb9ddff0e0
+>>> Añadido mensaje "prueba 2" a la table 0x563e86f7c590
 +++ fin repetir 5
 >>> obtenemos padre table (0)
 >>> nuevo bucle
->>> table ( 0x55cb9de05820 ) && father ( 0 )
+>>> table ( 0x563e86f7c590 ) && father ( 0 )
 +++ repetir 5
--------- personaje  [Personaje2]  en linea 43 dice : "Hola"
--------- personaje  [Personaje1]  en linea 44 dice : "Hello"
+-------- personaje  [Personaje2]  en linea 44 dice : "Hola"
+>>> Añadido mensaje de personaje  [Personaje2]  en linea 44 dice : "Hola" a la table 0x563e86f7c590
+-------- personaje  [Personaje1]  en linea 46 dice : "Hello"
+>>> Añadido mensaje de personaje  [Personaje1]  en linea 46 dice : "Hello" a la table 0x563e86f7c590
 -------- mensaje "prueba 1"
->>> Añadido mensaje "prueba 1" a la table 0x55cb9de05820
+>>> Añadido mensaje "prueba 1" a la table 0x563e86f7c590
 -------- mensaje "prueba 2"
->>> Añadido mensaje "prueba 2" a la table 0x55cb9de05820
+>>> Añadido mensaje "prueba 2" a la table 0x563e86f7c590
 +++ fin repetir 5
 >>> obtenemos padre table (0)
->>> nuevo bucle
->>> table ( 0x55cb9de0bf60 ) && father ( 0 )
-+++ repetir 4.5
--------- personaje  [Personaje1]  en linea 54 dice : "Hola"
+-------- personaje  [Personaje1]  en linea 55 dice : "Hola"
 -------- pausa 9
--------- personaje  [Personaje2]  en linea 56 dice : "Hello"
+-------- personaje  [Personaje2]  en linea 57 dice : "Hello"
 -------- pausa 1.45
-+++ fin repetir 4.5
->>> obtenemos padre table (0)
 +++ Fin de la escena 1
+
+Lista de identificadores:
+
+ID                       TIPO                     LAST VALOR               LINE DECLARATION         
+-------------------------------------------------------------------------------------------------------
+
+inglesoitaliano          entero                   1                        26                       
+
+Lista de personajes:
+
+ID                       LANGUAJE                 GENDER                   NUM CHARACTER            LINE DECLARATION         
+---------------------------------------------------------------------------------------------------------------------------
+
+Profesor                 es                       m                        1                        10                       
+Luis                     pt                       m                        2                        12                       
+Personaje1               it                       f                        1                        14                       
+Personaje2               fr                       m                        3                        16                       
+Mary                     en                       f                        2                        18                       
+John                     es-la                    m                        4                        20                       
+Paola                    en-us                    f                        3                        22                       

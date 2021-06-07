@@ -4,26 +4,42 @@
 -------- asignacion nombre John,en-us,m linea 13
 -------- asignacion nombre Paola,it,f linea 15
 +++ Inicio de la escena 1
--------- personaje  [John]  en linea 18 dice : "Hi, Mary. I am John"
 -------- personaje  [John]  en linea 19 dice : "Hi, Mary. I am John"
--------- personaje  [John]  en linea 21 dice : "Hi, Mary. I am John" con entonación -s 80 
--------- personaje  [John]  en linea 22 dice : "Hi, Mary. I am John" con entonación -s 300 
--------- personaje  [John]  en linea 23 dice : "Hi, Mary. I am John" con entonación -a 30 
--------- personaje  [John]  en linea 24 dice : "Hi, Mary. I am John" con entonación -a 200 
--------- personaje  [John]  en linea 26 dice : "Hi, Mary. I am John" con entonación -s 80 -s 300 
--------- personaje  [John]  en linea 27 dice : "Hi, Mary. I am John" con entonación -s 80 -a 30 
--------- personaje  [John]  en linea 28 dice : "Hi, Mary. I am John" con entonación -s 80 -a 200 
--------- personaje  [John]  en linea 30 dice : "Hi, Mary. I am John" con entonación -s 300 -s 80 
--------- personaje  [John]  en linea 31 dice : "Hi, Mary. I am John" con entonación -s 300 -a 30 
--------- personaje  [John]  en linea 32 dice : "Hi, Mary. I am John" con entonación -s 300 -a 200 
--------- personaje  [John]  en linea 34 dice : "Hi, Mary. I am John" con entonación -a 30 -s 300 
--------- personaje  [John]  en linea 35 dice : "Hi, Mary. I am John" con entonación -a 30 -s 80 
--------- personaje  [John]  en linea 36 dice : "Hi, Mary. I am John" con entonación -a 30 -a 200 
--------- personaje  [John]  en linea 38 dice : "Hi, Mary. I am John" con entonación -a 200 -s 300 
--------- personaje  [John]  en linea 39 dice : "Hi, Mary. I am John" con entonación -a 200 -a 30 
--------- personaje  [John]  en linea 40 dice : "Hi, Mary. I am John" con entonación -a 200 -s 80 
--------- personaje  [John]  en linea 42 dice : "Hi, Mary. I am John" con entonación -s 80 -s 300 -a 30 
--------- personaje  [John]  en linea 43 dice : "Hi, Mary. I am John" con entonación -s 80 -s 300 -a 200 
--------- personaje  [John]  en linea 44 dice : "Hi, Mary. I am John" con entonación -s 80 -a 30 -a 200 
--------- personaje  [John]  en linea 46 dice : "Hi, Mary. I am John" con entonación -s 80 -s 300 -a 30 -a 200 
+-------- personaje  [John]  en linea 21 dice : "Hi, Mary. I am John"
+-------- personaje  [John]  en linea 22 dice : "Hi, Mary. I am John" con entonación -s 80 
+-------- personaje  [John]  en linea 23 dice : "Hi, Mary. I am John" con entonación -s 300 
+-------- personaje  [John]  en linea 24 dice : "Hi, Mary. I am John" con entonación -a 30 
+-------- personaje  [John]  en linea 26 dice : "Hi, Mary. I am John" con entonación -a 200 
+-------- personaje  [John]  en linea 27 dice : "Hi, Mary. I am John" con entonación -s 80 -s 300 
+-------- personaje  [John]  en linea 28 dice : "Hi, Mary. I am John" con entonación -s 80 -a 30 
+-------- personaje  [John]  en linea 30 dice : "Hi, Mary. I am John" con entonación -s 80 -a 200 
+-------- personaje  [John]  en linea 31 dice : "Hi, Mary. I am John" con entonación -s 300 -s 80 
+-------- personaje  [John]  en linea 32 dice : "Hi, Mary. I am John" con entonación -s 300 -a 30 
+-------- personaje  [John]  en linea 34 dice : "Hi, Mary. I am John" con entonación -s 300 -a 200 
+-------- personaje  [John]  en linea 35 dice : "Hi, Mary. I am John" con entonación -a 30 -s 300 
+-------- personaje  [John]  en linea 36 dice : "Hi, Mary. I am John" con entonación -a 30 -s 80 
+-------- personaje  [John]  en linea 38 dice : "Hi, Mary. I am John" con entonación -a 30 -a 200 
+-------- personaje  [John]  en linea 39 dice : "Hi, Mary. I am John" con entonación -a 200 -s 300 
+-------- personaje  [John]  en linea 40 dice : "Hi, Mary. I am John" con entonación -a 200 -a 30 
+-------- personaje  [John]  en linea 42 dice : "Hi, Mary. I am John" con entonación -a 200 -s 80 
+-------- personaje  [John]  en linea 43 dice : "Hi, Mary. I am John" con entonación -s 80 -s 300 -a 30 
+-------- personaje  [John]  en linea 44 dice : "Hi, Mary. I am John" con entonación -s 80 -s 300 -a 200 
+-------- personaje  [John]  en linea 46 dice : "Hi, Mary. I am John" con entonación -s 80 -a 30 -a 200 
+-------- personaje  [John]  en linea 49 dice : "Hi, Mary. I am John" con entonación -s 80 -s 300 -a 30 -a 200 
 +++ Fin de la escena 1
+
+Lista de identificadores:
+
+ID                       TIPO                     LAST VALOR               LINE DECLARATION         
+-------------------------------------------------------------------------------------------------------
+
+
+Lista de personajes:
+
+ID                       LANGUAJE                 GENDER                   NUM CHARACTER            LINE DECLARATION         
+---------------------------------------------------------------------------------------------------------------------------
+
+Profesor                 es                       m                        1                        9                        
+Mary                     en                       f                        1                        11                       
+John                     en-us                    m                        2                        13                       
+Paola                    it                       f                        2                        15                       

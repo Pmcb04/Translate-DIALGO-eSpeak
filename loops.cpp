@@ -44,11 +44,17 @@ void Loops::printLoops(){
 
 	for (int i = 0; i < num_loops; i++){
 		ls[i]->printTable();
+	}		
+	cout << endl;
+}
+
+void Loops::clear(){
+
+	for (int i = 0; i < num_loops; i++){
+		delete ls[i];
 	}
 
-	cout << "Me quedan en la estructura " << num_loops << " bucles" << endl;
-		
-	cout << endl;
+	num_loops = 0;
 }
 
 Loops::~Loops(){

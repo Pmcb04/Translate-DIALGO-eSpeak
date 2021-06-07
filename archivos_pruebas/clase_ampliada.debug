@@ -12,46 +12,46 @@
 -------- asignacion id_general entero nota_maxima, 10
 +++ Inicio de la escena 1
 -------- mensaje "Esto es un ejemplo de dialogo en inglés"
--------- personaje  [Mary]  en linea 19 dice : "Hello, my name is Mary"
--------- personaje  [John]  en linea 21 dice : "Hi, Mary. I am John"
--------- personaje  [Mary]  en linea 23 dice : "It's nice to meet you"
--------- personaje  [John]  en linea 25 dice : "Pleased to meet you."
--------- personaje  [Mary]  en linea 27 dice : "How old are you?"
+-------- personaje  [Mary]  en linea 21 dice : "Hello, my name is Mary"
+-------- personaje  [John]  en linea 23 dice : "Hi, Mary. I am John"
+-------- personaje  [Mary]  en linea 25 dice : "It's nice to meet you"
+-------- personaje  [John]  en linea 27 dice : "Pleased to meet you."
+-------- personaje  [Mary]  en linea 29 dice : "How old are you?"
 -------- concatenacion cadena ("I'm ") cadena("21")
 -------- concatenacion cadena ("I'm 21") cadena(" years old. ")
 -------- concatenacion cadena ("I'm 21 years old. ") cadena("How old are you, Mary?")
--------- personaje  [John]  en linea 29 dice : "I'm 21 years old. How old are you, Mary?"
--------- personaje  [Mary]  en linea 31 dice : "32"
+-------- personaje  [John]  en linea 31 dice : "I'm 21 years old. How old are you, Mary?"
+-------- personaje  [Mary]  en linea 34 dice : "32"
 +++ Fin de la escena 1
 +++ Inicio de la escena 2
 -------- mensaje "Esto es un ejercicio para la persona que sigue nuestra clase"
 -------- concatenacion cadena ("Por favor, ") cadena("Alan Turing")
 -------- concatenacion cadena ("Por favor, Alan Turing") cadena(", repite la frase de cada personaje")
--------- personaje  [Profesor]  en linea 39 dice : "Por favor, Alan Turing, repite la frase de cada personaje"
--------- personaje  [Mary]  en linea 40 dice : "Hello, my name is Mary" con entonación -s 80 -s 80 -s 300 -a 200 -a 30 
+-------- personaje  [Profesor]  en linea 40 dice : "Por favor, Alan Turing, repite la frase de cada personaje"
+-------- personaje  [Mary]  en linea 41 dice : "Hello, my name is Mary" con entonación -s 80 -s 80 -s 300 -a 200 -a 30 
 -------- pausa 1.5
--------- personaje  [John]  en linea 42 dice : "Hi, Mary. I am John" con entonación -a 30 -s 80 
+-------- personaje  [John]  en linea 43 dice : "Hi, Mary. I am John" con entonación -a 30 -s 80 
 -------- pausa 1.5
--------- personaje  [Mary]  en linea 44 dice : "It's nice to meet you." con entonación -s 300 -a 200 
+-------- personaje  [Mary]  en linea 45 dice : "It's nice to meet you." con entonación -s 300 -a 200 
 -------- pausa 1
--------- personaje  [John]  en linea 46 dice : "Pleased to meet you." con entonación -a 30 
+-------- personaje  [John]  en linea 47 dice : "Pleased to meet you." con entonación -a 30 
 -------- pausa 1
 -------- concatenacion cadena ("Muy bien, ") cadena("Alan Turing")
 -------- concatenacion cadena ("Muy bien, Alan Turing") cadena(". Buen trabajo. Te mereces un ")
 -------- concatenacion cadena ("Muy bien, Alan Turing. Buen trabajo. Te mereces un ") cadena("20")
--------- personaje  [Profesor]  en linea 48 dice : "Muy bien, Alan Turing. Buen trabajo. Te mereces un 20"
+-------- personaje  [Profesor]  en linea 49 dice : "Muy bien, Alan Turing. Buen trabajo. Te mereces un 20"
 +++ Fin de la escena 2
 +++ Inicio de la escena 3
--------- personaje  [Profesor]  en linea 52 dice : "1"
--------- personaje  [Mary]  en linea 53 dice : "1"
--------- personaje  [Paola]  en linea 54 dice : "1"
--------- personaje  [Profesor]  en linea 56 dice : "2"
--------- personaje  [Mary]  en linea 57 dice : "2"
--------- personaje  [Paola]  en linea 58 dice : "2"
+-------- personaje  [Profesor]  en linea 53 dice : "1"
+-------- personaje  [Mary]  en linea 54 dice : "1"
+-------- personaje  [Paola]  en linea 56 dice : "1"
+-------- personaje  [Profesor]  en linea 57 dice : "2"
+-------- personaje  [Mary]  en linea 58 dice : "2"
+-------- personaje  [Paola]  en linea 60 dice : "2"
 -------- asignacion id_general entero tres, 3
--------- personaje  [Profesor]  en linea 62 dice : "3"
--------- personaje  [Mary]  en linea 63 dice : "3"
--------- personaje  [Paola]  en linea 64 dice : "3"
+-------- personaje  [Profesor]  en linea 63 dice : "3"
+-------- personaje  [Mary]  en linea 64 dice : "3"
+-------- personaje  [Paola]  en linea 66 dice : "3"
 +++ Fin de la escena 3
 +++ Inicio de la escena 5
 -------- mensaje "Si pones el valor de la bandera inglesoitaliano a 1, las frases se dirán en inglés. "
@@ -59,33 +59,57 @@
 -------- asignacion id_general entero inglesoitaliano, 2
 >>> entramos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 0
 +++ inicio bloque si ( condicion=0)
--------- personaje  [Profesor]  en linea 77 dice : "Escucha la siguiente presentación en inglés" con entonación -s 80 
+-------- personaje  [Profesor]  en linea 78 dice : "Escucha la siguiente presentación en inglés" con entonación -s 80 
 +++ fin bloque si ( condicion=0)
 >>> salimos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 0
 >>> entramos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 1 && !ejecutar[0] = 1
 +++ inicio bloque sino 
--------- personaje  [Profesor]  en linea 80 dice : "Escucha la siguiente presentación en italiano" con entonación -s 80 
+-------- personaje  [Profesor]  en linea 81 dice : "Escucha la siguiente presentación en italiano" con entonación -s 80 
 +++ fin bloque sino 
 >>> salimos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 0 && !ejecutar[0] = 1
 -------- mensaje "Escucha atentamente"
 >>> entramos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 0
 +++ inicio bloque si ( condicion=0)
--------- personaje  [Mary]  en linea 87 dice : "Hello, my name is Mary"
--------- personaje  [John]  en linea 88 dice : "Hi, Mary. I am John"
+-------- personaje  [Mary]  en linea 88 dice : "Hello, my name is Mary"
+-------- personaje  [John]  en linea 90 dice : "Hi, Mary. I am John"
 -------- asignacion id_general real tiempo, 0.5
 -------- pausa 0.5
--------- personaje  [Mary]  en linea 92 dice : "Bye"
+-------- personaje  [Mary]  en linea 93 dice : "Bye"
 +++ fin bloque si ( condicion=0)
 >>> salimos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 0
 >>> entramos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 1 && !ejecutar[0] = 1
 +++ inicio bloque sino 
--------- personaje  [Paola]  en linea 96 dice : "Ciao. Mi chiamo Paola"
--------- personaje  [John]  en linea 97 dice : "Ciao, Paola. Il mio nome è John"
+-------- personaje  [Paola]  en linea 97 dice : "Ciao. Mi chiamo Paola"
+-------- personaje  [John]  en linea 98 dice : "Ciao, Paola. Il mio nome è John"
 -------- actualizacion valor asignacion id_cadena _nombre, "John"
 -------- pausa 0.5
 -------- concatenacion cadena ("Arrivederci, ") cadena("John")
--------- personaje  [Paola]  en linea 100 dice : "Arrivederci, John"
+-------- personaje  [Paola]  en linea 101 dice : "Arrivederci, John"
 +++ fin bloque sino 
 >>> salimos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 0 && !ejecutar[0] = 1
--------- personaje  [Profesor]  en linea 102 dice : "Fin de la lección"
+-------- personaje  [Profesor]  en linea 103 dice : "Fin de la lección"
 +++ Fin de la escena 5
+
+Lista de identificadores:
+
+ID                       TIPO                     LAST VALOR               LINE DECLARATION         
+-------------------------------------------------------------------------------------------------------
+
+edad                     entero                   21                       12                       
+_nombre                  cadena                   "John"                   13                       
+maximo                   entero                   32                       14                       
+ok                       logico                   true                     15                       
+nota_maxima              entero                   10                       16                       
+tres                     entero                   3                        62                       
+inglesoitaliano          entero                   2                        75                       
+tiempo                   real                     0.5                      91                       
+
+Lista de personajes:
+
+ID                       LANGUAJE                 GENDER                   NUM CHARACTER            LINE DECLARATION         
+---------------------------------------------------------------------------------------------------------------------------
+
+Profesor                 es                       m                        1                        5                        
+Mary                     en                       f                        1                        7                        
+John                     en-us                    m                        2                        9                        
+Paola                    it                       f                        2                        10                       

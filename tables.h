@@ -62,11 +62,14 @@ struct Row {
 		this->tipo = tipo;
 	}
 
+	~Row(){
+	}
+
 
 };
 
 const int MAX_INFO_TABLES = 100;
-typedef Row rows[MAX_INFO_TABLES];
+typedef Row *rows[MAX_INFO_TABLES];
 
 
 class Table {
@@ -92,13 +95,13 @@ class Table {
 		* Si existe ya en la estructura -> No hace nada
 		* Si no existe en la estructura -> Añade la tabla a la estructura
 		*/
-		void add(Row row);
+		void add(Row *row);
 
 		/*
 		* Metodo que optiene el row de la linea line y lo devuelve
 		* PRE{line <= num_rows}
 		*/
-		void get(int line, Row &row);
+		void get(int line, Row *&row);
 
 
 		/*

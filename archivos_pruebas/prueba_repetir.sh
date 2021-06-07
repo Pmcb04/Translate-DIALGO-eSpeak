@@ -48,20 +48,4 @@ espeak -v fr+m3 "Hola"
 espeak -v it+f1 "Hello"
 echo "prueba 1"
 echo "prueba 2"
-espeak -v it+f1 "Hola"
-sleep 9
-espeak -v fr+m3 "Hello"
-sleep 1.45
-espeak -v it+f1 "Hola"
-sleep 9
-espeak -v fr+m3 "Hello"
-sleep 1.45
-espeak -v it+f1 "Hola"
-sleep 9
-espeak -v fr+m3 "Hello"
-sleep 1.45
-espeak -v it+f1 "Hola"
-sleep 9
-espeak -v fr+m3 "Hello"
-sleep 1.45
 echo Fin de la escena 1

@@ -7,34 +7,51 @@
 -------- asignacion id_general entero inglesoitaliano, 1
 >>> entramos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 1
 +++ inicio bloque si ( condicion=1)
--------- personaje  [Mary]  en linea 21 dice : "Hello, my name is Mary"
--------- personaje  [John]  en linea 22 dice : "Hi, Mary. I am John"
+-------- personaje  [Mary]  en linea 22 dice : "Hello, my name is Mary"
+-------- personaje  [John]  en linea 23 dice : "Hi, Mary. I am John"
 +++ fin bloque si ( condicion=1)
 >>> salimos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 1
 >>> entramos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 1 && !ejecutar[0] = 0
 +++ inicio bloque sino 
--------- personaje  [Paola]  en linea 25 dice : "Ciao. Mi chiamo Paola"
--------- personaje  [John]  en linea 26 dice : "Ciao, Paola. Il mio nome è John"
+-------- personaje  [Paola]  en linea 26 dice : "Ciao. Mi chiamo Paola"
+-------- personaje  [John]  en linea 27 dice : "Ciao, Paola. Il mio nome è John"
 +++ fin bloque sino 
 >>> salimos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 0 && !ejecutar[0] = 0
 >>> entramos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 1
 +++ inicio bloque si ( condicion=1)
--------- personaje  [Profesor]  en linea 31 dice : "Escucha la siguiente presentación en inglés" con entonación -s 80 
+-------- personaje  [Profesor]  en linea 32 dice : "Escucha la siguiente presentación en inglés" con entonación -s 80 
 +++ fin bloque si ( condicion=1)
 >>> salimos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 1
 >>> entramos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 1 && !ejecutar[0] = 0
 +++ inicio bloque sino 
--------- personaje  [Profesor]  en linea 34 dice : "Escucha la siguiente presentación en italiano" con entonación -s 80 
+-------- personaje  [Profesor]  en linea 35 dice : "Escucha la siguiente presentación en italiano" con entonación -s 80 
 +++ fin bloque sino 
 >>> salimos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 0 && !ejecutar[0] = 0
 >>> entramos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 1
 +++ inicio bloque si ( condicion=1)
--------- personaje  [Profesor]  en linea 41 dice : "Dentro del bloque si" con entonación -s 80 
+-------- personaje  [Profesor]  en linea 42 dice : "Dentro del bloque si" con entonación -s 80 
 +++ fin bloque si ( condicion=1)
 >>> salimos en bloque si del condicional (n_condicional = 0) && esCondicional[0] = 1 && ejecutar[0] = 1
 >>> entramos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 1 && !ejecutar[0] = 0
 +++ inicio bloque sino 
--------- personaje  [Profesor]  en linea 44 dice : "Dentro del bucle si_no" con entonación -s 80 
+-------- personaje  [Profesor]  en linea 45 dice : "Dentro del bucle si_no" con entonación -s 80 
 +++ fin bloque sino 
 >>> salimos en bloque si_no del condicional (n_condicional = 0) && esCondicional[0] = 0 && !ejecutar[0] = 0
 +++ Fin de la escena 4
+
+Lista de identificadores:
+
+ID                       TIPO                     LAST VALOR               LINE DECLARATION         
+-------------------------------------------------------------------------------------------------------
+
+inglesoitaliano          entero                   1                        19                       
+
+Lista de personajes:
+
+ID                       LANGUAJE                 GENDER                   NUM CHARACTER            LINE DECLARATION         
+---------------------------------------------------------------------------------------------------------------------------
+
+Profesor                 es                       m                        1                        9                        
+Mary                     en                       f                        1                        11                       
+John                     en-us                    m                        2                        13                       
+Paola                    it                       f                        2                        15                       
